@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Claude Boivin, Stat.ASSQ" />
+
+<meta name="date" content="2018-04-25" />
+
+<title>Introduction to Belief Functions: The Monty Hall Game</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Introduction to Belief Functions: The Monty Hall Game</h1>
+<h4 class="author"><em>Claude Boivin, Stat.ASSQ</em></h4>
+<h4 class="date"><em>2018-04-25</em></h4>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>What is a belief function? In this vignette, an example is given to show the difference between a belief function and a probability function. Then I use a small problem, the Monty Hall Game, to show the use of some functions of the package. Specifically, I will show:</p>
+<ul>
+<li>how to define a mass function <em>m</em> on some subsets of the set of possible values of a variable <em>A</em> (function <em>bca</em>);</li>
+<li>how to specify a relation <em>r</em> between three variables <em>A, B, C</em> by way of a mass function <em>m</em> on some subsets of the set of possible values of the product space <em>AxBxC</em> (function <em>bcaRel</em>);</li>
+<li>how to extend a mass function to a larger space in order to combine it with another mass function defined on this larger space (function <em>extmin</em>);</li>
+<li>how to combine two mass functions (functions <em>dsrwon</em> and <em>nzdsr</em>);</li>
+<li>how obtain a reduced space by eliminating a variable from a relation (marginalization, with function elim.R);</li>
+<li>how to compute the measures of belief and plausibility (functions <em>belplau</em> and <em>tabresul</em>).</li>
+</ul>
+<p>To learn more about belief functions, see the book of Glenn Shafer <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
+</div>
+<div id="a-simple-example-of-a-belief-function" class="section level2">
+<h2>A simple example of a belief function</h2>
+<p>Next August, I plan to spend a few days in the National Park of Forillon. I have already been there many years ago and had to set my tent under heavy rain, after 10 hours of driving. Not good. This time, I decided to check Canadian Weather and look at the last year’s statistics for the month of August before booking.</p>
+<p>Unfortunately, there is no historical data about the number of sunny days in a month. Currently, the website gives the quantity of rain each day. Looking at five past years, I count a median number of 14 days of rain or 45% of the days of the month. So, I start my analysis with this information as a probability distribution: (rain: 45%, no rain: 55%).</p>
+<p>What can I find out about the sun? I will use the statistics on rain to establish a compatibility relation between rain and sun. If there is rain, there is, generally, no sun. So I put a mass value of 0.45 on the event “no sun”. On the other side, no rain does not mean sun; it can also be cloudy. Hence “no rain” is compatible with the event {“sun”, “no sun”}, which receive a mass value of 0.55.</p>
+<p>I have just defined a belief function by using a known probability distribution on some situation to extend it to another situation where probabilities are unknown. I can now use function <em>bca</em> to encode the events of interest and their mass value. Next, I look at the measures of belief and plausibility with function <em>tabresul</em>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(dst)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co"># Evidence for sun</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">Weather &lt;-<span class="st">  </span><span class="kw">bca</span>(<span class="dt">f=</span> <span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">byrow=</span><span class="ot">TRUE</span>), <span class="dt">m=</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.45</span>, <span class="fl">0.55</span>), <span class="dt">cnames =</span><span class="kw">c</span>(<span class="st">&quot;Sun&quot;</span>, <span class="st">&quot;NoSun&quot;</span>), <span class="dt">infovarnames =</span> <span class="st">&quot;Weather&quot;</span>, <span class="dt">varnb =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">Weather</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; $con</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; [1] 0</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; $tt</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt;       Sun NoSun</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; Sun     1     0</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; NoSun   0     1</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; frame   1     1</span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; $spec</span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt;      specnb mass</span></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt; [1,]      1 0.00</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&gt; [2,]      2 0.45</span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">#&gt; [3,]      3 0.55</span></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="co">#&gt; $infovar</span></a>
+<a class="sourceLine" id="cb1-21" data-line-number="21"><span class="co">#&gt;      varnb size</span></a>
+<a class="sourceLine" id="cb1-22" data-line-number="22"><span class="co">#&gt; [1,]     1    2</span></a>
+<a class="sourceLine" id="cb1-23" data-line-number="23"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-24" data-line-number="24"><span class="co">#&gt; $infovaluenames</span></a>
+<a class="sourceLine" id="cb1-25" data-line-number="25"><span class="co">#&gt; $infovaluenames$Weather</span></a>
+<a class="sourceLine" id="cb1-26" data-line-number="26"><span class="co">#&gt; [1] &quot;Sun&quot;   &quot;NoSun&quot;</span></a>
+<a class="sourceLine" id="cb1-27" data-line-number="27"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-28" data-line-number="28"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-29" data-line-number="29"><span class="co">#&gt; $inforel</span></a>
+<a class="sourceLine" id="cb1-30" data-line-number="30"><span class="co">#&gt;      relnb depth</span></a>
+<a class="sourceLine" id="cb1-31" data-line-number="31"><span class="co">#&gt; [1,]     0     0</span></a>
+<a class="sourceLine" id="cb1-32" data-line-number="32"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-33" data-line-number="33"><span class="co">#&gt; attr(,&quot;class&quot;)</span></a>
+<a class="sourceLine" id="cb1-34" data-line-number="34"><span class="co">#&gt; [1] &quot;list&quot;    &quot;bcaspec&quot;</span></a>
+<a class="sourceLine" id="cb1-35" data-line-number="35"><span class="co"># and now the belief function</span></a>
+<a class="sourceLine" id="cb1-36" data-line-number="36"><span class="kw">tabresul</span>(Weather)</a>
+<a class="sourceLine" id="cb1-37" data-line-number="37"><span class="co">#&gt; $mbp</span></a>
+<a class="sourceLine" id="cb1-38" data-line-number="38"><span class="co">#&gt;       Sun NoSun mass Belief Plausibility Plty Ratio</span></a>
+<a class="sourceLine" id="cb1-39" data-line-number="39"><span class="co">#&gt; Sun     1     0 0.00   0.00         0.55   0.550000</span></a>
+<a class="sourceLine" id="cb1-40" data-line-number="40"><span class="co">#&gt; NoSun   0     1 0.45   0.45         1.00   1.818182</span></a>
+<a class="sourceLine" id="cb1-41" data-line-number="41"><span class="co">#&gt; frame   1     1 0.55   1.00         1.00        Inf</span></a>
+<a class="sourceLine" id="cb1-42" data-line-number="42"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-43" data-line-number="43"><span class="co">#&gt; $Conflict</span></a>
+<a class="sourceLine" id="cb1-44" data-line-number="44"><span class="co">#&gt; [1] 0</span></a></code></pre></div>
+<p>We don’t have a probability distribution here; only one of the two elementary events has received a mass value; The elementary event “no sun” has a degree of support (belief) of 0.45 and the elementary event “sun” has a degree of support of 0. The remaining mass of 0.55 has been allotted to the frame <span class="math inline">\({'Sun', 'NoSun'}\)</span>. This is the expression of the part of ignorance that remains.</p>
+<p>The odds of “sun” are not very good at 0.55. Maybe look at July for my vacation instead of August? Another story.</p>
+<p>If we want to stay with probability theory, we can apply a transformation to the plausibility distribution of the elementary events to obtain a probability distribution. This is called the plausibility transformation.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">plautrans</span>(Weather)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt;       Sun NoSun    trplau</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; Sun     1     0 0.3548387</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; NoSun   0     1 0.6451613</span></a></code></pre></div>
+<p>Finally, starting from statistics of rain, we end with a probability of sun 0f 0.35. The odds Sun/NoSun are at 0.55. Note that this is the plausibility ratio given by function <em>tabresul</em>.</p>
+</div>
+<div id="the-monty-hall-game" class="section level2">
+<h2>The Monty Hall Game</h2>
+<p>Let us recall the Monty Hall Game from its statement in the Wikipedia article on the subject (<a href="https://en.wikipedia.org/w/index.php?title=Monty_Hall_problem&amp;oldid=829292640">Monty Hall problem</a>):</p>
+<pre><code>&quot;Suppose you're on a game show. Three doors A, B and C are in front of you. Behind one door is a brand new car, and behind the two others, a goat. You are asked to pick one of the three doors. Then the host of the game, who knows what's behind the doors, opens one of the two remaining doors and shows a goat. He then asks you: &quot;Do you want to switch doors or keep your initial choice?&quot; </code></pre>
+<p>Say you have chosen the door A and the host has opened door B. The question now is: Is it to your advantage to switch your choice from door A to door C?&quot;</p>
+<p><strong>Some notation to begin with</strong></p>
+<p>For each door <em>A, B, C</em>, consider the same frame <em>F</em> with three possible values: <span class="math display">\[F = \{car, goat 1, goat 2\}.\]</span> I use (0,1)-vectors to identify each element of the frame. Hence, the element “car” is identified by the vector <span class="math inline">\((1, 0, 0)\)</span>, goat 1 by the vector <span class="math inline">\((0, 1, 0)\)</span> and goat 2 by the vector <span class="math inline">\((0, 0, 1)\)</span>.</p>
+<p>With this notation, any subset of <em>F</em> can has a unique (0,1) representation. For example, the subset <span class="math inline">\(\{goat 1, goat 2\}\)</span> is represented by the vector <span class="math inline">\((0, 1, 1)\)</span>.</p>
+</div>
+<div id="analysis-of-the-problem" class="section level2">
+<h2>Analysis of the problem</h2>
+<p>We have three things to consider:</p>
+<ol style="list-style-type: decimal">
+<li>how the three doors are linked;</li>
+<li>evidence pertaining to door A (choice of the contestant);</li>
+<li>evidence pertaining to door B (the action of the host).</li>
+</ol>
+<div id="how-the-three-doors-are-linked" class="section level3">
+<h3>1. How the three doors are linked</h3>
+<p>There are six possible ways of disposing of the car and the two goats behind the three doors <em>A, B, C</em>: <span class="math inline">\(\{car, goat 1, goat 2\}\)</span> <span class="math inline">\(\{car, goat 2, goat 1\}\)</span> <span class="math inline">\(\{goat 1, car, goat 2\}\)</span> <span class="math inline">\(\{goat 1, goat 2, car\}\)</span> <span class="math inline">\(\{goat 2, car, goat 1\}\)</span> <span class="math inline">\(\{goat 2, goat 1, car\}\)</span>.</p>
+<p>This information will be encoded in the product space <em>AxBxC</em>. The frame, or set of possible values <em>F<sub>ABC</sub></em> of <em>AxBxC</em> is the product of the frames of <em>A, B</em> and <em>C</em>. Thus, its number of elements is <span class="math inline">\(3^3 = 27\)</span>. The six possible dispositions of the car and goats determine a subset <em>S</em> of the frame <em>F<sub>ABC</sub></em>. A mass of 1 will be allotted to this subset <em>S</em>.</p>
+<p>We use the function <em>bcaRel</em> to establish the desired relation between the doors. We prepare the necessary inputs and call the function.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># 1. define the tt matrix MHABC_tt, which encodes the subset S</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co"># </span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">MHABC_tt &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">                     <span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">                     <span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">                     <span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">                     <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">                     <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">ncol=</span><span class="dv">9</span>, <span class="dt">byrow=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="kw">colnames</span>(MHABC_tt) &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;car&quot;</span>, <span class="st">&quot;g1&quot;</span>, <span class="st">&quot;g2&quot;</span>), <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co"># 2. define the spec matrix. </span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co"># Here we have one subset of six elements</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co"># </span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14">MHABC_spec =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">12</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>))) </a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co"># </span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co"># 3. define the info matrix. </span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co"># for each variable, we attribute a number and give the size of the frame</span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co"># </span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19">MHABC_info =<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="kw">rep</span>(<span class="dv">3</span>,<span class="dv">3</span>)), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )</a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co"># </span></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co"># 4. call of the function with the name of the variables and the numbering of the relation</span></a>
+<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co"># </span></a>
+<a class="sourceLine" id="cb4-23" data-line-number="23">MHABC_rel &lt;-<span class="st">  </span><span class="kw">bcaRel</span>(<span class="dt">tt =</span> MHABC_tt, <span class="dt">spec =</span> MHABC_spec, <span class="dt">infovar =</span> MHABC_info, <span class="dt">infovarnames =</span> <span class="kw">c</span>(<span class="st">&quot;MHA&quot;</span>, <span class="st">&quot;MHB&quot;</span>, <span class="st">&quot;MHC&quot;</span>), <span class="dt">relnb =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co"># </span></a>
+<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co"># let's see some results:</span></a>
+<a class="sourceLine" id="cb4-26" data-line-number="26"><span class="co"># Note that row labels of the resulting tt matrix can become pretty long. If the case, we can use the prmatrix function, for example:</span></a>
+<a class="sourceLine" id="cb4-27" data-line-number="27"><span class="kw">prmatrix</span>(<span class="kw">t</span>(MHABC_rel<span class="op">$</span>tt), <span class="dt">collab =</span> <span class="st">&quot;&quot;</span>)</a>
+<a class="sourceLine" id="cb4-28" data-line-number="28"><span class="co">#&gt;                  </span></a>
+<a class="sourceLine" id="cb4-29" data-line-number="29"><span class="co">#&gt; car car car FALSE</span></a>
+<a class="sourceLine" id="cb4-30" data-line-number="30"><span class="co">#&gt; car car g1  FALSE</span></a>
+<a class="sourceLine" id="cb4-31" data-line-number="31"><span class="co">#&gt; car car g2  FALSE</span></a>
+<a class="sourceLine" id="cb4-32" data-line-number="32"><span class="co">#&gt; car g1 car  FALSE</span></a>
+<a class="sourceLine" id="cb4-33" data-line-number="33"><span class="co">#&gt; car g1 g1   FALSE</span></a>
+<a class="sourceLine" id="cb4-34" data-line-number="34"><span class="co">#&gt; car g1 g2    TRUE</span></a>
+<a class="sourceLine" id="cb4-35" data-line-number="35"><span class="co">#&gt; car g2 car  FALSE</span></a>
+<a class="sourceLine" id="cb4-36" data-line-number="36"><span class="co">#&gt; car g2 g1    TRUE</span></a>
+<a class="sourceLine" id="cb4-37" data-line-number="37"><span class="co">#&gt; car g2 g2   FALSE</span></a>
+<a class="sourceLine" id="cb4-38" data-line-number="38"><span class="co">#&gt; g1 car car  FALSE</span></a>
+<a class="sourceLine" id="cb4-39" data-line-number="39"><span class="co">#&gt; g1 car g1   FALSE</span></a>
+<a class="sourceLine" id="cb4-40" data-line-number="40"><span class="co">#&gt; g1 car g2    TRUE</span></a>
+<a class="sourceLine" id="cb4-41" data-line-number="41"><span class="co">#&gt; g1 g1 car   FALSE</span></a>
+<a class="sourceLine" id="cb4-42" data-line-number="42"><span class="co">#&gt; g1 g1 g1    FALSE</span></a>
+<a class="sourceLine" id="cb4-43" data-line-number="43"><span class="co">#&gt; g1 g1 g2    FALSE</span></a>
+<a class="sourceLine" id="cb4-44" data-line-number="44"><span class="co">#&gt; g1 g2 car    TRUE</span></a>
+<a class="sourceLine" id="cb4-45" data-line-number="45"><span class="co">#&gt; g1 g2 g1    FALSE</span></a>
+<a class="sourceLine" id="cb4-46" data-line-number="46"><span class="co">#&gt; g1 g2 g2    FALSE</span></a>
+<a class="sourceLine" id="cb4-47" data-line-number="47"><span class="co">#&gt; g2 car car  FALSE</span></a>
+<a class="sourceLine" id="cb4-48" data-line-number="48"><span class="co">#&gt; g2 car g1    TRUE</span></a>
+<a class="sourceLine" id="cb4-49" data-line-number="49"><span class="co">#&gt; g2 car g2   FALSE</span></a>
+<a class="sourceLine" id="cb4-50" data-line-number="50"><span class="co">#&gt; g2 g1 car    TRUE</span></a>
+<a class="sourceLine" id="cb4-51" data-line-number="51"><span class="co">#&gt; g2 g1 g1    FALSE</span></a>
+<a class="sourceLine" id="cb4-52" data-line-number="52"><span class="co">#&gt; g2 g1 g2    FALSE</span></a>
+<a class="sourceLine" id="cb4-53" data-line-number="53"><span class="co">#&gt; g2 g2 car   FALSE</span></a>
+<a class="sourceLine" id="cb4-54" data-line-number="54"><span class="co">#&gt; g2 g2 g1    FALSE</span></a>
+<a class="sourceLine" id="cb4-55" data-line-number="55"><span class="co">#&gt; g2 g2 g2    FALSE</span></a>
+<a class="sourceLine" id="cb4-56" data-line-number="56"><span class="co"># Another way to check the tt matrix is:</span></a>
+<a class="sourceLine" id="cb4-57" data-line-number="57"><span class="kw">which</span>(MHABC_rel<span class="op">$</span>tt[<span class="dv">1</span>,] <span class="op">==</span><span class="st"> </span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb4-58" data-line-number="58"><span class="co">#&gt; car g1 g2 car g2 g1 g1 car g2 g1 g2 car g2 car g1 g2 g1 car </span></a>
+<a class="sourceLine" id="cb4-59" data-line-number="59"><span class="co">#&gt;         6         8        12        16        20        22</span></a></code></pre></div>
+</div>
+<div id="evidence-pertaining-to-door-a" class="section level3">
+<h3>2. Evidence pertaining to door A</h3>
+<p>You have chosen door A. At this point, the problem is quite simple. Your belief is equally divided between 3 possible outcomes: car, goat 1 or goat 2: <span class="math inline">\(m({car}) = m({g1}) = m({g2}) = 1/3\)</span>. Let’s encode this evidence with function <em>bca</em>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Evidence for door A</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">MHA_E &lt;-<span class="st">  </span><span class="kw">bca</span>(<span class="dt">f=</span> <span class="kw">diag</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">3</span>), <span class="dt">m=</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">3</span>, <span class="dv">3</span>), <span class="dt">cnames =</span><span class="kw">c</span>(<span class="st">&quot;car&quot;</span>, <span class="st">&quot;goat1&quot;</span>, <span class="st">&quot;goat2&quot;</span>), <span class="dt">infovarnames =</span> <span class="st">&quot;MHA&quot;</span>, <span class="dt">varnb =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">MHA_E</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; $con</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; [1] 0</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; $tt</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;       car goat1 goat2</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; car     1     0     0</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; goat1   0     1     0</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; goat2   0     0     1</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; $spec</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt;      specnb      mass</span></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; [1,]      1 0.3333333</span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; [2,]      2 0.3333333</span></a>
+<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; [3,]      3 0.3333333</span></a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; $infovar</span></a>
+<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt;      varnb size</span></a>
+<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt; [1,]     1    3</span></a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt; $infovaluenames</span></a>
+<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt; $infovaluenames$MHA</span></a>
+<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; [1] &quot;car&quot;   &quot;goat1&quot; &quot;goat2&quot;</span></a>
+<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="co">#&gt; $inforel</span></a>
+<a class="sourceLine" id="cb5-29" data-line-number="29"><span class="co">#&gt;      relnb depth</span></a>
+<a class="sourceLine" id="cb5-30" data-line-number="30"><span class="co">#&gt; [1,]     0     0</span></a>
+<a class="sourceLine" id="cb5-31" data-line-number="31"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-32" data-line-number="32"><span class="co">#&gt; attr(,&quot;class&quot;)</span></a>
+<a class="sourceLine" id="cb5-33" data-line-number="33"><span class="co">#&gt; [1] &quot;list&quot;    &quot;bcaspec&quot;</span></a>
+<a class="sourceLine" id="cb5-34" data-line-number="34"><span class="co"># At this point, no big deal...</span></a>
+<a class="sourceLine" id="cb5-35" data-line-number="35"><span class="kw">tabresul</span>(MHA_E)</a>
+<a class="sourceLine" id="cb5-36" data-line-number="36"><span class="co">#&gt; $mbp</span></a>
+<a class="sourceLine" id="cb5-37" data-line-number="37"><span class="co">#&gt;       car goat1 goat2      mass    Belief Plausibility Plty Ratio</span></a>
+<a class="sourceLine" id="cb5-38" data-line-number="38"><span class="co">#&gt; car     1     0     0 0.3333333 0.3333333    0.3333333        0.5</span></a>
+<a class="sourceLine" id="cb5-39" data-line-number="39"><span class="co">#&gt; goat1   0     1     0 0.3333333 0.3333333    0.3333333        0.5</span></a>
+<a class="sourceLine" id="cb5-40" data-line-number="40"><span class="co">#&gt; goat2   0     0     1 0.3333333 0.3333333    0.3333333        0.5</span></a>
+<a class="sourceLine" id="cb5-41" data-line-number="41"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-42" data-line-number="42"><span class="co">#&gt; $Conflict</span></a>
+<a class="sourceLine" id="cb5-43" data-line-number="43"><span class="co">#&gt; [1] 0</span></a></code></pre></div>
+</div>
+<div id="evidence-pertaining-to-door-b" class="section level3">
+<h3>3. Evidence pertaining to door B</h3>
+<p>But the host wanted to add some thrill to the game. He has opened door B and revealed a goat. The host has given us a small piece of evidence: Goat 1 or goat 2 was behind door B. Since the host knows what is behind each door, the mass value of this piece of evidence is: <span class="math inline">\(m({g1, g2}) = 1\)</span>.</p>
+<p>Let’s translate this in R with function <em>bca</em>:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># Evidence for door B</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">MHB_E &lt;-<span class="st"> </span><span class="kw">bca</span>(<span class="dt">f=</span> <span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">ncol=</span><span class="dv">3</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>), <span class="dt">m=</span><span class="dv">1</span>, <span class="dt">cnames =</span><span class="kw">c</span>(<span class="st">&quot;car&quot;</span>, <span class="st">&quot;goat1&quot;</span>, <span class="st">&quot;goat2&quot;</span>), <span class="dt">infovarnames =</span> <span class="st">&quot;MHB&quot;</span> , <span class="dt">varnb=</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">MHB_E</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; $con</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; [1] 0</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; $tt</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt;               car goat1 goat2</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; goat1 + goat2   0     1     1</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; $spec</span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt;      specnb mass</span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; [1,]      1    1</span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt; $infovar</span></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt;      varnb size</span></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt; [1,]     2    3</span></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt; $infovaluenames</span></a>
+<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt; $infovaluenames$MHB</span></a>
+<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt; [1] &quot;car&quot;   &quot;goat1&quot; &quot;goat2&quot;</span></a>
+<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-23" data-line-number="23"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co">#&gt; $inforel</span></a>
+<a class="sourceLine" id="cb6-25" data-line-number="25"><span class="co">#&gt;      relnb depth</span></a>
+<a class="sourceLine" id="cb6-26" data-line-number="26"><span class="co">#&gt; [1,]     0     0</span></a>
+<a class="sourceLine" id="cb6-27" data-line-number="27"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-28" data-line-number="28"><span class="co">#&gt; attr(,&quot;class&quot;)</span></a>
+<a class="sourceLine" id="cb6-29" data-line-number="29"><span class="co">#&gt; [1] &quot;list&quot;    &quot;bcaspec&quot;</span></a></code></pre></div>
+</div>
+</div>
+<div id="the-hypergraph-of-the-monty-hall-game" class="section level2">
+<h2>The hypergraph of the Monty Hall game</h2>
+<p>We now look at The Monty Hall game as a belief network. Variables A, B and C are the nodes of the graph. The edges (hyperedges) are the evidences MHA_E AND MHB_E and the relation MHABC_rel. We use the package igraph <a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> to produce a bipartite graph corresponding to the desired hypergraph.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># The network</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="cf">if</span> (<span class="kw">requireNamespace</span>(<span class="st">&quot;igraph&quot;</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>) ) {</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw">library</span>(igraph)</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co"># Encode pieces of evidence and relations with an incidence matrix</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">Monty_hgm &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="dt">ncol=</span><span class="dv">3</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>), <span class="kw">c</span>(<span class="st">&quot;r_ABC&quot;</span>, <span class="st">&quot;ev_A&quot;</span>, <span class="st">&quot;ev_B&quot;</span>)))</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co"># The graph structure</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">Monty_hg &lt;-<span class="st"> </span><span class="kw">graph_from_incidence_matrix</span>(<span class="dt">incidence =</span> Monty_hgm, <span class="dt">directed =</span> <span class="ot">FALSE</span>, <span class="dt">multiple =</span> <span class="ot">FALSE</span>, <span class="dt">weighted =</span> <span class="ot">NULL</span>,<span class="dt">add.names =</span> <span class="ot">NULL</span>)</a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="kw">V</span>(Monty_hg)</a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co"># Show variables as circles, relations and evidence as rectangles</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="kw">V</span>(Monty_hg)<span class="op">$</span>shape &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;circle&quot;</span>, <span class="st">&quot;crectangle&quot;</span>)[<span class="kw">V</span>(Monty_hg)<span class="op">$</span>type<span class="op">+</span><span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="kw">V</span>(Monty_hg)<span class="op">$</span>label.cex &lt;-<span class="st"> </span><span class="fl">0.6</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="kw">V</span>(Monty_hg)<span class="op">$</span>label.font &lt;-<span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co"># render graph</span></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="kw">plot</span>(Monty_hg, <span class="dt">vertex.label =</span> <span class="kw">V</span>(Monty_hg)<span class="op">$</span>name, <span class="dt">vertex.size=</span>(<span class="dv">4</span><span class="op">+</span><span class="dv">4</span><span class="op">*</span><span class="kw">V</span>(Monty_hg)<span class="op">$</span>type)<span class="op">*</span><span class="dv">8</span>)</a>
+<a class="sourceLine" id="cb7-15" data-line-number="15">}</a>
+<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt; Attaching package: 'igraph'</span></a>
+<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co">#&gt; The following objects are masked from 'package:stats':</span></a>
+<a class="sourceLine" id="cb7-19" data-line-number="19"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-20" data-line-number="20"><span class="co">#&gt;     decompose, spectrum</span></a>
+<a class="sourceLine" id="cb7-21" data-line-number="21"><span class="co">#&gt; The following object is masked from 'package:base':</span></a>
+<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-23" data-line-number="23"><span class="co">#&gt;     union</span></a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+<div id="now-the-solution-with-the-calculus-of-belief-functions" class="section level2">
+<h2>Now, the solution with the calculus of belief functions</h2>
+<p>To obtain the Belief function for door C, we have to combine evidence for doors A and B with the relation on doors ABC. We will proceed by elimination of the doors (variables), eliminating A first, then B.</p>
+<div id="eliminate-a-from-the-network" class="section level3">
+<h3>1. Eliminate A from the network</h3>
+<p>To do that, we extend Evidence on A to ABC, combine the extended evidence with the relation on ABC, then marginalize on BC. This gives a reduced network with B and C</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># Extend MHA to the product space AxBxC</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">MHA_ext &lt;-<span class="st"> </span><span class="kw">extmin</span>(MHA_E, MHABC_rel )</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co"># Combine MHA_ext and MHABC_rel</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">MHA_ABC_comb &lt;-<span class="st"> </span><span class="kw">dsrwon</span>(MHA_ext,MHABC_rel)</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">MHA_ABC_comb<span class="op">$</span>con</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; [1] 0</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co"># Eliminate variable A ( since  the measure of contradiction is 0, no need to normalize)</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8">MHBC &lt;-<span class="st"> </span><span class="kw">elim</span>(MHA_ABC_comb, <span class="dt">xnb =</span> <span class="dv">1</span>)</a></code></pre></div>
+<div id="the-reduced-belief-network" class="section level4">
+<h4>The reduced belief network</h4>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">Monty2_hgm &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="kw">c</span>(<span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>), <span class="kw">c</span>(<span class="st">&quot;r_BC&quot;</span>, <span class="st">&quot;ev_B&quot;</span>)))</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">Monty2_hg &lt;-<span class="st"> </span><span class="kw">graph_from_incidence_matrix</span>(<span class="dt">incidence =</span> Monty2_hgm, <span class="dt">directed =</span> <span class="ot">FALSE</span>, <span class="dt">multiple =</span> <span class="ot">FALSE</span>, <span class="dt">weighted =</span> <span class="ot">NULL</span>,<span class="dt">add.names =</span> <span class="ot">NULL</span>)</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw">V</span>(Monty2_hg)</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; + 4/4 vertices, named, from 8ecb940:</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; [1] B    C    r_BC ev_B</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co"># Variables as circles, relations and evidence as rectangles</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="kw">V</span>(Monty2_hg)<span class="op">$</span>shape &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;circle&quot;</span>,<span class="st">&quot;crectangle&quot;</span>)[<span class="kw">V</span>(Monty2_hg)<span class="op">$</span>type<span class="op">+</span><span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="kw">V</span>(Monty2_hg)<span class="op">$</span>label.cex &lt;-<span class="st"> </span><span class="fl">0.6</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="kw">V</span>(Monty2_hg)<span class="op">$</span>label.font &lt;-<span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co"># render graph</span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co"># plot(Monty_hg, vertex.size=40)</span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="kw">plot</span>(Monty2_hg, <span class="dt">vertex.label =</span> <span class="kw">V</span>(Monty2_hg)<span class="op">$</span>name, <span class="dt">vertex.size=</span>(<span class="dv">4</span><span class="op">+</span><span class="dv">4</span><span class="op">*</span><span class="kw">V</span>(Monty2_hg)<span class="op">$</span>type)<span class="op">*</span><span class="dv">8</span>)</a></code></pre></div>
+<p><img src="data:image/png;base64,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7ahEAAFLAQLIEpByBBAwFyCAzO2oRAABSwECyBKQcgQQMBcggMztqEQAAUsBAsgSkHIEEDAXIIDM7ahEAAFLAQLIEpByBBAwFyCAzO2oRAABSwECyBKQcgQQMBcggMztqEQAAUsBAsgSkHIEEDAXIIDM7ahEAAFLAQLIEpByBBAwFyCAzO2oRAABSwECyBKQcgQQMBcggMztqEQAAUsBAsgSkHIEEDAXIIDM7ahEAAFLAQLIEpByBBAwFyCAzO2oRAABSwECyBKQcgQQMBcggMztqEQAAUsBAsgSkHIEEDAXIIDM7ahEAAFLAQLIEpByBBAwFyCAzO2oRAABSwECyBKQcgQQMBcggMztqEQAAUsBAsgSkHIEEDAXIIDM7ahEAAFLAQLIEpByBBAwFyCAzO2oRAABSwECyBKQcgQQMBcggMztqEQAAUsBAsgSkHIEEDAXIIDM7ahEAAFLAQLIEpByBBAwFyCAzO2oRAABSwECyBKQcgQQMBcggMztqEQAAUsBAsgSkHIEEDAXIIDM7ahEAAFLAQLIEpByBBAwFyCAzO2oRAABSwECyBKQcgQQMBcggMztqEQAAUsBAsgSkHIEEDAXIIDM7ahEAAFLAQLIEpByBBAwFyCAzO2oRAABSwECyBKQcgQQMBcggMztqEQAAUsBAsgSkHIEEDAXIIDM7ahEAAFLgf8H2AgkHK/RYoQAAAAASUVORK5CYII=" /><!-- --></p>
+</div>
+</div>
+<div id="eliminate-b-from-the-network" class="section level3">
+<h3>2. Eliminate B from the network</h3>
+<p>Similarly, we extend evidence on B to BC, combine the extended evidence with the relation on BC, then marginalize to C. This will give the final result.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># Extend MHB_E to the space BxC</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">MHB_ext &lt;-<span class="st"> </span><span class="kw">extmin</span>(MHB_E, MHBC )</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">MHB_BC_comb &lt;-<span class="st"> </span><span class="kw">dsrwon</span>(MHB_ext, MHBC)</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">MHB_BC_comb<span class="op">$</span>con</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; [1] 0</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co"># Eliminate variable B (since  MHA_BC_comb$con = 0, no need to normalize)</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7">MHC &lt;-<span class="st"> </span><span class="kw">elim</span>(MHB_BC_comb, <span class="dt">xnb =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="kw">belplau</span>(MHC)</a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt;            Belief Plausibility Plty Ratio</span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; g1 + g2 0.3333333    0.3333333        0.5</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; car     0.6666667    0.6666667        2.0</span></a></code></pre></div>
+</div>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion:</h2>
+<p>As we can see, we double our chances of winning the car if we switch from door A to door C.</p>
+<p>Note that there is no loss of generality by fixing the choices in the analysis (door A for the contestant, door B for the host).</p>
+<p>To be more specific and make a bridge with probability theory, we can add to our result all the elementary events that have 0 mass, so that we can see their measure of plausibility.</p>
+<p>The function <em>addTobca</em> serves this purpose.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">MHC_plus_singl &lt;-<span class="st"> </span><span class="kw">addTobca</span>(MHC, <span class="dt">f=</span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>), <span class="dt">ncol =</span> <span class="dv">3</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="kw">tabresul</span>(MHC_plus_singl)</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt; $mbp</span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt;         car g1 g2      mass    Belief Plausibility Plty Ratio</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; g1        0  1  0 0.0000000 0.0000000    0.3333333  0.3333333</span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt; g2        0  0  1 0.0000000 0.0000000    0.3333333  0.3333333</span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; g1 + g2   0  1  1 0.3333333 0.3333333    0.3333333  0.5000000</span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; car       1  0  0 0.6666667 0.6666667    0.6666667  2.0000000</span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt; $Conflict</span></a>
+<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">#&gt; [1] 0</span></a></code></pre></div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Shafer, G., (1976). A Mathematical Theory of Evidence. Princeton University Press, Princeton, New Jersey. 297 pp.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>Csardi G, Nepusz T: The igraph software package for complex network research, InterJournal, Complex Systems 1695. 2006. <a href="http://igraph.org" class="uri">http://igraph.org</a><a href="#fnref2" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
