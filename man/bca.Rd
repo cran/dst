@@ -6,7 +6,8 @@
 \title{Basic chance assignment mass function}
 \usage{
 bca(f, m, cnames = NULL, infovaluenames = NULL, con = NULL,
-  varnb = NULL, infovar = NULL, infovarnames = NULL, inforel = NULL)
+  varnb = NULL, infovar = NULL, infovarnames = NULL,
+  inforel = NULL)
 }
 \arguments{
 \item{f}{A (0,1)-matrix or a boolean matrix. The number of columns must match the number of elements (values) of the frame of discernment \eqn{\Theta}. Each row is a subset of \eqn{\Theta}. The last row is the frame \eqn{\Theta}, represented by a vector of 1's.}
@@ -38,8 +39,8 @@ An object of class \code{bcaspec}: \itemize{
   }
 }
 \description{
-Function \code{bca} assigns their corresponding mass value to some subsets of a finite set \eqn{\Theta} of possible values.\cr
-The set \eqn{\Theta} is called the frame of discernment. Each subset \eqn{A of \Theta} with a positive mass value is called a focal element or a proposition. The associated mass value is a number of the \code{(0,1]} interval, called "basic chance assignment" (the basic probability assignment of Shafer's book). All other subsets that have not received a positive mass value are assumed to have a mass of zero value.
+Function \code{bca} is used to define subsets of a finite set \eqn{\Theta} of possible values and to assign their corresponding mass value.\cr
+The set \eqn{\Theta} is called the frame of discernment. Each subset \eqn{A  of  \Theta} with a positive mass value is called a focal element or a proposition. The associated mass value is a number of the \code{(0,1]} interval, called "basic chance assignment" (the basic probability assignment of Shafer's book). All other subsets that have not received a positive mass value are assumed to have a mass of zero value.
 }
 \examples{
 f<- t(matrix(c(1,0,1,1),ncol=2))

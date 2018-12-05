@@ -4,12 +4,14 @@
 \alias{dsrwon}
 \title{Combination of two mass functions}
 \usage{
-dsrwon(x, y)
+dsrwon(x, y, relnb = NULL)
 }
 \arguments{
-\item{x}{A  bca mass function (see bca). (see \code{\link{bca}}).}
+\item{x}{A  bca mass function (see \code{\link{bca}}).}
 
 \item{y}{A  bca mass function (see bca).}
+
+\item{relnb}{Identification number of the relation. Can be omitted.}
 }
 \value{
 A list of class bcaspec with these two components added: \itemize{

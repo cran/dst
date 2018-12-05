@@ -1,10 +1,10 @@
 #' Calculation of the degrees of Belief and Plausibility
 #'
 #'Degrees of Belief \code{Bel} and Plausibility \code{Pl} of the focal elements of a mass function are computed. The ratio of the plausibility of a focal element against the plausibility of its contrary is also computed. Subsets with zero mass can be excluded from the calculations.\cr
-#' @details The degree Belief \code{Bel} is defined by: \cr
-#' \deqn{bel(A) = Sum((m(B); B \subseteq A))}{bel(A) = Sum((m(B); B <= A))}, for every subset B of A.\cr
+#' @details The degree of belief \code{Bel} is defined by: \cr
+#' \deqn{bel(A) = Sum((m(B); B \subseteq A))}{bel(A) = Sum((m(B); B <= A))} for every subset B of A.\cr
 #' The degree of plausibility \code{pl} is defined by: \cr
-#' \deqn{pl(A) = Sum[(m(B); B \cap A \neg \o]}{pl(A) = Sum[(m(B); B and A not empty]}, for every subset \code{B} of the frame of discernment. \cr
+#' \deqn{pl(A) = Sum[(m(B); B \cap A \neg \o]}{pl(A) = Sum[(m(B); B and A not empty]} for every subset \code{B} of the frame of discernment. \cr
 #' The plausibility ratio of a focal element \code{A} versus its contrary \code{not A} is defined by:  \eqn{Pl(A)/(1-Bel(A))}.
 #' @param x A basic chance assignment mass function (see \code{\link{bca}}).
 #' @param remove = TRUE: Exclude subsets with zero mass.
@@ -42,9 +42,16 @@ belplau<-function (x, remove=FALSE)
   xtest <- x$tt
   if (is.matrix(xtest) == FALSE) { 
     xtest <- t(as.matrix(xtest)) 
-    }
+  }
+  # check if m_empty present and if not 0
   if (sum((apply(xtest, 1, sum)) == 0) > 0) {
+    row_m_empty <- match(1:nrow(xtest), rownames(xtest) == "\u00f8")
+    row_m_empty <- row_m_empty[1]
+    if (!is.na(row_m_empty)) {
+      if (x$spec[row_m_empty,2] > 0) {
     stop("Invalid data: Empty set among the focal elements. Normalization necessary. See nzdsr function.")
+      }
+    }
   }
   MACC<-x$spec[,2] # vector of masses
   W2 <- rbind(x$tt)
