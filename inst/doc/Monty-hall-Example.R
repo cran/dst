@@ -8,8 +8,7 @@ knitr::opts_chunk$set(
 library(dst)
 # Evidence for sun
 Weather <-  bca(f= matrix(c(1,0,0,1,1,1), ncol=2, byrow=TRUE), m= c(0, 0.45, 0.55), cnames =c("Sun", "NoSun"), infovarnames = "Weather", varnb = 1)
-Weather
-# and now the belief function
+# The belief function of Weather
 tabresul(Weather)
 
 ## ------------------------------------------------------------------------
@@ -49,14 +48,13 @@ which(MHABC_rel$tt[1,] == TRUE)
 ## ------------------------------------------------------------------------
 # Evidence for door A
 MHA_E <-  bca(f= diag(1,3,3), m= rep(1/3, 3), cnames =c("car", "goat1", "goat2"), infovarnames = "MHA", varnb = 1)
-MHA_E
 # At this point, no big deal...
 tabresul(MHA_E)
 
 ## ------------------------------------------------------------------------
 # Evidence for door B
 MHB_E <- bca(f= matrix(c(0,1,1), ncol=3, byrow = TRUE), m=1, cnames =c("car", "goat1", "goat2"), infovarnames = "MHB" , varnb=2)
-MHB_E
+tabresul(MHB_E)
 
 ## ---- fig.show='hold', fig_caption: yes----------------------------------
 # The network
