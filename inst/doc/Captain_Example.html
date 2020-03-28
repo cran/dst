@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Claude Boivin" />
+
+
+<title>Captain’s Example</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Captain’s Example</h1>
+<h4 class="author">Claude Boivin</h4>
+<h4 class="date">2018-06-20. Revised 2020-02-09</h4>
+
+
+
+<div id="summary" class="section level1">
+<h1>Summary</h1>
+<p>The Captain’s Problem has been introduced by R. G. Almond <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> as an example to illustrate how to specify a graphical belief model and how to combine the belief functions with an algorithm called Fusion and Propagation. Lately, P. P. Shenoy has revisited this example in great detail in a presentation on Valuation-Based Systems <a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.</p>
+</div>
+<div id="the-captains-problem" class="section level1">
+<h1>The Captain’s Problem</h1>
+<p>The goal is to find the Arrival delay of the ship, a number of days varying from 0 to 6. This delay is the sum of two kinds of delay, the Departure delay and the Sailing delay. The Departure delay is the sum of three kind of delays, Loading, Maintenance and Forecast of bad weather. In this example, each delay is supposed to be of only one day for a maximum of three days. The Sailing delay can occur from bad Weather (one day) or Repairs at sea (one day each).</p>
+<p>There are 8 variables involved: (Arrival delay, Departure delay, Sailing delay, Loading delay, Forecast of the weather, Maintenance delay, Weather at sea, Repairs at sea).</p>
+<p>Six relations (R1 to R6) are defined between these variables.</p>
+<p>Finally three inputs of evidence (L, F, M) are given.</p>
+<div id="relations-between-the-variables" class="section level2">
+<h2>Relations between the variables:</h2>
+<div id="r1-ads" class="section level3">
+<h3>R1: ADS</h3>
+<p>A = D + S. <span class="math inline">\(Ω_A\)</span> = {0,1,2,3,4,5,6}; <span class="math inline">\(Ω_D\)</span> = {0,1,2,3}; <span class="math inline">\(Ω_S\)</span> = {0,1,2,3}</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># library(dst)</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">load</span>(<span class="st">&quot;data/ads.rda&quot;</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">ads_tt&lt;-<span class="st"> </span>ads[<span class="op">-</span><span class="dv">1</span>,<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)]</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">ads_tt  &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(ads_tt)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">ads_info =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">4</span>,<span class="dv">4</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )      </a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">ads_spec =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">16</span>), <span class="dv">2</span>,<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">16</span>),<span class="dv">0</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>)))</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">ads_rel &lt;-<span class="st"> </span><span class="kw">bcaRel</span>(<span class="dt">tt =</span> ads_tt, <span class="dt">spec =</span> ads_spec, <span class="dt">infovar =</span> ads_info, <span class="dt">infovarnames =</span> <span class="kw">c</span>(<span class="st">&quot;Arrival&quot;</span>, <span class="st">&quot;Departure&quot;</span>, <span class="st">&quot;Sail&quot;</span>), <span class="dt">relnb =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw">bcaPrint</span>(ads_rel)</a></code></pre></div>
+<pre><code>##                                                                                                                         ads_rel
+## 1 6 3 3 + 5 3 2 + 5 2 3 + 4 3 1 + 4 2 2 + 4 1 3 + 3 3 0 + 3 2 1 + 3 1 2 + 3 0 3 + 2 2 0 + 2 1 1 + 2 0 2 + 1 1 0 + 1 0 1 + 0 0 0
+## 2                                                                                                                         frame
+##   specnb mass
+## 1      1    1
+## 2      2    0</code></pre>
+</div>
+<div id="r2-dlfm" class="section level3">
+<h3>R2: DLFM</h3>
+<p>D =sum of delays of 1 day for each delay of L (L = true), F (F = foul) or M (M = true). <span class="math inline">\(Ω_D\)</span> = {0,1,2,3}; <span class="math inline">\(Ω_L\)</span> = {true, false}; <span class="math inline">\(Ω_F\)</span> = {foul, fair}; <span class="math inline">\(Ω_M\)</span> = {true, false}.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;data/dlfm.rda&quot;</span>)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">dlfm_tt&lt;-<span class="st"> </span>dlfm[<span class="op">-</span><span class="dv">1</span>,<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)]</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">dlfm_tt  &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(dlfm_tt)</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw">colnames</span>(dlfm_tt) &lt;-<span class="st"> </span><span class="kw">colnames</span>(dlfm)[<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)]</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">dlfm_info =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )      </a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">dlfm_spec =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">8</span>), <span class="dv">2</span>,<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">8</span>),<span class="dv">0</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>)))</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">dlfm_rel &lt;-<span class="st"> </span><span class="kw">bcaRel</span>(<span class="dt">tt =</span> dlfm_tt, <span class="dt">spec =</span> dlfm_spec, <span class="dt">infovar =</span> dlfm_info, <span class="dt">infovarnames =</span> <span class="kw">c</span>(<span class="st">&quot;Departure&quot;</span>, <span class="st">&quot;Loading&quot;</span>, <span class="st">&quot;Forecast&quot;</span>, <span class="st">&quot;Maintenance&quot;</span>), <span class="dt">relnb =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="kw">bcaPrint</span>(dlfm_rel)</a></code></pre></div>
+<pre><code>##                                                                                                                                                                dlfm_rel
+## 1 d3 true foul true + d2 true foul false + d2 true fair true + d2 false foul true + d1 true fair false + d1 false foul false + d1 false fair true + d0 false fair false
+## 2                                                                                                                                                                 frame
+##   specnb mass
+## 1      1    1
+## 2      2    0</code></pre>
+</div>
+<div id="r3-swr" class="section level3">
+<h3>R3: SWR</h3>
+<p>R3 : S = sum of delays of 1 day for each condition in W (W = foul) or R (R = true) or both, true 90 % of the time. <span class="math inline">\(Ω_A\)</span> = {0,1,2,3,4,5,6}; <span class="math inline">\(Ω_W\)</span>= {foul, fair}; <span class="math inline">\(Ω_R\)</span> = {true, false}.</p>
+<p>m({0 fair false}, {1 foul false}, {1 fair true}, {2 foul true}) = 0.9; m(<span class="math inline">\(Ω_S\)</span> x <span class="math inline">\(Ω_W\)</span> x <span class="math inline">\(Ω_R\)</span>) = 0.1.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;data/swr.rda&quot;</span>)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">swr_tt&lt;-<span class="st"> </span>swr[<span class="op">-</span><span class="dv">1</span>,<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)]</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">swr_tt  &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(swr_tt)</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">swr_info =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )      </a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">swr_spec =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">4</span>), <span class="dv">2</span>,<span class="kw">rep</span>(<span class="fl">0.9</span>,<span class="dv">4</span>), <span class="fl">0.1</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>)))</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">swr_rel &lt;-<span class="st"> </span><span class="kw">bcaRel</span>(<span class="dt">tt =</span> swr_tt, <span class="dt">spec =</span> swr_spec, <span class="dt">infovar =</span> swr_info, <span class="dt">infovarnames =</span> <span class="kw">c</span>(<span class="st">&quot;Sail&quot;</span>, <span class="st">&quot;Weather&quot;</span>, <span class="st">&quot;Repairs&quot;</span>), <span class="dt">relnb =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="kw">bcaPrint</span>(swr_rel)</a></code></pre></div>
+<pre><code>##                                                   swr_rel specnb mass
+## 1 2 foul true + 1 foul false + 1 fair true + 0 fair false      1  0.9
+## 2                                                   frame      2  0.1</code></pre>
+</div>
+<div id="r4-fw" class="section level3">
+<h3>R4: FW</h3>
+<p><span class="math inline">\(Ω_F\)</span> = {foul, fair}; <span class="math inline">\(Ω_W\)</span>= {foul, fair}. W <span class="math inline">\(\leftrightarrow\)</span> F in (W x F): m({foul, foul), (fair, fair)} = 0.8 ; m(<span class="math inline">\(Ω_W\)</span> x <span class="math inline">\(Ω_F\)</span>) = 0.2</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;data/fw.rda&quot;</span>)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">fw_tt&lt;-<span class="st"> </span>fw[<span class="op">-</span><span class="dv">1</span>,<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)]</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">fw_tt  &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(fw_tt)</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">fw_info =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )      </a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">fw_spec =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dv">2</span>,<span class="kw">rep</span>(<span class="fl">0.8</span>,<span class="dv">2</span>), <span class="fl">0.2</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>)))</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">fw_rel &lt;-<span class="st"> </span><span class="kw">bcaRel</span>(<span class="dt">tt =</span> fw_tt, <span class="dt">spec =</span> fw_spec, <span class="dt">infovar =</span> fw_info, <span class="dt">infovarnames =</span> <span class="kw">c</span>(<span class="st">&quot;Forecast&quot;</span>, <span class="st">&quot;Weather&quot;</span>), <span class="dt">relnb =</span> <span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="kw">bcaPrint</span>(fw_rel)</a></code></pre></div>
+<pre><code>##                  fw_rel specnb mass
+## 1 foul foul + fair fair      1  0.8
+## 2                 frame      2  0.2</code></pre>
+</div>
+<div id="r5-mr" class="section level3">
+<h3>R5: MR</h3>
+<p><span class="math inline">\(Ω_M\)</span> = {true, false}; <span class="math inline">\(Ω_R\)</span> = {true, false}. We specify R if M = true in (M x R). This is done in two parts. Specification 1. (M = true) <span class="math inline">\(\rightarrow\)</span> (R = true) with mass = 0.1 m({(true, true), (false, true), (false, false)}) = 0.1.</p>
+<p>Specification 2. (M = true) <span class="math inline">\(\rightarrow\)</span> (R = false) with mass = 0.7 m({(false, true), (true, false), (false, false)}) = 0.7 m(<span class="math inline">\(Ω_M\)</span> x <span class="math inline">\(Ω_R\)</span>) = 0.2</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;data/mrt.rda&quot;</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">mrt_tt&lt;-<span class="st"> </span>mrt[<span class="op">-</span><span class="dv">1</span>,<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)]</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">mrt_tt  &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(mrt_tt)</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">mrt_info =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )      </a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">mrt_spec =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">3</span>), <span class="kw">rep</span>(<span class="dv">2</span>,<span class="dv">3</span>), <span class="dv">3</span>, <span class="kw">rep</span>(<span class="fl">0.1</span>,<span class="dv">3</span>), <span class="kw">rep</span>(<span class="fl">0.7</span>,<span class="dv">3</span>), <span class="fl">0.2</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>)))</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">mrt_rel &lt;-<span class="st"> </span><span class="kw">bcaRel</span>(<span class="dt">tt =</span> mrt_tt, <span class="dt">spec =</span> mrt_spec, <span class="dt">infovar =</span> mrt_info, <span class="dt">infovarnames =</span> <span class="kw">c</span>(<span class="st">&quot;Maintenance&quot;</span>, <span class="st">&quot;Repairs&quot;</span>), <span class="dt">relnb =</span> <span class="dv">5</span>) </a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="kw">bcaPrint</span>(mrt_rel)</a></code></pre></div>
+<pre><code>##                                 mrt_rel specnb mass
+## 1  true true + false true + false false      1  0.1
+## 2 true false + false true + false false      2  0.7
+## 3                                 frame      3  0.2</code></pre>
+</div>
+<div id="r6-mr" class="section level3">
+<h3>R6: MR</h3>
+<p><span class="math inline">\(Ω_M\)</span> = {true, false}; <span class="math inline">\(Ω_R\)</span> = {true, false}. We specify R if M = false in (M x R). This is done in two parts. Specification 1. (M = false) <span class="math inline">\(\rightarrow\)</span> (R = true) with mass = 0.2 m({(true, false), (true, true), (false, true)}) = 0.2, Specification 2. (M = false) <span class="math inline">\(\rightarrow\)</span> (R = false) with mass = 0.2 m({(false, false), (true, true), (true, false)}) = 0.2 m(<span class="math inline">\(Ω_M\)</span> x <span class="math inline">\(Ω_R\)</span>) = 0.6</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;data/mrf.rda&quot;</span>)</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">mrf_tt&lt;-<span class="st"> </span>mrf[<span class="op">-</span><span class="dv">1</span>,<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)]</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">mrf_tt  &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(mrf_tt)</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">mrf_info =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )      </a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">mrf_spec =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">3</span>), <span class="kw">rep</span>(<span class="dv">2</span>,<span class="dv">3</span>), <span class="dv">3</span>, <span class="kw">rep</span>(<span class="fl">0.2</span>,<span class="dv">3</span>), <span class="kw">rep</span>(<span class="fl">0.2</span>,<span class="dv">3</span>), <span class="fl">0.6</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>)))</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6">mrf_rel &lt;-<span class="st"> </span><span class="kw">bcaRel</span>(<span class="dt">tt =</span> mrf_tt, <span class="dt">spec =</span> mrf_spec, <span class="dt">infovar =</span> mrf_info, <span class="dt">infovarnames =</span> <span class="kw">c</span>(<span class="st">&quot;Maintenance&quot;</span>, <span class="st">&quot;Repairs&quot;</span>), <span class="dt">relnb =</span> <span class="dv">6</span>) </a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="kw">bcaPrint</span>(mrf_rel)</a></code></pre></div>
+<pre><code>##                                mrf_rel specnb mass
+## 1  true true + true false + false true      1  0.2
+## 2 true true + true false + false false      2  0.2
+## 3                                frame      3  0.6</code></pre>
+</div>
+<div id="combination-of-r5-and-r6-new-r5" class="section level3">
+<h3>Combination of R5 and R6: new R5</h3>
+<p>Since R5 and R6 are defined on the same space MxR, we can immediately combine them in a single relation, using Dempster Rule of combination.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">mr_rel &lt;-<span class="st"> </span><span class="kw">nzdsr</span>(<span class="kw">dsrwon</span>(mrt_rel, mrf_rel))</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw">bcaPrint</span>(mr_rel)</a></code></pre></div>
+<pre><code>##                                  mr_rel specnb mass
+## 1                true true + false true      1 0.02
+## 2               true false + false true      2 0.14
+## 3   true true + true false + false true      3 0.04
+## 4               true true + false false      4 0.02
+## 5              true false + false false      5 0.14
+## 6  true true + true false + false false      6 0.04
+## 7  true true + false true + false false      7 0.06
+## 8 true false + false true + false false      8 0.42
+## 9                                 frame      9 0.12</code></pre>
+</div>
+</div>
+<div id="input-of-evidence" class="section level2">
+<h2>Input of evidence</h2>
+<div id="loading-delay" class="section level3">
+<h3>1: Loading delay</h3>
+<p><span class="math inline">\(Ω_L\)</span> = {true, false}. m({true}) = 0.5 ; m({false})= 0.3 ; m({true}, {false}) = 0.2</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">l_rel &lt;-<span class="st"> </span><span class="kw">bca</span>(<span class="dt">f =</span> <span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>), <span class="dt">m =</span> <span class="kw">c</span>(<span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.2</span>), <span class="dt">cnames =</span> <span class="kw">c</span>(<span class="st">&quot;true&quot;</span>, <span class="st">&quot;false&quot;</span>), <span class="dt">varnb =</span> <span class="dv">4</span>, <span class="dt">infovarnames =</span> <span class="st">&quot;Loading&quot;</span>)</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw">bcaPrint</span>(l_rel)</a></code></pre></div>
+<pre><code>##   l_rel specnb mass
+## 1  true      1  0.3
+## 2 false      2  0.5
+## 3 frame      3  0.2</code></pre>
+</div>
+<div id="evidence-2-forecast-of-weather" class="section level3">
+<h3>Evidence 2: Forecast of Weather</h3>
+<p><span class="math inline">\(Ω_W\)</span>= {foul, fair}. m({foul}) = 0.2 ; m({fair})= 0.6 ; m({foul}, {fair}) = 0.2</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">f_rel &lt;-<span class="st"> </span><span class="kw">bca</span>(<span class="dt">f =</span> <span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>), <span class="dt">m =</span> <span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.6</span>, <span class="fl">0.2</span>), <span class="dt">cnames =</span> <span class="kw">c</span>(<span class="st">&quot;foul&quot;</span>, <span class="st">&quot;fair&quot;</span>), <span class="dt">varnb =</span> <span class="dv">5</span>, <span class="dt">infovarnames =</span> <span class="st">&quot;Forecast&quot;</span>)</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="kw">bcaPrint</span>(f_rel)</a></code></pre></div>
+<pre><code>##   f_rel specnb mass
+## 1  foul      1  0.2
+## 2  fair      2  0.6
+## 3 frame      3  0.2</code></pre>
+</div>
+<div id="evidence-3-maintenance-before-sailing" class="section level3">
+<h3>Evidence 3: Maintenance before sailing</h3>
+<p><span class="math inline">\(Ω_M\)</span> = {true, false}, m({true}) = 0 ; m({false})= 1 .</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">m_rel &lt;-<span class="st"> </span><span class="kw">bca</span>(<span class="dt">f =</span> <span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>), <span class="dt">m =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">cnames =</span> <span class="kw">c</span>(<span class="st">&quot;true&quot;</span>, <span class="st">&quot;false&quot;</span>), <span class="dt">varnb =</span> <span class="dv">6</span>, <span class="dt">infovarnames =</span> <span class="st">&quot;Maintenance&quot;</span>)</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw">bcaPrint</span>(m_rel)</a></code></pre></div>
+<pre><code>##   m_rel specnb mass
+## 1  true      1    0
+## 2 false      2    1</code></pre>
+</div>
+</div>
+<div id="the-hypergraph-of-the-captains-problem" class="section level2">
+<h2>The hypergraph of the Captain’s Problem</h2>
+<p>We now look at the Captain’s Problem as a belief network. The eight variables involved are the nodes of the graph: Arrival, Departure, Sailing, Loading, Forecast, Maintenance, Weather, Repairs. The edges (hyperedges) are given by the five relations R1 to R5 and the three inputs of evidence (L, F, M).</p>
+<p>We use the package igraph <a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> to produce a bipartite graph corresponding to the desired hypergraph.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="co"># The network</span></a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="cf">if</span> (<span class="kw">requireNamespace</span>(<span class="st">&quot;igraph&quot;</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>) ) {</a>
+<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="kw">library</span>(igraph)</a>
+<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="co"># Encode pieces of evidence and relations with an incidence matrix</span></a>
+<a class="sourceLine" id="cb21-5" data-line-number="5">R1 &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">*</span><span class="dv">1</span><span class="op">:</span><span class="dv">8</span> <span class="op">%in%</span><span class="st"> </span>ads_rel<span class="op">$</span>infovar[,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb21-6" data-line-number="6">R2 &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">*</span><span class="dv">1</span><span class="op">:</span><span class="dv">8</span> <span class="op">%in%</span><span class="st"> </span>dlfm_rel<span class="op">$</span>infovar[,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb21-7" data-line-number="7">R3 &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">*</span><span class="dv">1</span><span class="op">:</span><span class="dv">8</span> <span class="op">%in%</span><span class="st"> </span>swr_rel<span class="op">$</span>infovar[,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb21-8" data-line-number="8">R4 &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">*</span><span class="dv">1</span><span class="op">:</span><span class="dv">8</span> <span class="op">%in%</span><span class="st"> </span>fw_rel<span class="op">$</span>infovar[,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb21-9" data-line-number="9">R5 &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">*</span><span class="dv">1</span><span class="op">:</span><span class="dv">8</span> <span class="op">%in%</span><span class="st"> </span>mr_rel<span class="op">$</span>infovar[,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb21-10" data-line-number="10">E1 &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">*</span><span class="dv">1</span><span class="op">:</span><span class="dv">8</span> <span class="op">%in%</span><span class="st"> </span>l_rel<span class="op">$</span>infovar[,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb21-11" data-line-number="11">E2 &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">*</span><span class="dv">1</span><span class="op">:</span><span class="dv">8</span> <span class="op">%in%</span><span class="st"> </span>f_rel<span class="op">$</span>infovar[,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb21-12" data-line-number="12">E3 &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">*</span><span class="dv">1</span><span class="op">:</span><span class="dv">8</span> <span class="op">%in%</span><span class="st"> </span>m_rel<span class="op">$</span>infovar[,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb21-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb21-14" data-line-number="14"><span class="co"># information on variables</span></a>
+<a class="sourceLine" id="cb21-15" data-line-number="15">captain_vars1 &lt;-<span class="st"> </span><span class="kw">c</span>( ads_rel<span class="op">$</span>infovaluenames,  dlfm_rel<span class="op">$</span>infovaluenames[<span class="dv">2</span><span class="op">:</span><span class="dv">4</span>],  swr_rel<span class="op">$</span>infovaluenames[<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>])</a>
+<a class="sourceLine" id="cb21-16" data-line-number="16">captain_vars &lt;-<span class="st"> </span><span class="kw">rbind</span>( ads_rel<span class="op">$</span>infovar,  dlfm_rel<span class="op">$</span>infovar[<span class="dv">2</span><span class="op">:</span><span class="dv">4</span>,],  swr_rel<span class="op">$</span>infovar[<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>,])</a>
+<a class="sourceLine" id="cb21-17" data-line-number="17">captain_var_names &lt;-<span class="kw">names</span>(captain_vars1)</a>
+<a class="sourceLine" id="cb21-18" data-line-number="18"><span class="kw">rownames</span>(captain_vars) &lt;-<span class="st"> </span>captain_var_names</a>
+<a class="sourceLine" id="cb21-19" data-line-number="19"><span class="co"># infos on relations</span></a>
+<a class="sourceLine" id="cb21-20" data-line-number="20">captain_data_names &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;ads_rel&quot;</span>, <span class="st">&quot;dlfm_rel&quot;</span>, <span class="st">&quot;swr_rel&quot;</span>, <span class="st">&quot;fw_rel&quot;</span>, <span class="st">&quot;mr_rel&quot;</span>, <span class="st">&quot;l_rel&quot;</span>, <span class="st">&quot;f_rel&quot;</span>, <span class="st">&quot;m_rel&quot;</span>)</a>
+<a class="sourceLine" id="cb21-21" data-line-number="21"><span class="co"># the incidence matrix</span></a>
+<a class="sourceLine" id="cb21-22" data-line-number="22">captain_hgm &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(R1,R2,R3,R4,R5,E1,E2,E3), <span class="dt">ncol=</span><span class="dv">8</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="kw">c</span>(<span class="st">&quot;Arrival&quot;</span>, <span class="st">&quot;Departure&quot;</span>, <span class="st">&quot;Sailing&quot;</span>, <span class="st">&quot;Loading&quot;</span>, <span class="st">&quot;Forecast&quot;</span>, <span class="st">&quot;Maintenance&quot;</span>, <span class="st">&quot;Weather&quot;</span>, <span class="st">&quot;Repairs&quot;</span>), <span class="kw">c</span>(<span class="st">&quot;R1&quot;</span>, <span class="st">&quot;R2&quot;</span>, <span class="st">&quot;R3&quot;</span>, <span class="st">&quot;R4&quot;</span>,<span class="st">&quot;R5&quot;</span>,<span class="st">&quot;E1&quot;</span>,<span class="st">&quot;E2&quot;</span>,<span class="st">&quot;E3&quot;</span>)))</a>
+<a class="sourceLine" id="cb21-23" data-line-number="23">captain &lt;-<span class="st"> </span><span class="kw">list</span>(captain_hgm, captain_var_names, captain_data_names)</a>
+<a class="sourceLine" id="cb21-24" data-line-number="24"><span class="co">#</span></a>
+<a class="sourceLine" id="cb21-25" data-line-number="25">## The graph structure of the problem</a>
+<a class="sourceLine" id="cb21-26" data-line-number="26"><span class="co">#</span></a>
+<a class="sourceLine" id="cb21-27" data-line-number="27">captain_hg &lt;-<span class="st"> </span><span class="kw">graph_from_incidence_matrix</span>(<span class="dt">incidence =</span> captain_hgm, <span class="dt">directed =</span> <span class="ot">FALSE</span>, <span class="dt">multiple =</span> <span class="ot">FALSE</span>, <span class="dt">weighted =</span> <span class="ot">NULL</span>,<span class="dt">add.names =</span> <span class="ot">NULL</span>)</a>
+<a class="sourceLine" id="cb21-28" data-line-number="28"><span class="kw">V</span>(captain_hg)</a>
+<a class="sourceLine" id="cb21-29" data-line-number="29"><span class="co"># Show variables as circles, relations and evidence as rectangles</span></a>
+<a class="sourceLine" id="cb21-30" data-line-number="30"><span class="kw">V</span>(captain_hg)<span class="op">$</span>shape &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;circle&quot;</span>, <span class="st">&quot;crectangle&quot;</span>)[<span class="kw">V</span>(captain_hg)<span class="op">$</span>type<span class="op">+</span><span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb21-31" data-line-number="31"><span class="kw">V</span>(captain_hg)<span class="op">$</span>label.cex &lt;-<span class="st"> </span><span class="fl">0.6</span></a>
+<a class="sourceLine" id="cb21-32" data-line-number="32"><span class="kw">V</span>(captain_hg)<span class="op">$</span>label.font &lt;-<span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb21-33" data-line-number="33"><span class="co"># render graph</span></a>
+<a class="sourceLine" id="cb21-34" data-line-number="34"><span class="kw">plot</span>(captain_hg, <span class="dt">vertex.label =</span> <span class="kw">V</span>(captain_hg)<span class="op">$</span>name, <span class="dt">vertex.size=</span>(<span class="dv">3</span><span class="op">+</span><span class="dv">6</span><span class="op">*</span><span class="kw">V</span>(captain_hg)<span class="op">$</span>type)<span class="op">*</span><span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb21-35" data-line-number="35">}</a></code></pre></div>
+<pre><code>## 
+## Attaching package: 'igraph'</code></pre>
+<pre><code>## The following objects are masked from 'package:stats':
+## 
+##     decompose, spectrum</code></pre>
+<pre><code>## The following object is masked from 'package:base':
+## 
+##     union</code></pre>
+<p><img src="data:image/png;base64,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jAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEAAXIhB5tSYAEjAhQgIzw0ZgESMCEwP8DquP03G5gaRQAAAAASUVORK5CYII=" /><!-- --> # ## Calculations to obtain the belief function of the Arrival delay #</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="co"># variables numbers</span></a>
+<a class="sourceLine" id="cb25-2" data-line-number="2">N &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">8</span></a>
+<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="co"># Elimination order of variables. The goal: Arrival</span></a>
+<a class="sourceLine" id="cb25-4" data-line-number="4">elim_order &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">8</span>,<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb25-5" data-line-number="5">var_to_elim &lt;-<span class="st"> </span><span class="kw">rownames</span>(captain_hgm)[<span class="kw">order</span>(elim_order)]</a>
+<a class="sourceLine" id="cb25-6" data-line-number="6"><span class="co">#</span></a>
+<a class="sourceLine" id="cb25-7" data-line-number="7"><span class="co"># 1: first step</span></a>
+<a class="sourceLine" id="cb25-8" data-line-number="8"><span class="co"># first var to eliminate</span></a>
+<a class="sourceLine" id="cb25-9" data-line-number="9">var_to_elim[<span class="dv">1</span>] <span class="co"># Loading (4)</span></a></code></pre></div>
+<pre><code>## [1] &quot;Loading&quot;</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">irel_to_elim&lt;-<span class="st"> </span>captain_hgm[<span class="st">&quot;Loading&quot;</span>,]<span class="op">*</span><span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(captain_hgm)</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2">rels_nb &lt;-<span class="st"> </span>irel_to_elim[irel_to_elim<span class="op">&gt;</span><span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb27-3" data-line-number="3"><span class="co">#</span></a>
+<a class="sourceLine" id="cb27-4" data-line-number="4">## To do: find which rel to extend (here, it is E1)</a>
+<a class="sourceLine" id="cb27-5" data-line-number="5"><span class="co"># extend R6 (Z7_T EN APL)</span></a>
+<a class="sourceLine" id="cb27-6" data-line-number="6">l_ext &lt;-<span class="st"> </span><span class="kw">extmin</span>(<span class="kw">get</span>(captain_data_names[<span class="dv">6</span>]), <span class="kw">get</span>(captain_data_names[<span class="dv">2</span>])) </a>
+<a class="sourceLine" id="cb27-7" data-line-number="7"><span class="co"># combine E1, R2</span></a>
+<a class="sourceLine" id="cb27-8" data-line-number="8"><span class="co"># use length(captain_data_names) to assign the next relation nb</span></a>
+<a class="sourceLine" id="cb27-9" data-line-number="9">rel_<span class="dv">2</span>_<span class="dv">6</span> &lt;-<span class="st"> </span><span class="kw">nzdsr</span>(<span class="kw">dsrwon</span>(l_ext, <span class="kw">get</span>(captain_data_names[<span class="dv">2</span>]), <span class="dt">relnb =</span> <span class="dv">1</span><span class="op">+</span><span class="kw">length</span>(captain_data_names)))</a>
+<a class="sourceLine" id="cb27-10" data-line-number="10"><span class="co"># eliminate the variable &quot;Loading&quot; (4)</span></a>
+<a class="sourceLine" id="cb27-11" data-line-number="11">rel_<span class="dv">9</span> &lt;-<span class="st"> </span><span class="kw">elim</span>(rel_<span class="dv">2</span>_<span class="dv">6</span>, <span class="dt">xnb =</span> <span class="kw">order</span>(elim_order)[<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb27-12" data-line-number="12"><span class="co">#</span></a>
+<a class="sourceLine" id="cb27-13" data-line-number="13"><span class="co"># update hg and relations names</span></a>
+<a class="sourceLine" id="cb27-14" data-line-number="14"><span class="co"># remove R2 and E7, add R9</span></a>
+<a class="sourceLine" id="cb27-15" data-line-number="15">R9 &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">*</span><span class="dv">1</span><span class="op">:</span><span class="dv">8</span> <span class="op">%in%</span><span class="st"> </span>rel_<span class="dv">9</span><span class="op">$</span>infovar[,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb27-16" data-line-number="16">captain_hgm1 &lt;-<span class="st"> </span><span class="kw">cbind</span>(captain_hgm[,<span class="op">-</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">6</span>)], R9)</a>
+<a class="sourceLine" id="cb27-17" data-line-number="17">captain_data_names1 &lt;-<span class="st"> </span><span class="kw">c</span>(captain_data_names[<span class="op">-</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">6</span>)], <span class="st">&quot;rel_9&quot;</span>)</a>
+<a class="sourceLine" id="cb27-18" data-line-number="18">captain_var_names1 &lt;-<span class="st"> </span>captain_var_names[<span class="op">-</span><span class="kw">order</span>(elim_order)[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb27-19" data-line-number="19"><span class="co">#</span></a>
+<a class="sourceLine" id="cb27-20" data-line-number="20">## second step eliminate var &quot;Repairs&quot; (8)</a>
+<a class="sourceLine" id="cb27-21" data-line-number="21">var_to_elim[<span class="dv">2</span>] </a></code></pre></div>
+<pre><code>## [1] &quot;Repairs&quot;</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">order</span>(elim_order)[<span class="dv">2</span>] <span class="co"># Repairs (8)</span></a></code></pre></div>
+<pre><code>## [1] 8</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">irel_to_elim&lt;-<span class="st"> </span>captain_hgm1[var_to_elim[<span class="dv">2</span>],]<span class="op">*</span><span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(captain_hgm1)</a>
+<a class="sourceLine" id="cb31-2" data-line-number="2">rels_nb &lt;-<span class="st"> </span>irel_to_elim[irel_to_elim<span class="op">&gt;</span><span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="co"># find variables numbers of each relation to obtain the space to construct</span></a>
+<a class="sourceLine" id="cb31-4" data-line-number="4">rels_names =<span class="st"> </span>captain_data_names1[rels_nb]</a>
+<a class="sourceLine" id="cb31-5" data-line-number="5">yv1 =<span class="st"> </span><span class="kw">get</span>(rels_names[<span class="dv">1</span>])<span class="op">$</span>infovar</a>
+<a class="sourceLine" id="cb31-6" data-line-number="6">yv2 =<span class="st"> </span><span class="kw">get</span>(rels_names[<span class="dv">2</span>])<span class="op">$</span>infovar</a>
+<a class="sourceLine" id="cb31-7" data-line-number="7">yv=<span class="kw">rbind</span>(yv1,yv2)</a>
+<a class="sourceLine" id="cb31-8" data-line-number="8">yinfov =<span class="st"> </span><span class="kw">doubles</span>(yv)</a>
+<a class="sourceLine" id="cb31-9" data-line-number="9">infovar &lt;-<span class="st"> </span>yinfov[<span class="kw">order</span>(yinfov[,<span class="dv">1</span>]),]</a>
+<a class="sourceLine" id="cb31-10" data-line-number="10"><span class="co">#</span></a>
+<a class="sourceLine" id="cb31-11" data-line-number="11"><span class="co"># extract infovaluenames</span></a>
+<a class="sourceLine" id="cb31-12" data-line-number="12">infovalues &lt;-<span class="st"> </span>captain_vars1[infovar[,<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb31-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb31-14" data-line-number="14"><span class="co"># extend the two relations before combining them</span></a>
+<a class="sourceLine" id="cb31-15" data-line-number="15"><span class="co"># 1. making an empty reference relation with mass(frame) = 1 and</span></a>
+<a class="sourceLine" id="cb31-16" data-line-number="16"><span class="co"># extending a bca to it.</span></a>
+<a class="sourceLine" id="cb31-17" data-line-number="17"><span class="co"># 1: construct the tt matrix</span></a>
+<a class="sourceLine" id="cb31-18" data-line-number="18">init_tt=<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">10</span>),<span class="dt">nrow=</span><span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb31-19" data-line-number="19"><span class="dt">dimnames =</span><span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;3&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;0&quot;</span>, </a>
+<a class="sourceLine" id="cb31-20" data-line-number="20"><span class="st">&quot;false&quot;</span>, <span class="st">&quot;true&quot;</span>,  <span class="st">&quot;fair&quot;</span>,<span class="st">&quot;foul&quot;</span>,  <span class="st">&quot;false&quot;</span>, <span class="st">&quot;true&quot;</span>)) )</a>
+<a class="sourceLine" id="cb31-21" data-line-number="21"><span class="co"># 2: mass values</span></a>
+<a class="sourceLine" id="cb31-22" data-line-number="22">init_spec &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb31-23" data-line-number="23"><span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>)))</a>
+<a class="sourceLine" id="cb31-24" data-line-number="24"><span class="co"># 3: info on variables</span></a>
+<a class="sourceLine" id="cb31-25" data-line-number="25">init_info &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">ncol =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb31-26" data-line-number="26"><span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )</a>
+<a class="sourceLine" id="cb31-27" data-line-number="27"><span class="co"># 4: the relation</span></a>
+<a class="sourceLine" id="cb31-28" data-line-number="28">relRef &lt;-<span class="st"> </span><span class="kw">bcaRel</span>(<span class="dt">tt =</span> init_tt, <span class="dt">spec =</span> init_spec,</a>
+<a class="sourceLine" id="cb31-29" data-line-number="29"><span class="dt">infovar =</span> init_info, </a>
+<a class="sourceLine" id="cb31-30" data-line-number="30"><span class="dt">infovarnames =</span> <span class="kw">c</span>(<span class="st">&quot;Sail&quot;</span>, <span class="st">&quot;Maintenance&quot;</span>, <span class="st">&quot;Weather&quot;</span>, <span class="st">&quot;Repairs&quot;</span>),</a>
+<a class="sourceLine" id="cb31-31" data-line-number="31"> <span class="dt">relnb =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb31-32" data-line-number="32"><span class="co"># extend the relations</span></a>
+<a class="sourceLine" id="cb31-33" data-line-number="33">mr_ext &lt;-<span class="st"> </span><span class="kw">extmin</span>(<span class="kw">get</span>(captain_data_names1[<span class="dv">4</span>]), relRef)</a>
+<a class="sourceLine" id="cb31-34" data-line-number="34">swr_ext &lt;-<span class="st"> </span><span class="kw">extmin</span>(<span class="kw">get</span>(captain_data_names1[<span class="dv">2</span>]), relRef)</a>
+<a class="sourceLine" id="cb31-35" data-line-number="35"><span class="co"># 3: combine the two relations</span></a>
+<a class="sourceLine" id="cb31-36" data-line-number="36"><span class="co"># combine extended relations</span></a>
+<a class="sourceLine" id="cb31-37" data-line-number="37">rel_<span class="dv">3</span>_<span class="dv">5</span> &lt;-<span class="st"> </span><span class="kw">nzdsr</span>(<span class="kw">dsrwon</span>(mr_ext,swr_ext, <span class="dt">relnb =</span> <span class="dv">10</span>) )</a>
+<a class="sourceLine" id="cb31-38" data-line-number="38"><span class="co">#4 eliminate the variable &quot;Maintenance&quot; (8)</span></a>
+<a class="sourceLine" id="cb31-39" data-line-number="39">rel_<span class="dv">10</span> &lt;-<span class="st"> </span><span class="kw">elim</span>(rel_<span class="dv">3</span>_<span class="dv">5</span>, <span class="dt">xnb =</span> <span class="kw">order</span>(elim_order)[<span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb31-40" data-line-number="40"><span class="co">#</span></a>
+<a class="sourceLine" id="cb31-41" data-line-number="41"><span class="co"># update hg and relations names</span></a>
+<a class="sourceLine" id="cb31-42" data-line-number="42"><span class="co"># remove R3 and R5, add R10</span></a>
+<a class="sourceLine" id="cb31-43" data-line-number="43">R10 &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">*</span><span class="dv">1</span><span class="op">:</span><span class="dv">8</span> <span class="op">%in%</span><span class="st"> </span>rel_<span class="dv">10</span><span class="op">$</span>infovar[,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb31-44" data-line-number="44">captain_hgm2 &lt;-<span class="st"> </span><span class="kw">cbind</span>(captain_hgm1[,<span class="op">-</span>rels_nb], R10)</a>
+<a class="sourceLine" id="cb31-45" data-line-number="45">captain_data_names2 &lt;-<span class="st"> </span><span class="kw">c</span>(captain_data_names1[<span class="op">-</span>rels_nb], <span class="st">&quot;rel_10&quot;</span>)</a>
+<a class="sourceLine" id="cb31-46" data-line-number="46"><span class="co">#</span></a>
+<a class="sourceLine" id="cb31-47" data-line-number="47">## Third step eliminate var &quot;Weather&quot; (7)</a>
+<a class="sourceLine" id="cb31-48" data-line-number="48">var_to_elim[<span class="dv">3</span>] </a></code></pre></div>
+<pre><code>## [1] &quot;Weather&quot;</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw">order</span>(elim_order)[<span class="dv">3</span>] <span class="co"># Weather (7)</span></a></code></pre></div>
+<pre><code>## [1] 7</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">irel_to_elim&lt;-<span class="st"> </span>captain_hgm2[var_to_elim[<span class="dv">3</span>],]<span class="op">*</span><span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(captain_hgm2)</a>
+<a class="sourceLine" id="cb35-2" data-line-number="2">rels_nb &lt;-<span class="st"> </span>irel_to_elim[irel_to_elim<span class="op">&gt;</span><span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb35-3" data-line-number="3"><span class="co"># find variables numbers of each relation to obtain the space to construct</span></a>
+<a class="sourceLine" id="cb35-4" data-line-number="4">rels_names =<span class="st"> </span>captain_data_names2[rels_nb]</a>
+<a class="sourceLine" id="cb35-5" data-line-number="5">yv1 =<span class="st"> </span><span class="kw">get</span>(rels_names[<span class="dv">1</span>])<span class="op">$</span>infovar</a>
+<a class="sourceLine" id="cb35-6" data-line-number="6">yv2 =<span class="st"> </span><span class="kw">get</span>(rels_names[<span class="dv">2</span>])<span class="op">$</span>infovar</a>
+<a class="sourceLine" id="cb35-7" data-line-number="7">yv=<span class="kw">rbind</span>(yv1,yv2)</a>
+<a class="sourceLine" id="cb35-8" data-line-number="8">yinfov =<span class="st"> </span><span class="kw">doubles</span>(yv)</a>
+<a class="sourceLine" id="cb35-9" data-line-number="9">infovar &lt;-<span class="st"> </span>yinfov[<span class="kw">order</span>(yinfov[,<span class="dv">1</span>]),]</a>
+<a class="sourceLine" id="cb35-10" data-line-number="10"><span class="co">#</span></a>
+<a class="sourceLine" id="cb35-11" data-line-number="11"><span class="co"># extract infovaluenames</span></a>
+<a class="sourceLine" id="cb35-12" data-line-number="12">infovalues &lt;-<span class="st"> </span>captain_vars1[infovar[,<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb35-13" data-line-number="13"><span class="co">#</span></a>
+<a class="sourceLine" id="cb35-14" data-line-number="14"><span class="co"># extend the two relations before combining them</span></a>
+<a class="sourceLine" id="cb35-15" data-line-number="15"><span class="co"># 1. making an empty reference relation with mass(frame) = 1 and</span></a>
+<a class="sourceLine" id="cb35-16" data-line-number="16"><span class="co"># extending a bca to it.</span></a>
+<a class="sourceLine" id="cb35-17" data-line-number="17"><span class="co"># 1: construct the tt matrix</span></a>
+<a class="sourceLine" id="cb35-18" data-line-number="18">init_tt=<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">10</span>),<span class="dt">nrow=</span><span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb35-19" data-line-number="19"><span class="dt">dimnames =</span><span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;3&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;0&quot;</span>,<span class="st">&quot;foul&quot;</span>, <span class="st">&quot;fair&quot;</span>,</a>
+<a class="sourceLine" id="cb35-20" data-line-number="20"><span class="st">&quot;true&quot;</span>, <span class="st">&quot;false&quot;</span>,  <span class="st">&quot;foul&quot;</span>, <span class="st">&quot;fair&quot;</span>)) )</a>
+<a class="sourceLine" id="cb35-21" data-line-number="21"><span class="co"># 2: mass values</span></a>
+<a class="sourceLine" id="cb35-22" data-line-number="22">init_spec &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb35-23" data-line-number="23"><span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>)))</a>
+<a class="sourceLine" id="cb35-24" data-line-number="24"><span class="co"># 3: info on variables</span></a>
+<a class="sourceLine" id="cb35-25" data-line-number="25">init_info &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">as.vector</span>(infovar), <span class="dt">ncol =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb35-26" data-line-number="26"><span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )</a>
+<a class="sourceLine" id="cb35-27" data-line-number="27"><span class="co"># 4: the relation</span></a>
+<a class="sourceLine" id="cb35-28" data-line-number="28"><span class="co">#</span></a>
+<a class="sourceLine" id="cb35-29" data-line-number="29">relRef &lt;-<span class="st"> </span><span class="kw">bcaRel</span>(<span class="dt">tt =</span> init_tt, <span class="dt">spec =</span> init_spec,</a>
+<a class="sourceLine" id="cb35-30" data-line-number="30"><span class="dt">infovar =</span> init_info, <span class="dt">infovarnames =</span> <span class="kw">names</span>(infovalues), <span class="dt">relnb =</span> <span class="dv">11</span>)</a>
+<a class="sourceLine" id="cb35-31" data-line-number="31"><span class="co">#</span></a>
+<a class="sourceLine" id="cb35-32" data-line-number="32"><span class="co"># extend the relations</span></a>
+<a class="sourceLine" id="cb35-33" data-line-number="33">fw_ext &lt;-<span class="st"> </span><span class="kw">extmin</span>(<span class="kw">get</span>(captain_data_names2[rels_nb[<span class="dv">1</span>]]), relRef)</a>
+<a class="sourceLine" id="cb35-34" data-line-number="34">rel_<span class="dv">10</span>_ext &lt;-<span class="st"> </span><span class="kw">extmin</span>(<span class="kw">get</span>(captain_data_names2[rels_nb[<span class="dv">2</span>]]), relRef)</a>
+<a class="sourceLine" id="cb35-35" data-line-number="35"><span class="co"># 3: combine the two relations</span></a>
+<a class="sourceLine" id="cb35-36" data-line-number="36"><span class="co"># combine extended relations</span></a>
+<a class="sourceLine" id="cb35-37" data-line-number="37">rel_<span class="dv">4</span>_<span class="dv">10</span> &lt;-<span class="st"> </span><span class="kw">nzdsr</span>(<span class="kw">dsrwon</span>(fw_ext,rel_<span class="dv">10</span>_ext, <span class="dt">relnb =</span> <span class="dv">11</span>) )</a>
+<a class="sourceLine" id="cb35-38" data-line-number="38"><span class="co">#</span></a>
+<a class="sourceLine" id="cb35-39" data-line-number="39"><span class="co"># 4 eliminate the variable &quot;Weather&quot; (7)</span></a>
+<a class="sourceLine" id="cb35-40" data-line-number="40">rel_<span class="dv">11</span> &lt;-<span class="st"> </span><span class="kw">elim</span>(rel_<span class="dv">4</span>_<span class="dv">10</span>, <span class="dt">xnb =</span> <span class="kw">order</span>(elim_order)[<span class="dv">3</span>])</a>
+<a class="sourceLine" id="cb35-41" data-line-number="41"><span class="co">#</span></a>
+<a class="sourceLine" id="cb35-42" data-line-number="42">## Fourth step </a>
+<a class="sourceLine" id="cb35-43" data-line-number="43">var_to_elim[<span class="dv">4</span>] </a></code></pre></div>
+<pre><code>## [1] &quot;Maintenance&quot;</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">order</span>(elim_order)[<span class="dv">4</span>] <span class="co"># Maintenance (6)</span></a></code></pre></div>
+<pre><code>## [1] 6</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="co">#eliminate var &quot;Maintenance&quot; (6)</span></a>
+<a class="sourceLine" id="cb39-2" data-line-number="2"><span class="co"># update hg and relations names</span></a>
+<a class="sourceLine" id="cb39-3" data-line-number="3"><span class="co"># </span></a>
+<a class="sourceLine" id="cb39-4" data-line-number="4"><span class="co"># remove rels_nb R4 and R10, add R11</span></a>
+<a class="sourceLine" id="cb39-5" data-line-number="5">R11 &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">*</span><span class="dv">1</span><span class="op">:</span><span class="dv">8</span> <span class="op">%in%</span><span class="st"> </span>rel_<span class="dv">11</span><span class="op">$</span>infovar[,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb39-6" data-line-number="6">captain_hgm3 &lt;-<span class="st"> </span><span class="kw">cbind</span>(captain_hgm2[,<span class="op">-</span>rels_nb], R11)</a>
+<a class="sourceLine" id="cb39-7" data-line-number="7">captain_data_names3 &lt;-<span class="st"> </span><span class="kw">c</span>(captain_data_names2[<span class="op">-</span>rels_nb], <span class="st">&quot;rel_11&quot;</span>)</a>
+<a class="sourceLine" id="cb39-8" data-line-number="8"><span class="co">#</span></a>
+<a class="sourceLine" id="cb39-9" data-line-number="9">irel_to_elim&lt;-<span class="st"> </span>captain_hgm3[var_to_elim[<span class="dv">4</span>],]<span class="op">*</span><span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(captain_hgm3)</a>
+<a class="sourceLine" id="cb39-10" data-line-number="10">rels_nb &lt;-<span class="st"> </span>irel_to_elim[irel_to_elim<span class="op">&gt;</span><span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb39-11" data-line-number="11"><span class="co"># find variables numbers of each relation to obtain the space to construct</span></a>
+<a class="sourceLine" id="cb39-12" data-line-number="12">rels_names =<span class="st"> </span>captain_data_names3[rels_nb]</a>
+<a class="sourceLine" id="cb39-13" data-line-number="13">yv1 =<span class="st"> </span><span class="kw">get</span>(rels_names[<span class="dv">1</span>])<span class="op">$</span>infovar</a>
+<a class="sourceLine" id="cb39-14" data-line-number="14">yv2 =<span class="st"> </span><span class="kw">get</span>(rels_names[<span class="dv">2</span>])<span class="op">$</span>infovar</a>
+<a class="sourceLine" id="cb39-15" data-line-number="15">yv3 =<span class="st"> </span><span class="kw">get</span>(rels_names[<span class="dv">3</span>])<span class="op">$</span>infovar</a>
+<a class="sourceLine" id="cb39-16" data-line-number="16">yv=<span class="kw">rbind</span>(yv1,yv2, yv3)</a>
+<a class="sourceLine" id="cb39-17" data-line-number="17">yinfov =<span class="st"> </span><span class="kw">doubles</span>(yv)</a>
+<a class="sourceLine" id="cb39-18" data-line-number="18">infovar &lt;-<span class="st"> </span>yinfov[<span class="kw">order</span>(yinfov[,<span class="dv">1</span>]),]</a>
+<a class="sourceLine" id="cb39-19" data-line-number="19"><span class="co">#</span></a>
+<a class="sourceLine" id="cb39-20" data-line-number="20"><span class="co"># extract infovaluenames</span></a>
+<a class="sourceLine" id="cb39-21" data-line-number="21">## test</a>
+<a class="sourceLine" id="cb39-22" data-line-number="22">infovalues =<span class="st"> </span>captain_vars1[infovar[,<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb39-23" data-line-number="23"><span class="co">#</span></a>
+<a class="sourceLine" id="cb39-24" data-line-number="24"><span class="co"># extend the relations before combining them</span></a>
+<a class="sourceLine" id="cb39-25" data-line-number="25"><span class="co"># 1. making an empty reference relation with mass(frame) = 1 and</span></a>
+<a class="sourceLine" id="cb39-26" data-line-number="26"><span class="co"># extending a bca to it.</span></a>
+<a class="sourceLine" id="cb39-27" data-line-number="27"><span class="co"># 1: construct the tt matrix</span></a>
+<a class="sourceLine" id="cb39-28" data-line-number="28"><span class="co"># </span></a>
+<a class="sourceLine" id="cb39-29" data-line-number="29">init_tt &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="kw">sum</span>(infovar[,<span class="dv">2</span>])),<span class="dt">nrow=</span><span class="dv">1</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">unlist</span>(infovalues) ) )</a>
+<a class="sourceLine" id="cb39-30" data-line-number="30"><span class="co"># 2: mass values</span></a>
+<a class="sourceLine" id="cb39-31" data-line-number="31">init_spec &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb39-32" data-line-number="32"><span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>)))</a>
+<a class="sourceLine" id="cb39-33" data-line-number="33"><span class="co"># 3: info on variables</span></a>
+<a class="sourceLine" id="cb39-34" data-line-number="34">init_info &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">as.vector</span>(infovar), <span class="dt">ncol =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb39-35" data-line-number="35"><span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )</a>
+<a class="sourceLine" id="cb39-36" data-line-number="36"><span class="co"># 4: the relation</span></a>
+<a class="sourceLine" id="cb39-37" data-line-number="37">relRef &lt;-<span class="st"> </span><span class="kw">bcaRel</span>(<span class="dt">tt =</span> init_tt, <span class="dt">spec =</span> init_spec,</a>
+<a class="sourceLine" id="cb39-38" data-line-number="38"><span class="dt">infovar =</span> init_info, <span class="dt">infovarnames =</span> <span class="kw">names</span>(infovalues), <span class="dt">relnb =</span> <span class="dv">12</span>)</a>
+<a class="sourceLine" id="cb39-39" data-line-number="39"><span class="co"># extend the relations (3 relations)</span></a>
+<a class="sourceLine" id="cb39-40" data-line-number="40">m_ext &lt;-<span class="st"> </span><span class="kw">extmin</span>(<span class="kw">get</span>(captain_data_names3[rels_nb[<span class="dv">1</span>]]), relRef)</a>
+<a class="sourceLine" id="cb39-41" data-line-number="41">rel_<span class="dv">9</span>_ext &lt;-<span class="st"> </span><span class="kw">extmin</span>(<span class="kw">get</span>(captain_data_names3[rels_nb[<span class="dv">2</span>]]), relRef)</a>
+<a class="sourceLine" id="cb39-42" data-line-number="42">rel_<span class="dv">11</span>_ext &lt;-<span class="st"> </span><span class="kw">extmin</span>(<span class="kw">get</span>(captain_data_names3[rels_nb[<span class="dv">3</span>]]), relRef)</a>
+<a class="sourceLine" id="cb39-43" data-line-number="43"><span class="co">#</span></a>
+<a class="sourceLine" id="cb39-44" data-line-number="44"><span class="co"># 3: combine the relations</span></a>
+<a class="sourceLine" id="cb39-45" data-line-number="45"><span class="co"># combine extended relations</span></a>
+<a class="sourceLine" id="cb39-46" data-line-number="46">rel_<span class="dv">3</span>_<span class="dv">9</span> &lt;-<span class="st"> </span><span class="kw">nzdsr</span>(<span class="kw">dsrwon</span>(m_ext,rel_<span class="dv">9</span>_ext, <span class="dt">relnb =</span> <span class="dv">12</span>) )</a>
+<a class="sourceLine" id="cb39-47" data-line-number="47">rel_<span class="dv">3</span>_<span class="dv">9</span>_<span class="dv">11</span> &lt;-<span class="st"> </span><span class="kw">nzdsr</span>(<span class="kw">dsrwon</span>(rel_<span class="dv">3</span>_<span class="dv">9</span>,rel_<span class="dv">11</span>_ext, <span class="dt">relnb =</span> <span class="dv">12</span>) )</a>
+<a class="sourceLine" id="cb39-48" data-line-number="48"><span class="co">#</span></a>
+<a class="sourceLine" id="cb39-49" data-line-number="49"><span class="co"># 4 eliminate the variable &quot;Maintenance&quot; (6)</span></a>
+<a class="sourceLine" id="cb39-50" data-line-number="50">rel_<span class="dv">12</span> &lt;-<span class="st"> </span><span class="kw">elim</span>(rel_<span class="dv">3</span>_<span class="dv">9</span>_<span class="dv">11</span>, <span class="dt">xnb =</span> <span class="kw">order</span>(elim_order)[<span class="dv">4</span>])</a>
+<a class="sourceLine" id="cb39-51" data-line-number="51"><span class="co">#</span></a>
+<a class="sourceLine" id="cb39-52" data-line-number="52">## Fifth step </a>
+<a class="sourceLine" id="cb39-53" data-line-number="53">var_to_elim[<span class="dv">5</span>] </a></code></pre></div>
+<pre><code>## [1] &quot;Forecast&quot;</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="kw">order</span>(elim_order)[<span class="dv">5</span>] <span class="co"># Forecast (5)</span></a></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="co">#eliminate var &quot;Forecast&quot; (5)</span></a>
+<a class="sourceLine" id="cb43-2" data-line-number="2"><span class="co"># update hg and relations names</span></a>
+<a class="sourceLine" id="cb43-3" data-line-number="3"><span class="co"># rels_nb to remove</span></a>
+<a class="sourceLine" id="cb43-4" data-line-number="4"><span class="kw">print</span>(rels_nb) <span class="co"># 3, 4, 5</span></a></code></pre></div>
+<pre><code>##  E3  R9 R11 
+##   3   4   5</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="co"># add R12</span></a>
+<a class="sourceLine" id="cb45-2" data-line-number="2">R12 &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">*</span><span class="dv">1</span><span class="op">:</span><span class="dv">8</span> <span class="op">%in%</span><span class="st"> </span>rel_<span class="dv">12</span><span class="op">$</span>infovar[,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb45-3" data-line-number="3"><span class="co"># remove rels_nb E3 and R9, add R11, add R12</span></a>
+<a class="sourceLine" id="cb45-4" data-line-number="4">captain_hgm4 &lt;-<span class="st"> </span><span class="kw">cbind</span>(captain_hgm3[,<span class="op">-</span>rels_nb], R12)</a>
+<a class="sourceLine" id="cb45-5" data-line-number="5">captain_data_names4 &lt;-<span class="st"> </span><span class="kw">c</span>(captain_data_names3[<span class="op">-</span>rels_nb], <span class="st">&quot;rel_12&quot;</span>)</a>
+<a class="sourceLine" id="cb45-6" data-line-number="6"><span class="co">#</span></a>
+<a class="sourceLine" id="cb45-7" data-line-number="7">irel_to_elim&lt;-<span class="st"> </span>captain_hgm4[var_to_elim[<span class="dv">5</span>],]<span class="op">*</span><span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(captain_hgm4)</a>
+<a class="sourceLine" id="cb45-8" data-line-number="8">rels_nb &lt;-<span class="st"> </span>irel_to_elim[irel_to_elim<span class="op">&gt;</span><span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb45-9" data-line-number="9"><span class="co"># find variables numbers of each relation to obtain the space to construct</span></a>
+<a class="sourceLine" id="cb45-10" data-line-number="10">rels_names =<span class="st"> </span>captain_data_names4[rels_nb]</a>
+<a class="sourceLine" id="cb45-11" data-line-number="11">yv1 =<span class="st"> </span><span class="kw">get</span>(rels_names[<span class="dv">1</span>])<span class="op">$</span>infovar</a>
+<a class="sourceLine" id="cb45-12" data-line-number="12">yv2 =<span class="st"> </span><span class="kw">get</span>(rels_names[<span class="dv">2</span>])<span class="op">$</span>infovar</a>
+<a class="sourceLine" id="cb45-13" data-line-number="13">yv=<span class="kw">rbind</span>(yv1,yv2)</a>
+<a class="sourceLine" id="cb45-14" data-line-number="14">yinfov =<span class="st"> </span><span class="kw">doubles</span>(yv)</a>
+<a class="sourceLine" id="cb45-15" data-line-number="15">infovar &lt;-<span class="st"> </span>yinfov[<span class="kw">order</span>(yinfov[,<span class="dv">1</span>]),]</a>
+<a class="sourceLine" id="cb45-16" data-line-number="16"><span class="co">#</span></a>
+<a class="sourceLine" id="cb45-17" data-line-number="17"><span class="co"># extract infovaluenames</span></a>
+<a class="sourceLine" id="cb45-18" data-line-number="18">infovalues &lt;-<span class="st"> </span>captain_vars1[infovar[,<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb45-19" data-line-number="19"><span class="co">#</span></a>
+<a class="sourceLine" id="cb45-20" data-line-number="20"><span class="co"># extend the relations before combining them</span></a>
+<a class="sourceLine" id="cb45-21" data-line-number="21"><span class="co"># 1. making an empty reference relation with mass(frame) = 1 and</span></a>
+<a class="sourceLine" id="cb45-22" data-line-number="22"><span class="co"># extending a bca to it.</span></a>
+<a class="sourceLine" id="cb45-23" data-line-number="23"><span class="co"># 1: construct the tt matrix</span></a>
+<a class="sourceLine" id="cb45-24" data-line-number="24">##</a>
+<a class="sourceLine" id="cb45-25" data-line-number="25">init_tt &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="kw">sum</span>(infovar[,<span class="dv">2</span>])),<span class="dt">nrow=</span><span class="dv">1</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">unlist</span>(infovalues) ) )</a>
+<a class="sourceLine" id="cb45-26" data-line-number="26"><span class="co"># 2: mass values</span></a>
+<a class="sourceLine" id="cb45-27" data-line-number="27">init_spec &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb45-28" data-line-number="28"><span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>)))</a>
+<a class="sourceLine" id="cb45-29" data-line-number="29"><span class="co"># 3: info on variables</span></a>
+<a class="sourceLine" id="cb45-30" data-line-number="30">init_info &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">as.vector</span>(infovar), <span class="dt">ncol =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb45-31" data-line-number="31"><span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )</a>
+<a class="sourceLine" id="cb45-32" data-line-number="32"><span class="co"># 4: the relation</span></a>
+<a class="sourceLine" id="cb45-33" data-line-number="33">relRef &lt;-<span class="st"> </span><span class="kw">bcaRel</span>(<span class="dt">tt =</span> init_tt, <span class="dt">spec =</span> init_spec,</a>
+<a class="sourceLine" id="cb45-34" data-line-number="34"><span class="dt">infovar =</span> init_info, <span class="dt">infovarnames =</span> <span class="kw">names</span>(infovalues), <span class="dt">relnb =</span> <span class="dv">13</span>)</a>
+<a class="sourceLine" id="cb45-35" data-line-number="35"><span class="co"># extend the relations </span></a>
+<a class="sourceLine" id="cb45-36" data-line-number="36">f_ext &lt;-<span class="st"> </span><span class="kw">extmin</span>(<span class="kw">get</span>(captain_data_names4[rels_nb[<span class="dv">1</span>]]), relRef)</a>
+<a class="sourceLine" id="cb45-37" data-line-number="37"><span class="co">#</span></a>
+<a class="sourceLine" id="cb45-38" data-line-number="38"><span class="co"># 3: combine the relations</span></a>
+<a class="sourceLine" id="cb45-39" data-line-number="39"><span class="co"># combine extended relations</span></a>
+<a class="sourceLine" id="cb45-40" data-line-number="40">rel_E2_<span class="dv">12</span> &lt;-<span class="st"> </span><span class="kw">nzdsr</span>(<span class="kw">dsrwon</span>(f_ext,rel_<span class="dv">12</span>, <span class="dt">relnb =</span> <span class="dv">13</span>) )</a>
+<a class="sourceLine" id="cb45-41" data-line-number="41"><span class="co"># 4 eliminate the variable &quot;Forecast&quot; (5)</span></a>
+<a class="sourceLine" id="cb45-42" data-line-number="42">rel_<span class="dv">13</span> &lt;-<span class="st"> </span><span class="kw">elim</span>(rel_E2_<span class="dv">12</span>, <span class="dt">xnb =</span> <span class="kw">order</span>(elim_order)[<span class="dv">5</span>])</a>
+<a class="sourceLine" id="cb45-43" data-line-number="43"><span class="co">#</span></a>
+<a class="sourceLine" id="cb45-44" data-line-number="44">## sixth step </a>
+<a class="sourceLine" id="cb45-45" data-line-number="45">var_to_elim[<span class="dv">6</span>] </a></code></pre></div>
+<pre><code>## [1] &quot;Sailing&quot;</code></pre>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">order</span>(elim_order)[<span class="dv">6</span>] <span class="co"># Sailing (3)</span></a></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="co">#eliminate var &quot;Sailing&quot; (3)</span></a>
+<a class="sourceLine" id="cb49-2" data-line-number="2"><span class="co">#</span></a>
+<a class="sourceLine" id="cb49-3" data-line-number="3"><span class="co"># update hg and relations names</span></a>
+<a class="sourceLine" id="cb49-4" data-line-number="4"><span class="co"># rels_nb to remove</span></a>
+<a class="sourceLine" id="cb49-5" data-line-number="5"><span class="kw">print</span>(rels_nb) <span class="co"># 2,3</span></a></code></pre></div>
+<pre><code>##  E2 R12 
+##   2   3</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="co"># add R13</span></a>
+<a class="sourceLine" id="cb51-2" data-line-number="2">R13 &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">*</span><span class="dv">1</span><span class="op">:</span><span class="dv">8</span> <span class="op">%in%</span><span class="st"> </span>rel_<span class="dv">13</span><span class="op">$</span>infovar[,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb51-3" data-line-number="3"><span class="co"># remove rels_nb E3 and R9, add R11, add R12</span></a>
+<a class="sourceLine" id="cb51-4" data-line-number="4">captain_hgm5 &lt;-<span class="st"> </span><span class="kw">cbind</span>(captain_hgm4[,<span class="op">-</span>rels_nb], R13)</a>
+<a class="sourceLine" id="cb51-5" data-line-number="5">captain_data_names5 &lt;-<span class="st"> </span><span class="kw">c</span>(captain_data_names4[<span class="op">-</span>rels_nb], <span class="st">&quot;rel_13&quot;</span>)</a>
+<a class="sourceLine" id="cb51-6" data-line-number="6"><span class="co">#</span></a>
+<a class="sourceLine" id="cb51-7" data-line-number="7">irel_to_elim&lt;-<span class="st"> </span>captain_hgm5[var_to_elim[<span class="dv">6</span>],]<span class="op">*</span><span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(captain_hgm5)</a>
+<a class="sourceLine" id="cb51-8" data-line-number="8">rels_nb &lt;-<span class="st"> </span>irel_to_elim[irel_to_elim<span class="op">&gt;</span><span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb51-9" data-line-number="9"><span class="co"># find variables numbers of each relation to obtain the space to construct</span></a>
+<a class="sourceLine" id="cb51-10" data-line-number="10">rels_names =<span class="st"> </span>captain_data_names5[rels_nb]</a>
+<a class="sourceLine" id="cb51-11" data-line-number="11">yv1 =<span class="st"> </span><span class="kw">get</span>(rels_names[<span class="dv">1</span>])<span class="op">$</span>infovar</a>
+<a class="sourceLine" id="cb51-12" data-line-number="12">yv2 =<span class="st"> </span><span class="kw">get</span>(rels_names[<span class="dv">2</span>])<span class="op">$</span>infovar</a>
+<a class="sourceLine" id="cb51-13" data-line-number="13">yv=<span class="kw">rbind</span>(yv1,yv2)</a>
+<a class="sourceLine" id="cb51-14" data-line-number="14">yinfov =<span class="st"> </span><span class="kw">doubles</span>(yv)</a>
+<a class="sourceLine" id="cb51-15" data-line-number="15">infovar &lt;-<span class="st"> </span>yinfov[<span class="kw">order</span>(yinfov[,<span class="dv">1</span>]),]</a>
+<a class="sourceLine" id="cb51-16" data-line-number="16"><span class="co">#</span></a>
+<a class="sourceLine" id="cb51-17" data-line-number="17"><span class="co"># extract infovaluenames</span></a>
+<a class="sourceLine" id="cb51-18" data-line-number="18">infovalues &lt;-<span class="st"> </span>captain_vars1[infovar[,<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb51-19" data-line-number="19"><span class="co">#</span></a>
+<a class="sourceLine" id="cb51-20" data-line-number="20"><span class="co"># extend the relations before combining them</span></a>
+<a class="sourceLine" id="cb51-21" data-line-number="21"><span class="co"># 1. making an empty reference relation with mass(frame) = 1 and</span></a>
+<a class="sourceLine" id="cb51-22" data-line-number="22"><span class="co"># extending a bca to it.</span></a>
+<a class="sourceLine" id="cb51-23" data-line-number="23"><span class="co"># 1: construct the tt matrix</span></a>
+<a class="sourceLine" id="cb51-24" data-line-number="24">##</a>
+<a class="sourceLine" id="cb51-25" data-line-number="25">init_tt &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="kw">sum</span>(infovar[,<span class="dv">2</span>])),<span class="dt">nrow=</span><span class="dv">1</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">unlist</span>(infovalues) ) )</a>
+<a class="sourceLine" id="cb51-26" data-line-number="26"><span class="co"># 2: mass values</span></a>
+<a class="sourceLine" id="cb51-27" data-line-number="27">init_spec &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb51-28" data-line-number="28"><span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>)))</a>
+<a class="sourceLine" id="cb51-29" data-line-number="29"><span class="co"># 3: info on variables</span></a>
+<a class="sourceLine" id="cb51-30" data-line-number="30">init_info &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">as.vector</span>(infovar), <span class="dt">ncol =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb51-31" data-line-number="31"><span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )</a>
+<a class="sourceLine" id="cb51-32" data-line-number="32"><span class="co"># 4: the relation</span></a>
+<a class="sourceLine" id="cb51-33" data-line-number="33">relRef &lt;-<span class="st"> </span><span class="kw">bcaRel</span>(<span class="dt">tt =</span> init_tt, <span class="dt">spec =</span> init_spec,</a>
+<a class="sourceLine" id="cb51-34" data-line-number="34"><span class="dt">infovar =</span> init_info, <span class="dt">infovarnames =</span> <span class="kw">names</span>(infovalues), <span class="dt">relnb =</span> <span class="dv">14</span>)</a>
+<a class="sourceLine" id="cb51-35" data-line-number="35"><span class="co"># extend the relations </span></a>
+<a class="sourceLine" id="cb51-36" data-line-number="36">captain_data_names5[rels_nb[<span class="dv">1</span>]] <span class="co"># &quot; ads_rel&quot;</span></a></code></pre></div>
+<pre><code>## [1] &quot;ads_rel&quot;</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">captain_data_names5[rels_nb[<span class="dv">2</span>]] <span class="co"># rel_13</span></a></code></pre></div>
+<pre><code>## [1] &quot;rel_13&quot;</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1">rel_<span class="dv">13</span>_ext &lt;-<span class="st"> </span><span class="kw">extmin</span>(<span class="kw">get</span>(captain_data_names5[rels_nb[<span class="dv">2</span>]]), relRef)   </a>
+<a class="sourceLine" id="cb55-2" data-line-number="2"><span class="co">#</span></a>
+<a class="sourceLine" id="cb55-3" data-line-number="3"><span class="co"># 3: combine the relations</span></a>
+<a class="sourceLine" id="cb55-4" data-line-number="4"><span class="co"># combine extended relations</span></a>
+<a class="sourceLine" id="cb55-5" data-line-number="5">rel_<span class="dv">1</span>_<span class="dv">13</span> &lt;-<span class="st"> </span><span class="kw">nzdsr</span>(<span class="kw">dsrwon</span>(ads_rel,rel_<span class="dv">13</span>_ext, <span class="dt">relnb =</span> <span class="dv">14</span>) )</a>
+<a class="sourceLine" id="cb55-6" data-line-number="6"><span class="co"># 4 eliminate the variable &quot;SAiling&quot; (3)</span></a>
+<a class="sourceLine" id="cb55-7" data-line-number="7">rel_<span class="dv">14</span> &lt;-<span class="st"> </span><span class="kw">elim</span>(rel_<span class="dv">1</span>_<span class="dv">13</span>, <span class="dt">xnb =</span> <span class="kw">order</span>(elim_order)[<span class="dv">6</span>])</a>
+<a class="sourceLine" id="cb55-8" data-line-number="8"><span class="co">#</span></a>
+<a class="sourceLine" id="cb55-9" data-line-number="9">## Step 7 </a>
+<a class="sourceLine" id="cb55-10" data-line-number="10">var_to_elim[<span class="dv">7</span>] </a></code></pre></div>
+<pre><code>## [1] &quot;Departure&quot;</code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="kw">order</span>(elim_order)[<span class="dv">7</span>] <span class="co"># Departure (2)</span></a></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="co">#eliminate var &quot;Departure&quot; (2)</span></a>
+<a class="sourceLine" id="cb59-2" data-line-number="2"><span class="co">#</span></a>
+<a class="sourceLine" id="cb59-3" data-line-number="3"><span class="co"># update hg and relations names</span></a>
+<a class="sourceLine" id="cb59-4" data-line-number="4"><span class="co"># rels_nb to remove</span></a>
+<a class="sourceLine" id="cb59-5" data-line-number="5"><span class="kw">print</span>(rels_nb) <span class="co"># 1,2</span></a></code></pre></div>
+<pre><code>##     R13 
+##   1   2</code></pre>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="co"># add R14</span></a>
+<a class="sourceLine" id="cb61-2" data-line-number="2">R14 &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">*</span><span class="dv">1</span><span class="op">:</span><span class="dv">8</span> <span class="op">%in%</span><span class="st"> </span>rel_<span class="dv">14</span><span class="op">$</span>infovar[,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb61-3" data-line-number="3"><span class="co"># remove rels_nb E3 and R9, add R11, add R12</span></a>
+<a class="sourceLine" id="cb61-4" data-line-number="4">captain_hgm6 &lt;-<span class="st"> </span><span class="kw">cbind</span>(captain_hgm5[,<span class="op">-</span>rels_nb], R14)</a>
+<a class="sourceLine" id="cb61-5" data-line-number="5">captain_data_names6 &lt;-<span class="st"> </span><span class="kw">c</span>(captain_data_names5[<span class="op">-</span>rels_nb], <span class="st">&quot;rel_14&quot;</span>)</a>
+<a class="sourceLine" id="cb61-6" data-line-number="6"><span class="co">#</span></a>
+<a class="sourceLine" id="cb61-7" data-line-number="7">irel_to_elim&lt;-<span class="st"> </span>captain_hgm6[var_to_elim[<span class="dv">7</span>],]<span class="op">*</span><span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(captain_hgm6)</a>
+<a class="sourceLine" id="cb61-8" data-line-number="8">rels_nb &lt;-<span class="st"> </span>irel_to_elim[irel_to_elim<span class="op">&gt;</span><span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb61-9" data-line-number="9"><span class="co"># find variables numbers of each relation to obtain the space to construct</span></a>
+<a class="sourceLine" id="cb61-10" data-line-number="10">rels_names =<span class="st"> </span>captain_data_names6[rels_nb]</a>
+<a class="sourceLine" id="cb61-11" data-line-number="11">yv1 =<span class="st"> </span><span class="kw">get</span>(rels_names[<span class="dv">1</span>])<span class="op">$</span>infovar</a>
+<a class="sourceLine" id="cb61-12" data-line-number="12">yv =<span class="st"> </span>yv1</a>
+<a class="sourceLine" id="cb61-13" data-line-number="13"><span class="cf">if</span> (<span class="kw">length</span>(rels_names) <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span> ) {</a>
+<a class="sourceLine" id="cb61-14" data-line-number="14">  yv2 =<span class="st"> </span><span class="kw">get</span>(rels_names[<span class="dv">2</span>])<span class="op">$</span>infovar</a>
+<a class="sourceLine" id="cb61-15" data-line-number="15">  yv=<span class="kw">rbind</span>(yv1,yv2)</a>
+<a class="sourceLine" id="cb61-16" data-line-number="16">} </a>
+<a class="sourceLine" id="cb61-17" data-line-number="17">yinfov =<span class="st"> </span><span class="kw">doubles</span>(yv)</a>
+<a class="sourceLine" id="cb61-18" data-line-number="18">infovar &lt;-<span class="st"> </span>yinfov[<span class="kw">order</span>(yinfov[,<span class="dv">1</span>]),]</a>
+<a class="sourceLine" id="cb61-19" data-line-number="19"><span class="co">#</span></a>
+<a class="sourceLine" id="cb61-20" data-line-number="20"><span class="co"># extract infovaluenames</span></a>
+<a class="sourceLine" id="cb61-21" data-line-number="21">infovalues &lt;-<span class="st"> </span>captain_vars1[infovar[,<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb61-22" data-line-number="22"><span class="co">#</span></a>
+<a class="sourceLine" id="cb61-23" data-line-number="23"><span class="cf">if</span> (<span class="kw">length</span>(rels_names) <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span> ) {</a>
+<a class="sourceLine" id="cb61-24" data-line-number="24"><span class="co"># extend the relations before combining them</span></a>
+<a class="sourceLine" id="cb61-25" data-line-number="25"><span class="co"># 1. making an empty reference relation with mass(frame) = 1 and</span></a>
+<a class="sourceLine" id="cb61-26" data-line-number="26"><span class="co"># extending a bca to it.</span></a>
+<a class="sourceLine" id="cb61-27" data-line-number="27"><span class="co"># 1: construct the tt matrix</span></a>
+<a class="sourceLine" id="cb61-28" data-line-number="28">##</a>
+<a class="sourceLine" id="cb61-29" data-line-number="29">  init_tt &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="kw">sum</span>(infovar[,<span class="dv">2</span>])),<span class="dt">nrow=</span><span class="dv">1</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">unlist</span>(infovalues) ) )</a>
+<a class="sourceLine" id="cb61-30" data-line-number="30"><span class="co"># 2: mass values</span></a>
+<a class="sourceLine" id="cb61-31" data-line-number="31">  init_spec &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb61-32" data-line-number="32"><span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>)))</a>
+<a class="sourceLine" id="cb61-33" data-line-number="33"><span class="co"># 3: info on variables</span></a>
+<a class="sourceLine" id="cb61-34" data-line-number="34">  init_info &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">as.vector</span>(infovar), <span class="dt">ncol =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb61-35" data-line-number="35"><span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )</a>
+<a class="sourceLine" id="cb61-36" data-line-number="36"><span class="co"># 4: the relation</span></a>
+<a class="sourceLine" id="cb61-37" data-line-number="37">  relRef &lt;-<span class="st"> </span><span class="kw">bcaRel</span>(<span class="dt">tt =</span> init_tt, <span class="dt">spec =</span> init_spec,</a>
+<a class="sourceLine" id="cb61-38" data-line-number="38"><span class="dt">infovar =</span> init_info, <span class="dt">infovarnames =</span> <span class="kw">names</span>(infovalues), <span class="dt">relnb =</span> <span class="dv">15</span>)</a>
+<a class="sourceLine" id="cb61-39" data-line-number="39"><span class="co"># extend the relations </span></a>
+<a class="sourceLine" id="cb61-40" data-line-number="40">  captain_data_names6[rels_nb[<span class="dv">1</span>]] <span class="co"># &quot; rel&quot;</span></a>
+<a class="sourceLine" id="cb61-41" data-line-number="41">  rel_ext &lt;-<span class="st"> </span><span class="kw">extmin</span>(<span class="kw">get</span>(captain_data_names6[rels_nb[<span class="dv">1</span>]]), relRef) ## no need to extend. make a check on this case in an algorith.</a>
+<a class="sourceLine" id="cb61-42" data-line-number="42">  captain_data_names6[rels_nb[<span class="dv">2</span>]] <span class="co"># rel_14</span></a>
+<a class="sourceLine" id="cb61-43" data-line-number="43">  rel_<span class="dv">14</span>_ext &lt;-<span class="st"> </span><span class="kw">extmin</span>(<span class="kw">get</span>(captain_data_names6[rels_nb[<span class="dv">2</span>]]), relRef)   </a>
+<a class="sourceLine" id="cb61-44" data-line-number="44"><span class="co">#</span></a>
+<a class="sourceLine" id="cb61-45" data-line-number="45"><span class="co"># 3: combine the relations</span></a>
+<a class="sourceLine" id="cb61-46" data-line-number="46"><span class="co"># combine extended relations</span></a>
+<a class="sourceLine" id="cb61-47" data-line-number="47">  rel_comb &lt;-<span class="st"> </span><span class="kw">nzdsr</span>(<span class="kw">dsrwon</span>(rel_ext,rel_<span class="dv">14</span>_ext, <span class="dt">relnb =</span> <span class="dv">15</span>) )</a>
+<a class="sourceLine" id="cb61-48" data-line-number="48">}</a>
+<a class="sourceLine" id="cb61-49" data-line-number="49"><span class="co"># 4 eliminate the variable &quot;Sailing&quot; (3)</span></a>
+<a class="sourceLine" id="cb61-50" data-line-number="50">rel_<span class="dv">15</span> &lt;-<span class="st"> </span><span class="kw">elim</span>(rel_<span class="dv">14</span>, <span class="dt">xnb =</span> <span class="kw">order</span>(elim_order)[<span class="dv">7</span>])</a>
+<a class="sourceLine" id="cb61-51" data-line-number="51"><span class="kw">bcaPrint</span>(rel_<span class="dv">15</span>)</a></code></pre></div>
+<pre><code>##                   rel_15 specnb    mass
+## 1                      5      1       0
+## 2                  frame      2       0
+## 3                      3      3 0.02304
+## 4                  5 + 3      4       0
+## 5                      4      5 0.00864
+## 6                      2      6 0.04032
+## 7                  4 + 2      7 0.00864
+## 8                      1      8 0.06912
+## 9                  3 + 1      9 0.02304
+## 10                 5 + 4     10       0
+## 11                 3 + 2     11  0.0612
+## 12         5 + 4 + 3 + 2     12   0.006
+## 13                 4 + 3     13 0.03384
+## 14                 2 + 1     14 0.11592
+## 15         4 + 3 + 2 + 1     15 0.07192
+## 16     5 + 4 + 3 + 2 + 1     16    0.01
+## 17             5 + 4 + 3     17       0
+## 18             4 + 3 + 2     18 0.02736
+## 19             3 + 2 + 1     19 0.04176
+## 20         3 + 2 + 1 + 0     20 0.10416
+## 21     4 + 3 + 2 + 1 + 0     21  0.0436
+## 22 5 + 4 + 3 + 2 + 1 + 0     22   0.004
+## 23                     0     23  0.0432
+## 24                 2 + 0     24  0.0144
+## 25                 1 + 0     25 0.15768
+## 26             2 + 1 + 0     26 0.09216
+## 27         6 + 5 + 4 + 3     27       0
+## 28     6 + 5 + 4 + 3 + 2     28       0
+## 29 6 + 5 + 4 + 3 + 2 + 1     29       0</code></pre>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="kw">belplau</span>(rel_<span class="dv">15</span>)</a></code></pre></div>
+<pre><code>##                        Belief Plausibility Plty Ratio
+## 5                     0.00000      0.02000  0.0200000
+## frame                 1.00000      1.00000        Inf
+## 3                     0.02304      0.44992  0.4605306
+## 5 + 3                 0.02304      0.44992  0.4605306
+## 4                     0.00864      0.21400  0.2158651
+## 2                     0.04032      0.64144  0.6683895
+## 4 + 2                 0.05760      0.68392  0.7257216
+## 1                     0.06912      0.73336  0.7878137
+## 3 + 1                 0.11520      0.88480  1.0000000
+## 5 + 4                 0.00864      0.21400  0.2158651
+## 3 + 2                 0.12456      0.72136  0.8239971
+## 5 + 4 + 3 + 2         0.20904      0.73000  0.9229291
+## 4 + 3                 0.06552      0.46720  0.4999572
+## 2 + 1                 0.22536      0.89128  1.1505732
+## 4 + 3 + 2 + 1         0.52480      0.95680  2.0134680
+## 5 + 4 + 3 + 2 + 1     0.54080      0.95680  2.0836237
+## 5 + 4 + 3             0.06552      0.46720  0.4999572
+## 4 + 3 + 2             0.20304      0.73000  0.9159807
+## 3 + 2 + 1             0.37440      0.94816  1.5156010
+## 3 + 2 + 1 + 0         0.78600      0.99136  4.6325234
+## 4 + 3 + 2 + 1 + 0     0.98000      1.00000 50.0000000
+## 5 + 4 + 3 + 2 + 1 + 0 1.00000      1.00000        Inf
+## 0                     0.04320      0.45920  0.4799331
+## 2 + 0                 0.09792      0.84232  0.9337531
+## 1 + 0                 0.27000      0.79096  1.0835068
+## 2 + 1 + 0             0.53280      0.93448  2.0001712
+## 6 + 5 + 4 + 3         0.06552      0.46720  0.4999572
+## 6 + 5 + 4 + 3 + 2     0.20904      0.73000  0.9229291
+## 6 + 5 + 4 + 3 + 2 + 1 0.54080      0.95680  2.0836237</code></pre>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Almond, R. G. (1989). Fusion and Propagation in Graphical Belief Models: An Implementation and an Example. Ph.D. dissertation and Harvard University, Department of Statistics Technical Report S-130, pp 210-214.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>P. P. Shenoy. Valuation-Based Systems. Third School on Belief Functions and Their Applications, Stella Plage, France. September 30, 2015.<a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>Csardi G, Nepusz T: The igraph software package for complex network research, InterJournal, Complex Systems 1695. 2006. <a href="http://igraph.org" class="uri">http://igraph.org</a><a href="#fnref3" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

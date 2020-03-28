@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Claude Boivin, Stat.ASSQ" />
+
+<meta name="date" content="2020-01-19" />
+
+<title>Using dst Package on Zadeh’s Example</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Using dst Package on Zadeh’s Example</h1>
+<h4 class="author">Claude Boivin, Stat.ASSQ</h4>
+<h4 class="date">2020-01-19</h4>
+
+
+
+<p>The criticism of Dempster-Shafer Theory (DST) by L. A. Zadeh <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> has generated a lot of discussions and articles on the subject of conflicting evidence. In 2005, R. Haenni <a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> showed that the surprising result obtained by applying Dempster’s rule to Zadeh’s example was more due to the modelling of the situation than Dempster’s rule not working. I add my grain of salt to the debate on Zadeh’s example by showing a formulation of the problem as a small belief network and using Dempster’s rule of combination to obtain a realistic result. This belief network gives the same results as the combination of the two evidences with the disjunctive rule of combination <a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>. At the same time, I show how to use my <em>R</em> package <em>dst</em> <a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> to do calculations on a belief network.</p>
+<div id="zadehs-example" class="section level2">
+<h2>Zadeh’s Example</h2>
+<p>We suppose that a patient is examined by two doctors, A and B. A’s diagnosis is that P has either meningitis (M), with probability 0.99, or brain tumor (T), with probability 0.01. B agrees with A that the probability of a brain tumor is 0.01, but believes that it is the probability of concussion (C) rather than meningitis that is 0.99.</p>
+<p>Zadeh considers the same space of diseases {M, T, C} for the two experts. Hence, after the combination of the two pieces of evidence by Dempster’s rule, we find as a result that the belief of a brain tumor is certain.</p>
+<pre><code>#&gt; Diagnosis of Expert 1
+#&gt;   ZExpert1 specnb mass
+#&gt; 1        M      1 0.99
+#&gt; 2        T      2 0.01
+#&gt; 3    frame      3    0
+#&gt; Diagnosis of Expert 2
+#&gt;   ZExpert2 specnb mass
+#&gt; 1        T      1 0.01
+#&gt; 2        C      2 0.99
+#&gt; 3    frame      3    0
+#&gt; Combination of the two experts by Dempster's rule
+#&gt; $mbp
+#&gt;       M T C mass Belief Plausibility    Plty Ratio
+#&gt; T     0 1 0    1      1            1 -9.079838e+12
+#&gt; C     0 0 1    0      0            0  0.000000e+00
+#&gt; M     1 0 0    0      0            0  0.000000e+00
+#&gt; frame 1 1 1    0      1            1 -9.079838e+12
+#&gt; 
+#&gt; $Conflict
+#&gt; [1] 0.9999</code></pre>
+<p>Indeed, the result does not reflect the opinions of the two experts. Before rejecting Dempster’s rule as inappropriate to this situation, let’s look more closely at the problem at hand.</p>
+</div>
+<div id="a-correct-solution-using-dempsters-rule-of-combination" class="section level1">
+<h1>A correct solution using Dempster’s rule of combination</h1>
+<div id="diagnosis-of-the-two-experts" class="section level2">
+<h2>Diagnosis of the two experts</h2>
+<p>Let’s take <em>Expert one</em>. <em>Expert one</em> distributes the whole mass between the two singletons {M} and {T}. <em>Expert one</em> does not consider {C} as a possibility. Hence we conclude that the Fod of <em>Expert one</em> cannot be {M, T, C}. We say that <em>Expert one</em> has restricted the space of possibilities of his/her diagnostic to the Fod {M, T}:</p>
+<p><span class="math inline">\(Fod(D1) = \{M, T\}\)</span>. For simplicity, we write <span class="math inline">\(D1 =\{M, T\}\)</span>.</p>
+<p>The same line of reasoning is applied to <em>Expert two</em>. The whole mass of one is allotted to the set {T, C}, and the third possibility (M) is not considered at all. Hence <span class="math inline">\(D2 = \{T, C\}\)</span>.</p>
+<p>I show the coding of these two pieces of evidence with the function <em>bca</em> of the package <em>dst</em>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># attach package dst</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">library</span>(dst)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co"># Diagnosis from first expert (function e1 attached to variable D1)</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">e1 &lt;-<span class="st"> </span><span class="kw">bca</span>(<span class="dt">f=</span> <span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">byrow=</span><span class="ot">TRUE</span>), <span class="dt">m=</span> <span class="kw">c</span>(<span class="fl">0.99</span>, <span class="fl">0.01</span>, <span class="dv">0</span>), <span class="dt">cnames =</span><span class="kw">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;T&quot;</span>), <span class="dt">infovarnames =</span> <span class="st">&quot;D1&quot;</span>, <span class="dt">varnb =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co"># show the definition of e1</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co"># &quot;Diagnosis of Expert 1 (function e1 attached to variable D1)&quot;</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="kw">bcaPrint</span>(e1)</a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt;      e1 specnb mass</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; 1     M      1 0.99</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; 2     T      2 0.01</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; 3 frame      3    0</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co"># Diagnosis from second expert (function e2 attached to variable D2)</span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">e2 &lt;-<span class="st"> </span><span class="kw">bca</span>(<span class="dt">f=</span> <span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">byrow=</span><span class="ot">TRUE</span>), <span class="dt">m=</span> <span class="kw">c</span>(<span class="fl">0.99</span>, <span class="fl">0.01</span>, <span class="dv">0</span>), <span class="dt">cnames =</span><span class="kw">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;T&quot;</span>), <span class="dt">infovarnames =</span> <span class="st">&quot;D2&quot;</span>, <span class="dt">varnb =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#</span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co"># show the definition of e2</span></a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co"># &quot;Diagnosis of Expert 2 (function e2 attached to variable D2)&quot;</span></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="kw">bcaPrint</span>(e2)</a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt;      e2 specnb mass</span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; 1     C      1 0.99</span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; 2     T      2 0.01</span></a>
+<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; 3 frame      3    0</span></a></code></pre></div>
+</div>
+<div id="linking-the-experts-to-the-patient" class="section level2">
+<h2>Linking the Experts to… the Patient</h2>
+<p>The two experts are reasoning in two different spaces of possibilities. To be able to combine their diagnosis, we need a common ground. This can be done if we introduce a third person, the patient, with a variable of interest, his/her disease (D). Then it is natural to take the union of the Fod of <em>Expert one</em> and <em>Expert two</em> as the Fod of the patient:</p>
+<p><span class="math inline">\(D = \{M, T\} \cup \{C, T\} = \{M, T, C\}\)</span>.</p>
+<p>Hence, the patients’ evaluation of his/her disease involves the disjunction of the evidences of the two experts.This situation is described by a relation of implication between experts and patient:</p>
+<p>r1: <span class="math inline">\(D1 \cup D2 \rightarrow D\)</span>.</p>
+<p>The relation <em>r1</em> is represented in the product space <span class="math inline">\(\prod(D1, D2, D)\)</span> by one focal set of mass one:</p>
+<p><span class="math inline">\(m(M C M + M C C + M T M + M T T + T C T + T C C + T T T) = 1\)</span> (for simplicity, the “+” sign is used as the <span class="math inline">\(\vee\)</span> disjunctive operator in the functions of the package dst). Now I use the function <em>bcaRel</em> to code this relation.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># 1. Defining the relation with a (0,1) matrix</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">tt_r1 &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">ncol =</span> <span class="dv">7</span>,<span class="dt">byrow =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">colnames</span>(tt_r1) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;M&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;C&quot;</span>)</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co"># 2. Setting the mass function</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">spec_r1 =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">7</span>),<span class="dv">2</span>, <span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">7</span>), <span class="dv">0</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>))) </a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co"># 3. Names of variables names and dimension of their Fod</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">info_r1 =<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )</a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#  The relation between e1, e2 and a patient p</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12">r1 &lt;-<span class="kw">bcaRel</span>(<span class="dt">tt =</span> tt_r1, <span class="dt">spec =</span> spec_r1, <span class="dt">infovar =</span> info_r1, <span class="dt">infovarnames =</span> <span class="kw">c</span>(<span class="st">&quot;D1&quot;</span>, <span class="st">&quot;D2&quot;</span>, <span class="st">&quot;D&quot;</span>), <span class="dt">relnb =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co"># show the relation</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co"># &quot;Relation between Experts and patient defined in the product space D1 x D2 x D&quot;</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="kw">bcaPrint</span>(r1)</a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt;                                                      r1 specnb mass</span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">#&gt; 1 M C M + M C C + M T M + M T T + T C T + T C C + T T T      1    1</span></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt; 2                                                 frame      2    0</span></a></code></pre></div>
+</div>
+<div id="the-belief-network-for-this-situation" class="section level2">
+<h2>The belief network for this situation</h2>
+<p>We now have all the elements of a small network made of one relation (r1) between three variables: Disease (D), Diagnosis1 (D1), Diagnosis2 (D2), and two pieces of evidence coming from <em>Expert one</em> (e1) and <em>Expert two</em> (e2).</p>
+<p>The three variables are the nodes of the graph: Disease (D), Diagnosis1 (D1), Diagnosis2 (D2). The edges (hyperedges) are given by the relation r1 and the two pieces of evidence (<em>Expert one</em> and <em>Expert two</em>). Using the igraph package, <a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> a bipartite graph corresponding to the hypergraph is obtained.</p>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAYAAAAUg66AAAAEDWlDQ1BJQ0MgUHJvZmlsZQAAOI2NVV1oHFUUPrtzZyMkzlNsNIV0qD8NJQ2TVjShtLp/3d02bpZJNtoi6GT27s6Yyc44M7v9oU9FUHwx6psUxL+3gCAo9Q/bPrQvlQol2tQgKD60+INQ6Ium65k7M5lpurHeZe58853vnnvuuWfvBei5qliWkRQBFpquLRcy4nOHj4g9K5CEh6AXBqFXUR0rXalMAjZPC3e1W99Dwntf2dXd/p+tt0YdFSBxH2Kz5qgLiI8B8KdVy3YBevqRHz/qWh72Yui3MUDEL3q44WPXw3M+fo1pZuQs4tOIBVVTaoiXEI/MxfhGDPsxsNZfoE1q66ro5aJim3XdoLFw72H+n23BaIXzbcOnz5mfPoTvYVz7KzUl5+FRxEuqkp9G/Ajia219thzg25abkRE/BpDc3pqvphHvRFys2weqvp+krbWKIX7nhDbzLOItiM8358pTwdirqpPFnMF2xLc1WvLyOwTAibpbmvHHcvttU57y5+XqNZrLe3lE/Pq8eUj2fXKfOe3pfOjzhJYtB/yll5SDFcSDiH+hRkH25+L+sdxKEAMZahrlSX8ukqMOWy/jXW2m6M9LDBc31B9LFuv6gVKg/0Szi3KAr1kGq1GMjU/aLbnq6/lRxc4XfJ98hTargX++DbMJBSiYMIe9Ck1YAxFkKEAG3xbYaKmDDgYyFK0UGYpfoWYXG+fAPPI6tJnNwb7ClP7IyF+D+bjOtCpkhz6CFrIa/I6sFtNl8auFXGMTP34sNwI/JhkgEtmDz14ySfaRcTIBInmKPE32kxyyE2Tv+thKbEVePDfW/byMM1Kmm0XdObS7oGD/MypMXFPXrCwOtoYjyyn7BV29/MZfsVzpLDdRtuIZnbpXzvlf+ev8MvYr/Gqk4H/kV/G3csdazLuyTMPsbFhzd1UabQbjFvDRmcWJxR3zcfHkVw9GfpbJmeev9F08WW8uDkaslwX6avlWGU6NRKz0g/SHtCy9J30o/ca9zX3Kfc19zn3BXQKRO8ud477hLnAfc1/G9mrzGlrfexZ5GLdn6ZZrrEohI2wVHhZywjbhUWEy8icMCGNCUdiBlq3r+xafL549HQ5jH+an+1y+LlYBifuxAvRN/lVVVOlwlCkdVm9NOL5BE4wkQ2SMlDZU97hX86EilU/lUmkQUztTE6mx1EEPh7OmdqBtAvv8HdWpbrJS6tJj3n0CWdM6busNzRV3S9KTYhqvNiqWmuroiKgYhshMjmhTh9ptWhsF7970j/SbMrsPE1suR5z7DMC+P/Hs+y7ijrQAlhyAgccjbhjPygfeBTjzhNqy28EdkUh8C+DU9+z2v/oyeH791OncxHOs5y2AtTc7nb/f73TWPkD/qwBnjX8BoJ98VVBg/m8AACc7SURBVHgB7Z0HfFRV2sbfNAgQAkiVXu0KVtC1ALqKoq6KDXXtvXd3dT91bZ+9LPa62LAson6iqIiCiquogIiFKoSAdIiUhCTc730OnvFmMpOclJt7M3nO75fMnXtP/Z/3PKfOTJqnTuhIgARIIAQC6SGkySRJgARIwBCgANEQSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiNAAQoNPRMmARKgANEGSIAEQiOQGVrKTJgEAiCwYsUK+eyzz6S0tFQGDBggnTp1CiAVRllbBDgCqi2SjCd0Avffd4/06tFFHr31LHn6znOlc+fOcvklF4aeL2YgOQGOgJKz4ZN6ROCpp16Wq68ZLWcfsKf0ar9BmjQqlusO3iyD7nhMmuU0l9v/9656VJqGk9U0T13DKS5LmooEMN3q1rm97NBmgIyfuZPMvuchmTKvk1w0cqjccuy7csPofMlbvFSaN2+eisWv12XiFKxeVx8zDwJr166V9evXS8dWJZKe5km6WnX/3vk6Elold/3fn6Vb+2z5+eefCSuCBChAEawUZqlqBLKzs2VTcal4m8uG660ClLeqhawqSJecnJyyD/kuEgQoQJGoBmaiJgQgQP367ixTF5ZVoJLSdB0Rlcqi5aulV69eNUmCYQMiQAEKCCyjrTsC6TrnevnVN2RGniebVYOWF3iyap0nn/zYQTZ702Tu3NmSlZVVdxliSs4EuAvmjIoeo0wgK6uV9Os3VKZNWyoH3r27TsnaSNcuG2XsR3dKz549o5z1Bp037oI16OpPrcJPnTrVLEgPHDgwtQqWwqXhFCyFK7chFQ1b8TNmzJC+ffs2pGLX+7JSgOp9FbIAIIBt9nbt2kmrVq0IpB4RoADVo8piVhMTwFna6dOn6xpQv8QeeDeyBLgIHdmqqTxjxxw5RN55b7zkNm9SuWf1UVqaK0WbtpHMzGXSKGth0jCNGmXLLwvzpVGjRkn9ROnB/PnzpWnTptKhQ4coZYt5cSBAAXKAFFUv06ZNlbevyJDWOcWVZnHjpkx5YFw/yV/dQj+mMEBevXik9Gi7KmG4wXcWmZPF9UWApk2bJrvttlvCsvBmtAlQgKJdPxXmDudfsjJE2jRPS+hv2oIOMn95Sxm0/XzJVo/3nzxBivVwXt/rL1Ahaid79lydMBzirS8uPz9fSkpKpFu3bvUly8ynj0D9sTRfpnlZOYF3p/WRJz/eXTq0WCeXvnCYtM3dYALNWtJa2jbfIIN3+CVpJFhTWbJkSdLnUXqAtR/sfKWlJRbhKOWVeSlPgAJUnklK3Bk7bRsp2NhY5i1vpSOkLeKDgr3x9fbyzDlvSfPsoqTlRFueOHGizJ49O6mfKDzAl4+tWrVK+vTpE4XsMA/VIEABqga0+hCkc2v9hHhRlpzQ/3u57diPTJZHftpXurVZa6ZlD3+4VwXFSJMhQ4bIlClT5JtvvqnAX7iPMPrZZZdd9NPvNONwa6L6qfMkdPXZhR6ye9eOsnb1Smm/VXa5vBQVt5T85YdJRnqhtGo+Q6coJbJ4xRD1t2Wq0jr3a2nT8qty4XDj54UFsm7dOtOwx40bJy1btpT9999fMjJ0wSkirqCgQMaMGSMnnXQSP+cVkTqpTjYoQNWhFpEw+B6cvLy8pLnBWs66dcX6RVxV205v06ZNbEsbC7wTJkyQoqIiOfjgg6Vx48Ymvfvuu1deGvmULFy0RLp37SQXXnqNnHnmmUnzUtsP8L3P2KXba6+KRnK1nSrjq20CFKDaJpqC8UHI3nnnE3nllRnSo0cf+eH7T2Xs2Lfk8dPzZacuhfLTks1y6uPpcvjQa+Soo4+UU07ZVYUquA3WwsJCzcsrcvzxx5vzPymIvMEUiZPnBlPV1S8odpiOOGKQjoKaye23T5Qxb/2vPHtOoVw96jT5eUlX2XebDDl30N4y/sMZct55Y+TZZ7+ufmIOIb///nvz/T44fEhXvwlQgOp3/dVp7jt1aqdrSSJ3n5gp+/RZbL7y9PrXDpKi4gy58KCp+jdOf4miVL79Nj+wfBUXF8vMmTP5odPACNdtxBSguuWdEqm1bLZlIdt+5WlhcabkNimS3GxPViz3dBTUP7By/vTTT+a3vnJzcwNLgxHXHQEKUN2xTpGU0uTzOVu+XRBfeZqVUSpNG2/5KMgzk3aR/gPW6ygomPWfzfp1h/zQaYqY0e/FoAClVn0GXpr09DQZOXGDPPxhiUxbsLUM33uGitBmOeeZtpK3orkMG3aknHbaC/LxxxPNzlltZmjOnDnmSAB26ehSgwAFKDXqMfBSLF5cIF98sVA/Ue/JLbeMlfvf+7P8VjxXCr0vZehDbeXjH4/VPPSXiy76RD/ImqNb5Jny2muvCUSjthw+dMqv3KgtmtGIh9vw0aiHepeL3377TT7//HNZtGiR+SAoDiraM0K2MMuWLZNJkyZJkyZNZL/99pOarNssXLjQnMweNmyYjZ6vKUCAApQClRjlImDdBtvm+L5mfGwCHxy1H50Y8eDdMmLECGmRW/lvdhVu3CiZ+ssWmZmVry/l5OTK2Pc/5hmhKBvG73mjANWDSkqFLGLEhNPLeMVoCV8etteu28v5e8yVlk237Kq5lHNGXhfjbecuyU+AX/Jypkz47FvZdtttXaKknxAJVN6dhJg5Jp06BPC77IceeqjMmzdPxo8fL127dpX0DP3F0uw02bV75UuROGv0jn7C/+Yxh8h1h3+qYZKfNcrW9Se6+kGg8pqvH+VgLusJAfxGFz5CgWnYhvV/fE1IfPbHz+whz3/WV37IbyujvthJGmeVyrA9f5RGmSXxXsu99/Q3mvErGXTRJ0ABin4dpVwO8SHSfffdVxeny3+K3xZ2kx5uvPmNQTLhhx7y3vQ+5hdP8QwnsSubsJXqulN9+UI1W96G+sqxakOt+QiUOz09+dd7ZOrZIrgz9p8qF/858deGJCtCuqrU6tWJv242WRjeD4cABSgc7kxVCRRuKpErRons2LX8SGjZmi2nrS8b1bjM9xAV6wxs9LdZ8k1++TAW6i+/rpENG5JP76w/voZPgAIUfh002Bx88NGnMnny5ITlHzUqT6bPz5cBh9+t3/mzlRQXb5aPPlouH07Vn+Bpe4gcc+75svXWiUXoBv0CNZxPoos+AW7DR7+OmMNqEHjuuedk+PDhkp2dWKSqESWDBECAi9ABQGWU4RPA58XwpfV00SZAAYp2/TB31STQunVrWblyZTVDM1hdEaAA1RVpplOnBDgCqlPc1U6MAlRtdAwYZQIQII6AolxDW/JGAYp+HTGH1SCAnxLCTwvhK1zpokuAAhTdumHOakAAH/WACOGXU+miS4ACFN26Yc5qSIDrQDUEWAfBKUB1AJlJhEOA60DhcK9KqhSgqtCi33pFAFvxPAsU7SqjAEW7fpi7GhCAAOFDqfhWRrpoEqAARbNemKtaIICvb8UXofGT8bUAM6AoKEABgWW00SDAheho1EOyXFCAkpHh/ZQgwIXoaFcjBSja9cPc1ZAAF6JrCDDg4BSggAEz+nAJ2BGQ53nhZoSpJyRAAUqIhTdThQB+LBF/BQUFqVKklCoHBSilqpOFSUTAjoISPeO9cAlQgMLlz9TrgADXgeoAcjWToABVExyD1R8C3IqPbl1RgKJbN8xZLRHACAjfDbRp0ybzZfVFRUXCRelaglvDaChANQTI4NEn0LRpUxn10vPSqkVz83v0LVvkyFFHHsZfT41A1fFXMSJQCcxC7RNYvLhAXnppmhQVlcgLI0fI3Hmz5P1rF0vPdoWycZMn149Ok+lLe8v/3PS0nHlm/9rPAGN0IsARkBMmeqpvBDp2zJVZs5bLjTd+KLPmvCkvnl8kx484VT6f1UWaNEqT4/boLIsXD5R77323vhUtpfJLAUqp6mRh/ASaNm2kbz25emiW9O+dL73ar5LrXzvIeNmnzyLp3X65rFi+zB+E13VMgAJUx8CZXN0TyEzbcgq6twpQ3qoWsnZDY5OJ9DR98fhVHXVfI3+kSAH6gwWvUpBAWlqaTJiTY0pWUpouWRml0rTxli+qn6+/W9iqddsULHX9KRIFqP7UFXNaDQJpaen6W/LbSs8rC2Xqgg4yfO8ZkpFWKhc/XyrrCz3p3r1HNWJlkNoiQAGqLZKMJ1IEsAv2xRcLdat9sxw17D5p1/ZUmbP0R/k2f4rsdWu6/LR6gLRps5P88MMymTx5QaTy3pAyw234hlTbDbysOIy4YMEC6dixo0yaNEkGDx6sItSmgVMJt/iZ4SbP1Emg7gjgRDT+4HJzc80PF1KA6o5/opQ4BUtEhfdSnkCzZs1k/fr1KV/OqBeQAhT1GmL+AiFAAQoEa5UjpQBVGRkDpAKBnJwcjoAiUJEUoAhUArNQ9wQwAlq3bl3dJ8wUyxCgAJXBwTcNhQCnYNGoaQpQNOqBuahjApyC1THwJMlRgJKA4e3UJoBfTc3IyJDCwsLULmjES0cBingFMXvBEeAoKDi2rjFTgFxJ0V/KEeA6UPhVSgEKvw6Yg5AIcCcsJPC+ZClAPhi8bFgEOAIKv74pQOHXAXMQEgGuAYUE3pcsBcgHg5cNiwCnYOHXNwUo/DpgDkIiwClYSOB9yfL7gHwweNmwCBQXF8uDDzwgeQvnC84F1abr2KmzXHHl1easUW3Gm2pxUYBSrUZZnioR2HPXHWS3VrOkdQ6+od7NrVzXSpas6SA7df4xaYDRUxvLYyPfNl96ltQTH0jtyj6BkkA9I9C4USPZuUu6DO2X4ZTzybM7y1UvD5Httl4u5wyanTTMxHn4SSC6yghwDagyQnye0gQyMisWnkWrcuWNKdvL3KWtDAf8nti2W+vPadDVCgEKUK1gZCT1lUDbNsl/lmdZQVMZ9tAJMnTXWTL8kWNlXWGWKWaa/tih/toPXS0QoADVAkRGkZoExn3XR4XGk/em95b9t1sgywqapWZBQywV14BChM+kwydQXFIi0xdulkWrtvx6qj9Hc5eukpXrsmX+snn6M84z5d3pmfrDhiWycKUIRkFPTCjxey9zPXnm6jLv+SYxAe6CJebCuw2EQF5enjxw3z0Jt8s36682vz46S9asSZd+fUtk991KZdGidHl3XJak69zhiMM3SaeO5YUL6DrpNvyll1+h/jjJqMiUKEAV0eEzElACa9ZslJYtm5BFAAQoQAFAZZQkQAJuBDg+dONEXyRAAgEQoAAFAJVRkgAJuBGgALlxoi8SIIEACFCAAoDKKEmABNwIUIDcONEXCZBAAAQoQAFAZZQkQAJuBChAbpzoiwRIIAACFKAAoDJKEiABNwIUIDdO9EUCJBAAAQpQAFAZJQmQgBsBCpAbJ/oiARIIgAAFKACojJIESMCNAAXIjRN9kQAJBECAAhQAVEZJAiTgRoAC5MaJvkiABAIgQAEKACqjJAEScCNAAXLjRF8kQAIBEKAABQCVUZIACbgRoAC5caIvEiCBAAhQgAKAyihJgATcCFCA3DjRFwmQQAAEKEABQGWUJEACbgQoQG6c6IsESCAAAhSgAKAyShIgATcCFCA3TvRFAiQQAAEKUABQGSUJkIAbAQqQGyf6IgESCIAABSgAqIySBEjAjQAFyI0TfZEACQRAgAIUAFRGSQIk4EaAAuTGib5IgAQCIEABCgAqoyQBEnAjQAFy40RfJEACARCgAAUAlVGSAAm4EaAAuXGiLxIggQAIUIACgMooSYAE3AhQgNw40RcJkEAABChAAUBllCRAAm4EKEBunOiLBEggAAIUoACgMkoSIAE3AhQgN070RQIkEAABClAAUBklCZCAGwEKkBsn+iIBEgiAAAUoAKiMkgRIwI0ABciNE32RAAkEQIACFABURkkCJOBGgALkxom+SIAEAiBAAQoAKqMkARJwI0ABcuNEXyRAAgEQoAAFAJVRkgAJuBGgALlxoi8SIIEACFCAAoDKKEmABNwIUIDcONEXCZBAAAQoQAFAZZQkQAJuBChAbpzoiwRIIAACFKAAoDJKEiABNwIUIDdO9EUCJBAAAQpQAFAZJQmQgBsBCpAbJ/oiARIIgAAFKACojJIESMCNAAXIjRN9kQAJBECAAhQAVEZJAiTgRoAC5MaJvkiABAIgQAEKACqjJAEScCNAAXLjRF8kQAIBEKAABQCVUZIACbgRoAC5caIvEiCBAAhQgAKAyihJgATcCFCA3DjRFwmQQAAEKEABQGWUJEACbgQoQG6c6IsESCAAAhSgAKAyShIgATcCFCA3TvRFAiQQAAEKUABQGSUJkIAbAQqQGyf6IgESCIAABSgAqIySBEjAjQAFyI0TfZEACQRAgAIUAFRGSQIk4EaAAuTGib5IgAQCIEABCgAqoyQBEnAjQAFy40RfJEACARCgAAUAlVGSAAm4EaAAuXGiLxIggQAIUIACgMooSYAE3AhQgNw40RcJkEAABChAAUBllCRAAm4EKEBunOiLBEggAAIUoACgMkoSIAE3AhQgN070RQIkEAABClANoP7222+ycOHCGsQQfNC8vDz59ddfg08oginMnDlTPM9zyllxcbHMnTtXUKd0dUegQQvQ+++/L2lpafLLL79Ui/ill14qn3zyiQl7yy23mLgQn/3r2rWrHHrooTJt2rQqx9+4cWMZMWKECffhhx+aOOfNm+ccD4Sne/fugjzsuuuuzuGq4/HLL7+Uzz77rDpBaxSmVatWctdddyWN4/bbb5fXXnst6XP74MUXX5QWLVpI79695YYbbrC3a/xaWloaswVrE/Gv06dPr1E6GRkZ8vjjjzvHcfbZZ8uee+5Zof+mTZvKX//61wr9JHu4evXqSsv81VdfxYJnxq54USUCM2bMEBjPs88+Wybcv//9b4FRoEddunSpvPTSS7L//vvLt99+awy8jGfHNx07dpRTTz1Vmjdv7hhC5Mknn5TFixcbgezZs6dzuKp6LCkpkb333ttw2HfffasaPFD/d9xxh+kAjjnmGMnKykqa1q233iq77767PPHEE9K+ffuk/qr6ID09XV544YVywcDsmmuuMTbSoUOHcs9T4cZJJ51k2CcqS69evWK3KUAxFFW7+Nvf/iYXXXSRUXt/SID3G/tZZ50lMLI33nhDrr32Wr9X5+sdd9xRRo4c6ewfHiF+CHfAAQdUKVxVPWOK4zrNqWrcNfWPEeBOO+1kRgiXXHJJ0uiWLVsmp512muywww5J/VTnAUY7p5xySrmg5557rqxYscLYRG0KXrmEqnkDedp6662rGXpLMAh6orLHR5p+0EEHyT333FPm/saNG02v9vbbb8sXX3whe+yxh0yZMsXca9OmjZxwwgmmR/cHWrdunVx44YVm2A8/Rx11lCxYsCDm5eabb5Ybb7zRNMJ27drJddddZ55h+oNhIXp5GMsrr7xiMv7UU0+Z5xja77PPPvLBBx9I586dTYNatWqVFBUVyd///nfZZZddpFmzZrLNNtvIZZddJhs2bIilicY3ZswYgSggT/vtt58899xzsef24ueffxZwaNmypfTv319Q7orcxIkTBdO3v/zlLxV5M89yc3OlUaNGZlTk9/zMM8+YqRFGNXvttVeFaWKKgzrIz8+PRVFRePT4KPesWbNMuNGjR8fC+S/AB+W4+OKLpUuXLubv6quvNj2z31+ytMB6wIABxivqF6M0jCIGDRrkDy6XX355uXuYvv7jH/8w/iCWp59+unTq1Enatm1ruGI9xrpkNmCf21fYMeoPo03rjj76aMEIB/YZ72bPnm34FBQUyKOPPhq7hr9PP/3UjFwxNevTp4+xV9icdRjtwU4w+kOP/t5779lHFb5ixAzbBmfkzTpMr1FvEE3YBBowRs9+h7Zy5plnmg4Nz9Em4h1G5gcffLBstdVWJt/XX399ufpEGEw7d955Z2ndurUceeSRZrRs44IQo/OCW7t2rZxxxhkmTcSJuv3vf/9rvVb7FQJsRszaQ3vdunXTTuwP95///MfLzMz0tGfwxo0bh1U8T0XDe+CBBzxd8/AOO+wwT8XA00hMoM2bN3vaiIwfFRlPe3tPpx2eGpO3cuVK40d7GE9FxtM1CU/nl54ai1dYWOjttttunoLwdK7u6VzWU6HwmjRp4v3zn/804d555x1PpzQmj8OHD/dU2Mz9448/3sR/9913e9rAvHPOOcfkE+lbp43fUwPyEG7SpEmertOYuN566y3jxZZNBczTIbGn0xZPK9bT9RdPjdNGU+5VRzKeGl6Z+8gvOGmFeSrgni5metqIvAsuuMCUSQ0s5h95Bl8VRu/NN9/0rrjiCk97Sw/crVPR8v71r3+Zt2poJm7EB1dZeMSp4uLp1Mt7/vnnPRVYEy7+H/hoo/dUmD0VDu/888836ei6SsxrRWnpNNNTQTdhwH/s2LGeirN5//3335s4dB3EU8M193766Sdzb9OmTZ42Mk8bo4drNXZPG56n01djB7pGYepNBdf4T2YD2mF4d955p/Hz2GOPeTrl8XSkaN7bf7omYdKeMGGCvRV71Y7M8IG9nXjiieZaRcb7+uuvjZ1owzT189BDD5n8wO6t03USY8+w8yOOOMLTdT77KOmrioOxbW14HthZt2bNGg9lwX0wUIHytNM1+UYYOOQLtqkdrvf66697jzzyiLEr2BzKDvfDDz+Y+LWzMvWCOkV7QtmsQ3uHbfXo0cN78MEHTTtTEfK0I7FevCVLlngq2OY92ir0AWkg3cGDB5vwtu3HAv1+AabI03333Rf/qNx72Jl8/PHHJoCqWszDscce6+niqXlvG+ltt90We44GpsM0T1Xc3Bs1apSJ491334350d7RQ8PWUYq5BwFCI/M3hocfftiEAzjrrEH7BQgF0gVF68Vbv369pwurRrBiN/UC93QkE7uFBta3b18PAmmdjrYMULy3ZdMe0j72pk6davKkI7HYvfgLGNzJJ59c5rYVIOQ1/s8KHgKgQSBf2quUCa+jSk8XQWP3kgmQa3iUE51CRQ75QGP3OxiiZeiSFgQE5UW9waFhQfSteIInBB2dDwQeDiIFW9DdOeMPHYyO1swz/EOnhXs6VTH3IEDxNoAHVoBQV/Bv4zeBfP8ggDrC8d0pewkO6BCtgyCjEfvtBqKAPOiGgPEGAULnCYF1cWjQ2223nemkrbDacDp68nQE7+mMwd4yHSDSs2VC56xTe083F2J+bLuzAqQjKA9igo7dOnRqiOebb74xtyBAYP/jjz9aL56Okgw/1GW8g/jYNoxnuq7oIQ7dYYz3at5bAUJngDqJ/4OwWqdrYV4mFkgxtcFuAYav2IbUnswsYmrGY05HEbHr7OxsGTJkiKhxmXsYrmKoiqHj5MmTY/608Zd5j7UQTJWsUygm7e23397ekkMOOSR27b/QHj32Fqv0dpiNBb05c+aYnSYFWGYKhgDItwKPhcXU8OmnnxZM46xTVbeXgjzn5OSUmT7GHv5+oT15meGz/7n2TGa6pcZrtr9V4E0eMI3RnsjkE0P+eDYY5r/66quyfPlyMw3xx+m/xo5aTcL748L1wIEDy9xCPjAlhXNJC9NWv9ORnZkC6IhDsO6CV9gV6l5HoaIjJTPtw5QSaw2Y2mNXBulah6E+pqV+W8Izvw1Yvx999JFZaAdbxJ3Iwb61wSV6VO6eNg7REZBgB81vN7B3OOQJ03U4TCGw0OzidHQpmPJh2oTlBr9D3JY52h/yimk34rZLCqgLTLtQFuuGDRtWJn3w/dOf/iRoV9ahXSIeTJtUMM1trO+oGFovphxYsF+0aJHoyCh2HxeoOx3NiI7SzNQYUzC0n8rc4YcfnrC+/GtLKk6SicyhkWLt5d577xXtrQ14NFS/8xcc97GOo9Mx4wVzU8wVscYS7zCntS4+DjRkFNDvkMFEuzbxYT///HPB/BZgseOEtSDM87U380dn1hX8N5BvOIiWdX4oMDqs2UDYEjkIC+bryRYP0Qj8i9A33XSTaZB4RSOx62JYF0nkwBLrIMlcTcPHx4u1Mb/D9j/KCOeSVr9+/fzBzTWOHlx55ZUmHgjwQBU5lMmuNWLdCesOcPPnzy9XR7gPscF6kt/F2wCe4YgC6h5rXogrvgHBD+rKX9+4l8xhPQproPEigbRhl9hZtA7rZi4ODRZrLhA1f2fnD6vTPHPsAralU0Kz7gkxxB8c1vPid8xgZ9aeIVRYV8G6VKI1TNiVdfFlQ53DJbJ5rFehU0EHqiMt074gphAsCEgyh/qDDVTmjHxjtRrnRrA/r/M8YxwYBfgdBMbvdJgcq2wsZOlQTXDuAcbr/wNQ6+IzDHg6zLePY69Q23jnD4vFWBg5xBP5RV7QQ2BRLd4lyjf8+EXO39PFh49/jzRhIDpPjn+U8D38w+hgQNhtQe8OB+H0c7LXlZ3RqGn4+ExWVPbqpoW6AXeMbjA6HqgChJ4ThzZxD6PXoUOHmqxAmPyjUZs/jARwLsfv/DZg7+t0QNAZIa+63mZvl3lFXWGjwsUhHtRZojyhg/NvISfKT3waWBTGgjvKi02TRA6NW9cBzcYNygL7x0AAzgoQ2leiPIETHGwSf1dddVVCu9K1POOvqv/QoWMxHG0MmxmYoSAuXQ+ualQJ/RsBQg+CHSgkgCEtdo3iHQzJOjQW7ATZ3g8r5ugtMWyEQeMP4BAPRlXJHHa30BCh3NZhiJsItH2OV+QF4LFzgZ4UB9Kg3qhsiKDfxR+Qw5QAuy3xPb8/TGXX6IkgKK4OZcJUBY0NrMAH0y3LCq84THbccceJzt8rjLam4SuMPO6hS1porHB+7uCDw4/o1TGawE4ZdlZQfhz0w3M7HUAamPL4OyLYF+wQdlmZw9QNnaUuqJqpXfzOEewQo5/40UOyeDH6RZzjx48v4wVnvtCBuOTJBoRgoU4xAtPNAFPf9pn/VddODR+0FeyqYWSDDhV5t1zR1rDk4e+ckSddDzVRwYbA2B68tLYFOz3wwAPNbrY/TZdr2CJ2ehEnGGOXDtcQYbv84hJPMj+wjS3Woz50UVWwfoHhmJ3v+gPi4BTmljAUTB/was9WnHfeeWY7D+diMPzDMBXnZDA6sfNlf1z2GkM5uw2ti21mu1QXeJNWlA2HeS56H5yNQQVgeKmL3EYEbYVYv8gDehgYAwQWZcR0qCYORpJMgJAWhq34QwNEebCmhq1uGAVGXjjGgO1YGByG/LprZbZlYUBYX6vI1TR8RXHHP3NJC/WAPGNtAx2QdbpjZEQWU2z0zCg7huWYMuEZ3sNZG8LJW3RiWAPDiAGjJRzPcHVYD4HdYiTh78AQDxoS6szVYWqPKd39999vRnLo2GBfEE2zdewYEcQWazsoL2zP2oX/FXaEdVgsR2C6iuUEHH1Be4Sza0B4j9EZtsTx0RqIavyaF9LDTAZ+dGPHiAS27cG0spF1oiKhXm2ngQ4BbR4Cj1lNovU4fxwYWPjL6b+GuMKZYxiqssZp5ZvVcRUTe8u82p0inc95miGzoq4NxdMMlfGH3Q7sQmm8Jh7sEGDl3jqtwDJbffa+FsbsuOkoxtPFaA8r+9iitbsSdgfEv/qPsNi5whYytrOxY6SGbLYVca0GaKLH7ga24LvrFi/yhS1J/za9LZuuHRj/9p9WdJldN3vfvr788ssmTRU1e8tsZyIN/x92abTH9FRoPB2hxfzq9MQ7/fTTTd7hX9egzDEC7Bxah3LYnaT4bXiX8K67YNhm9zuEww6QdS5p4RgB6kGN1QbzdNRnWKiRxe5h6xjlxTENv9MG58Gm8EyFyWzLo26sS2YDdhfM+tNGaWzUv8OoHaLZnk+2bYyw8btgOgIztgQ7RJ5g9zr1MMdSbFrYBVOBsm8TvmJXCuEr+sO2uzZsc7xEhdpw1NGap2tGJk27G40E0MbQrsAIO2KwZewu2l0w+MGuGewXaSI+nfqZYwV4BocdLH/94h7aMvyrGOJtGacC7qEcYA0/KDd2xXRkVsaffYO2V1F58Qw72jrVNPWCYZ5xOoowN/DA7/yNFNt7ulLuf1zuGjBxjsDFwWDiC40tdh3Wm/MQlcUBQ4GAJdo+RFgYlm1gENhk0CpLJ/45OOAcBc6H1MThbAfyj3JUx9U0fFXSrCwtiKdfkKsSt/WrPXWZRm7v1+QVDVhHAdWKAvUyXzsn1HddONh+fEebKF0cX4Dfihzs3d+hVeTX5Rk6UNhqbbUhmyamMObwnJ5iNb21fWBf/QJk79XWq+4OmHMCOnQ3UaKidapilBsAa+r8AlTTuOLD43wFRlb+A2Xxfvg+XALfffed6YRcO8Rwc9swU0/HWgTOCmBxCfO0unTYfcMaCbbvu+kqPxZqdUhqdgDwKe4oO6w5IM9YY6KLJgGssWHnyXUBOpqlSO1cpWHYi60/LFLFnw9A0bF4q8NQc3DJf76lNrHoKMzsbGFbHrsMOHdQGw7fB4M4sZAWhNMhqTm8hUVEuugRwNk2fN7KnnOJXg6ZozQM/IiBBEiABMIg8P//owD4P9H1ugAAAABJRU5ErkJggg==" /><!-- --></p>
+</div>
+<div id="calculations-on-the-belief-network" class="section level2">
+<h2>Calculations on the Belief Network</h2>
+<p>Our goal is the calculation of a belief function “p” attached to the variable of interest “D” (Disease of the patient). At the beginning of the process, this function is simply the vacuous specification:</p>
+<p><span class="math inline">\(p(\{M, T, C\}) = 1\)</span>.</p>
+<p>We proceed by successive elimination of variables until only the variable <em>D</em> remains, and the result of the function <em>p</em> is obtained.</p>
+<p>The calculations involved are following the principles of the valuation language of Shenoy <a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a>; see also <a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a>. The variables are linked to functions (called valuations). A function can be a piece of evidence attached to a variable or a relation between two or more variables.</p>
+<p>Three kinds of operations are involved in the calculations: a) the minimal (vacuous) extension of a mass function to a larger Fod; b) the combination of two mass functions by Dempster’s rule; c) the marginalization of a mass function, i.e. eliminating a variable to reduce the function to a smaller Fod. Let’s do it.</p>
+<p>First step: eliminate variable D1 (Diagnosis1). Using function <em>extmin</em>, we extend the mass function e1 to the space <span class="math inline">\(\prod(D1, D2, D)\)</span>; then we combine e1 extended with r1, using functions <em>dsrwon</em> and <em>nzdsr</em> (normalization); finally, we use function <em>elim</em> to eliminate D1 by marginalizing to <span class="math inline">\(\prod(D2, D)\)</span>. The mass function obtained is named rel_2.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># some settings to begin</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co"># variables numbers: D1=1, D2=2, D=3</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">N &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">3</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co"># Elimination order of the variables. The goal: Disease (variable 3)</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">elim_order &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">var_to_elim &lt;-<span class="st"> </span><span class="kw">rownames</span>(meddiag_hgm)[<span class="kw">order</span>(elim_order)]</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co"># 1: first step</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co"># &quot;first variable to eliminate&quot;</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="kw">cat</span>(var_to_elim[<span class="dv">1</span>]) <span class="co"># Diagnosis1 (1)</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; D1</span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12">irel_to_elim&lt;-<span class="st"> </span>meddiag_hgm[<span class="st">&quot;D1&quot;</span>,]<span class="op">*</span><span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(meddiag_hgm)</a>
+<a class="sourceLine" id="cb4-13" data-line-number="13">rels_nb &lt;-<span class="st"> </span>irel_to_elim[irel_to_elim<span class="op">&gt;</span><span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#</span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co"># 1 Fusion of Expert1 and Relation 1 and eliminate variable Diagnosis1</span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co"># 1.1 Extension of e1 (Expert1)</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17">Expert1_ext &lt;-<span class="st"> </span><span class="kw">extmin</span>(<span class="kw">get</span>(meddiag_data_names[<span class="dv">1</span>]), <span class="kw">get</span>(meddiag_data_names[<span class="dv">3</span>])) </a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co"># &quot;Evidence of Expert 1 extended to the product space D1 x D2 x D&quot;</span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="kw">bcaPrint</span>(Expert1_ext)</a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt;                                     Expert1_ext specnb mass</span></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; 1 M C M + M C T + M C C + M T M + M T T + M T C      1 0.99</span></a>
+<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt; 2 T C M + T C T + T C C + T T M + T T T + T T C      2 0.01</span></a>
+<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">#&gt; 3                                         frame      3    0</span></a>
+<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co">#</span></a>
+<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co"># 1.2 Combination of Expert1 and r1</span></a>
+<a class="sourceLine" id="cb4-26" data-line-number="26">r2 &lt;-<span class="st"> </span><span class="kw">nzdsr</span>(<span class="kw">dsrwon</span>(Expert1_ext, <span class="kw">get</span>(meddiag_data_names[<span class="dv">3</span>]), <span class="dt">relnb =</span> <span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">length</span>(meddiag_data_names)))</a>
+<a class="sourceLine" id="cb4-27" data-line-number="27"><span class="co"># &quot;Subsets resulting from the combination of Expert 1 extended and r1&quot;</span></a>
+<a class="sourceLine" id="cb4-28" data-line-number="28"><span class="kw">bcaPrint</span>(r2)</a>
+<a class="sourceLine" id="cb4-29" data-line-number="29"><span class="co">#&gt;                                                      r2 specnb mass</span></a>
+<a class="sourceLine" id="cb4-30" data-line-number="30"><span class="co">#&gt; 1                         M C M + M C C + M T M + M T T      1 0.99</span></a>
+<a class="sourceLine" id="cb4-31" data-line-number="31"><span class="co">#&gt; 2                                 T C T + T C C + T T T      2 0.01</span></a>
+<a class="sourceLine" id="cb4-32" data-line-number="32"><span class="co">#&gt; 3 M C M + M C C + M T M + M T T + T C T + T C C + T T T      3    0</span></a>
+<a class="sourceLine" id="cb4-33" data-line-number="33"><span class="co">#&gt; 4         M C M + M C T + M C C + M T M + M T T + M T C      4    0</span></a>
+<a class="sourceLine" id="cb4-34" data-line-number="34"><span class="co">#&gt; 5         T C M + T C T + T C C + T T M + T T T + T T C      5    0</span></a>
+<a class="sourceLine" id="cb4-35" data-line-number="35"><span class="co">#&gt; 6                                                 frame      6    0</span></a>
+<a class="sourceLine" id="cb4-36" data-line-number="36"><span class="co">#</span></a>
+<a class="sourceLine" id="cb4-37" data-line-number="37"><span class="co"># 1.3 Marginalization (eliminate variable D1)</span></a>
+<a class="sourceLine" id="cb4-38" data-line-number="38">rel_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">elim</span>(r2, <span class="dt">xnb =</span> <span class="kw">order</span>(elim_order)[<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb4-39" data-line-number="39"><span class="co"># &quot;subsets in the product space D2 x D (after elimination of D1&quot;</span></a>
+<a class="sourceLine" id="cb4-40" data-line-number="40"><span class="kw">bcaPrint</span>(rel_<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb4-41" data-line-number="41"><span class="co">#&gt;                         rel_2 specnb mass</span></a>
+<a class="sourceLine" id="cb4-42" data-line-number="42"><span class="co">#&gt; 1       C M + C C + T M + T T      1 0.99</span></a>
+<a class="sourceLine" id="cb4-43" data-line-number="43"><span class="co">#&gt; 2             C T + C C + T T      2 0.01</span></a>
+<a class="sourceLine" id="cb4-44" data-line-number="44"><span class="co">#&gt; 3 C M + C T + C C + T M + T T      3    0</span></a>
+<a class="sourceLine" id="cb4-45" data-line-number="45"><span class="co">#&gt; 4                       frame      4    0</span></a></code></pre></div>
+<p>After this first step, the graph is updated.</p>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAYAAAAUg66AAAAEDWlDQ1BJQ0MgUHJvZmlsZQAAOI2NVV1oHFUUPrtzZyMkzlNsNIV0qD8NJQ2TVjShtLp/3d02bpZJNtoi6GT27s6Yyc44M7v9oU9FUHwx6psUxL+3gCAo9Q/bPrQvlQol2tQgKD60+INQ6Ium65k7M5lpurHeZe58853vnnvuuWfvBei5qliWkRQBFpquLRcy4nOHj4g9K5CEh6AXBqFXUR0rXalMAjZPC3e1W99Dwntf2dXd/p+tt0YdFSBxH2Kz5qgLiI8B8KdVy3YBevqRHz/qWh72Yui3MUDEL3q44WPXw3M+fo1pZuQs4tOIBVVTaoiXEI/MxfhGDPsxsNZfoE1q66ro5aJim3XdoLFw72H+n23BaIXzbcOnz5mfPoTvYVz7KzUl5+FRxEuqkp9G/Ajia219thzg25abkRE/BpDc3pqvphHvRFys2weqvp+krbWKIX7nhDbzLOItiM8358pTwdirqpPFnMF2xLc1WvLyOwTAibpbmvHHcvttU57y5+XqNZrLe3lE/Pq8eUj2fXKfOe3pfOjzhJYtB/yll5SDFcSDiH+hRkH25+L+sdxKEAMZahrlSX8ukqMOWy/jXW2m6M9LDBc31B9LFuv6gVKg/0Szi3KAr1kGq1GMjU/aLbnq6/lRxc4XfJ98hTargX++DbMJBSiYMIe9Ck1YAxFkKEAG3xbYaKmDDgYyFK0UGYpfoWYXG+fAPPI6tJnNwb7ClP7IyF+D+bjOtCpkhz6CFrIa/I6sFtNl8auFXGMTP34sNwI/JhkgEtmDz14ySfaRcTIBInmKPE32kxyyE2Tv+thKbEVePDfW/byMM1Kmm0XdObS7oGD/MypMXFPXrCwOtoYjyyn7BV29/MZfsVzpLDdRtuIZnbpXzvlf+ev8MvYr/Gqk4H/kV/G3csdazLuyTMPsbFhzd1UabQbjFvDRmcWJxR3zcfHkVw9GfpbJmeev9F08WW8uDkaslwX6avlWGU6NRKz0g/SHtCy9J30o/ca9zX3Kfc19zn3BXQKRO8ud477hLnAfc1/G9mrzGlrfexZ5GLdn6ZZrrEohI2wVHhZywjbhUWEy8icMCGNCUdiBlq3r+xafL549HQ5jH+an+1y+LlYBifuxAvRN/lVVVOlwlCkdVm9NOL5BE4wkQ2SMlDZU97hX86EilU/lUmkQUztTE6mx1EEPh7OmdqBtAvv8HdWpbrJS6tJj3n0CWdM6busNzRV3S9KTYhqvNiqWmuroiKgYhshMjmhTh9ptWhsF7970j/SbMrsPE1suR5z7DMC+P/Hs+y7ijrQAlhyAgccjbhjPygfeBTjzhNqy28EdkUh8C+DU9+z2v/oyeH791OncxHOs5y2AtTc7nb/f73TWPkD/qwBnjX8BoJ98VVBg/m8AACJSSURBVHgB7Z0JfBXV2cbfQMiFBEIg7Cg7CIJQBZTFBVREQMXtE7VarRWtdfv8tO64VtRarSsuKCq02lpF0YIiroiIQlGMLCLIJotAQggQCFnmO8+hc51cbnInyQ3nzj3P+f0gc2fO8r7/98wzZ7lLiqOSMJEACZCAAQJ1DLTJJkmABEhAE6AAsSOQAAkYI0ABMoaeDZMACVCA2AdIgASMEaAAGUPPhkmABChA7AMkQALGCFCAjKFnwyRAAhQg9gESIAFjBChAxtCzYRIgAQoQ+wAJkIAxAhQgY+jZMAmQAAWIfYAESMAYAQqQMfRsmARIgALEPkACJGCMAAXIGHo2TAIkQAFiHyABEjBGgAJkDD0bJgESoACxD5AACRgjQAEyhp4NkwAJUIDYB0iABIwRoAAZQ8+GSYAEKEDsAyRAAsYIUICMoWfDJEACFCD2ARIgAWMEKEDG0LNhEiABChD7AAmQgDECFCBj6NkwCZAABYh9gARIwBgBCpAx9GyYBEiAAsQ+QAIkYIwABcgYejZMAiRAAWIfIAESMEaAAmQMPRsmARKgALEPkAAJGCNAATKGng2TAAlQgNgHSIAEjBGgABlDz4ZJgAQoQOwDJEACxghQgIyhZ8MkQAIUIPYBEiABYwQoQMbQs2ESIAEKEPsACZCAMQIUIGPo2TAJkAAFiH2ABEjAGAEKkDH0bJgESIACxD5AAiRgjAAFyBh6NkwCJEABYh8gARIwRoACZAw9GyYBEqAAsQ+QAAkYI0ABMoaeDZMACVCA2AdIgASMEaAAGUPPhkmABChA7AMkQALGCFCAjKFnwyRAAhQg9gESIAFjBChAxtCzYRIgAQoQ+wAJkIAxAhQgY+jZMAmQAAWIfYAESMAYAQqQMfRsmARIgALEPkACJGCMAAXIGHo2TAIkQAFiHyABEjBGgAJkDD0bJgESoACxD5AACRgjQAEyhp4NkwAJUIDYB0iABIwRoAAZQ8+GSYAEKEDsAyRAAsYIUICMoWfDJEACFCD2ARIgAWMEKEDG0LNhEiABChD7AAmQgDECFCBj6NkwCZAABYh9gARIwBgBCpAx9GyYBEiAAsQ+QAIkYIwABcgYejZMAiRAAWIfIAESMEaAAmQMPRsmARKgALEPkAAJGCNAATKGng2TAAlQgNgHSIAEjBGgABlDz4ZJgAQoQOwDJEACxghQgIyhZ8MkQAIUIPYBEiABYwRSjbXMhkkgwQksW7ZMcnJypFGjRjJgwADJyspKcIuDZx4FKHgxo8W1TKC0tFTOHD1Svpw3R47qEpItO0S+WLJN5s+fL/369avl1u2qngJkV7zpbQUEiopKZNKkBZKbWyhPPP6A5OVukOk3ZErXVvm6xCdL60n//sfItddOlEcfvaCCWni6qgS4BlRVYsyflARCoVTJzAzJuHGzZPOWZTJn3Aa5ZOIZ8uxHfbW/bZo0l84tzpAnnshJSv9NOUUBMkWe7SYcgfT0NG3T8b3TpUXj3XJm/6Xy0PTBsi43U7q1ypOTDlsrZWVlCWd3kA2iAAU5erS9VggU7k3R9XZpmSdlTh1Zsr65fr23xJGUfZdqpV0bK6UA2Rh1+lwpgUWrimTlz2VSUrrv9miSsUfn/8e8Mqlbt26lZXmxagQoQFXjxdwWELj5lttk2IN7ZeqCVnJI683SPPMnueR5R3YViaSm1rOAwIFzkQJ04FizpQQmgF2w6dOXaQu35beUs8+eIMvzsmVDwVty4aQMyep6vgwefKHs2VMikycvTGBPgmVaiqNSsEymtSRAAslCgCOgZIkk/SCBABKgAAUwaDSZBJKFAAUoWSJJP0gggAQoQAEMGk0mgWQhQAFKlkjSDxIIIAEKUACDRpNJIFkIUICSJZL0gwQCSIACFMCg0WQSSBYCFKBkiST9IIEAEqAABTBoNJkEkoUABShZIkk/SCCABChAAQwaTSaBZCFAAUqWSNIPEgggAQpQAINGk0kgWQjwVzECHMmlS5eq77CZHncP+vbtK0OHDo17vayQBCIJ8PuAIokE6HWK+oLiYYfVk/bN/X1NaMHuTFmxqbv6hr/NcnD26go9ff6jPbJt2zb+EF+FhHghXgQ4AooXSQP1dG7fSm4alSedWsRuvLAoVf40rb80SG0sMxcNkvdvmiz40vVo6bUvQ8LvqYtGhufiTYBrQPEmmkD1fbOmlby5oLvk7wqp7zNOk/HnfCiTLntL6tcrlu9+2vdLDwlkLk2xkAAFKEmDPuObrvLcx32lVeOdcs2UkWraVag9Xb4xW5o3KpTjD12dpJ7TrSARoAAFKVpVsHX6N92kYHdIftzSRJopwXHT1AU95IWx06RRffUTD0wkYJgA14AMB6Amze8p2ivzVpTJorX7/67A7uJ8+SnvIAmlLpIjO3+npmKlMuf7X4mkbJNXv8iUDds6q1/6nBe1+YJdxVHP8yQJxJsAd8HiTfQA1vePVybL1Ndfk3r19n+ObC9Ik9lzDpa0tFI5pGue7NyZL98uPlRZt++nPXsdukV699oa1druPXrKbXfcK3XqcIAcFRBPxo0ABShuKBOvIuxkFRQUSePG9SUnJ0dyc3NlyJAhiWcoLbKWAB9xSRx6vE8I4oPUuXNnWb16tZSWliaxx3QtaAQoQEGLWDXtTU9Pl2bNmsmaNWuqWQOLkUD8CVCA4s80YWvs0qWLrFixImHto2H2EaAAWRTzTp06yfr162Xv3r0WeU1XE5kABSiRoxNn29LS0qRt27by448/xrlmVkcC1SNAAaoet8CW4jQssKFLSsMpQEkZ1oqdateunWzdulUKC395d3TFuXmFBGqXAAWodvkmXO2pqanSoUMHWblyZcLZRoPsI0ABsi/mwmmYhUFPUJcpQAkamNo0CwvRO3bskO3bt9dmM6ybBGISoADFRJR8GfAOaY6Cki+uQfSIAhTEqMXBZgpQHCCyihoToADVGGEwK2jRooWUlZXpHbFgekCrk4EABSgZolhNH7p27So//PBDNUuzGAnUnAAFqOYMA1sDpmHYjucX0Ac2hIE3nAIU+BBW34GsrCzBp+Q3bNhQ/UpYkgRqQIACVAN4yVCUi9HJEMXg+kABCm7s4mI5vqhs1apV/KKyuNBkJVUlQAGqKrEky5+RkSHZ2dmybt26JPOM7gSBAAUoCFGqZRs5DatlwKy+QgIUoArR2HMBX1SGERC/qMyemCeKpxSgRImEQTtCoZC0adNGf2m9QTPYtIUEKEAWBj2ay5yGRaPCc7VNgAJU24QDUn/79u1l8+bNsnv37oBYTDOTgQAFKBmiGAcf8EVlECF+UVkcYLIK3wQoQL5RJX9GTsOSP8aJ5iEFKNEiYtAe/Bb8i5MmytEDfiUjhh0rEydO1J+YN2gSm05yAvxt+CQPcGXuFRWVyKRJC9RvxhdKKFQmN974vzK6/zb5n35bpLBI5LJJJdKs6VFy7XV/krFjj5SWLRtVVh2vkUCVCXAEVGVkyVMgFEqVzMyQjBs3S4nPJTLmqLWyYMVoyVl3pJzYq648ekFv2bunqdx//4dyzTXvJI/j9CRhCFCAEiYUZgxJT0/TDbdsGpL7xxTLmf2XykPTB8u63EwZ2GWdzLj+QxHnC1m4kJ+YNxOh5G6VApTc8fXt3cHZ+4SoS8s8KXPqyJL1zaV5ZqG0zhLZvaeZXHXVAN91MSMJ+CVAAfJLKsnzrdykFn1UKind1yWaZOzRr9/7tqk0zNgtV189iF9cponwv3gSoADFk2aA6+rUpZuMerhYvl7TWnq02SxHdNggG/Lqy5UvHy6nntZHHntsrnz1FT8xH+AQJ6Tp3AVLyLAcGKOwC3blldPkhRcWqCnWUfLkk49LqF66XHLsbHFSSuWFT8ZIcUlLbUxqaor6LbG7pX79egfGOLZiBQEKkBVh9udkSUmJTJs2Tb78cp76qtYMOemkk2TQoEH6RwxxfvDgwdKxY0d/lTEXCfggQAHyAYlZRL1XKFemT58uw4YNk9atWxMJCcSFANeA4oIx+SvBtyaecMIJMmvWLNm2bVvyO0wPDwgBCtABwZwcjeA35TElmzFjhuzatSs5nKIXRglQgIziD17j+MBqr169tAjxGxSDF79Es5gClGgRCYA9ffr0EYyGZs6cyV/TCEC8EtlEClAiRyeBbRs4cKDakq8vH3/8Md+gmMBxSnTTKECJHqEEtS8lJUWOP/54KSwslHnz5iWolTQr0QlQgBI9QglsX926deXkk0/Wv6jx7bffJrClNC1RCVCAEjUyAbErLS1NRo0aJTk5ObJixYqAWE0zE4UABShRIhFgO/DrqiNHjpS5c+fK+vXrA+wJTT/QBChAB5p4krbXpEkT/S7pDz/8UL9rOkndpFtxJkABijNQm6vDRzSOPvpoeffdd/Xnx2xmQd/9EeBnwfxxYq4qEFi8eLFeEzr99NP1Vn0ViiZk1vz8fJk8ebIsnD9XGmVmychTRsuIESMS0tagGcURUNAiFgB7e/bsqT81/9577wk+YR/kNHv2cmnT+kx5+qE3ZffypbJpwadqvesUufzSi4PsVsLYzhFQwoQiuQxxHEe/SbG4uFh/rUdpaance8+dsqOgIK6Oov4/jX9QGjduHNd6URk+ahIKhSQ97XI57OCd8uqVb8hTH/SXqfN7yKotr8gjj9wt1133f3Fv16YKKUA2RfsA+1pWVqY/M5aVlaXfK/T43WNlaLd9X/0ay5QyJ0W+39hV8ndlSe9230lGqDBqkU3bHanf42KZ8MzzUa/X5OScOXPk/LOGS0bd8yS74W6ZcsVU2VtSR3refJUc132JbCzOkSXLV9ekCevLplpPgABqjQB+6HD48OH6S85WrVolzRunytihpb7ae3vhIbJm60Hy9dqukh5qJU9eNCNquZdml0iuaidWwkgJI5qK/kW7/sEHH0i/zmmydPUvtaellkm77HxZl9dSNhbM+uUCj6pFgAJULWws5JdAvXr19BsVP/30U3HUiCha2lKQLu9920V6HrRFFv/UXAZ1Xad/Eui0I76Xtk0L5PWvekYrFj63detWwWilInHB+dTUVMGbJiv6BzsbNWpU7jqmkXdMfzncjntQUlpXGtbfKQe12fd1te55/q06AQpQ1ZmxRBUJNGjQQH+P0JqvpkQtiZ//mfJ5H2ncoEh6tN2ibu69cka/ZTrvN2taycXHfB21nHsSIy28D6kiccF5fHatqglfwnZ9WSPJVctW2Q33lf55e4ZszG+oRkAfyf3jL69qlcwfQYACFAGEL80QSK1bJod32Ci3nvZZ2IDlm5pKx+b5ctExi9Qn7kWJSPhSuYOmTZsKdt7infBp/ycmvKM+7/ayLFgdkhtf7S1LN7SVzIz3ZMy5A+XmW26Nd5PW1UcBsi7k5hzevL1Ynv0o+rZ87k5Hvl1bFr5eWNRAPll6uHRv871c+rz6/qEmG6RNk437Gb8x35G0pnv3Ox+vE8OH95G8vHEyYcJT8vX8bOnXPaTeB3S7nHPOOfFqwup6uAtmdfgPnPPYhh9/371SsH37fo3i211fnhKS7KZlcvroYrVeI/LqP9Jk08/7Fpfr1HHkmquK9PnIwnqd5q571G/cZ0Ze4usAEKAABSBINJEEkpVA7P3LZPWcfpEACRgnQAEyHgIaQAL2EqAA2Rt7ek4CxglQgIyHgAaQgL0EKED2xp6ek4BxAhQg4yGgASRgLwEKkL2xp+ckYJwABch4CGgACdhLgAJkb+zpOQkYJ0ABMh4CGkAC9hKgANkbe3pOAsYJUICMh4AGkIC9BChA9saenpOAcQIUIOMhoAEkYC8BCpC9safnJGCcAAXIeAhoAAnYS4ACZG/s6TkJGCdAATIeAhpAAvYSoADZG3t6TgLGCVCAjIeABpCAvQQoQPbGnp6TgHECFCDjIaABJGAvAQqQvbGn5yRgnAAFyHgIaAAJ2EuAAmRv7Ok5CRgnQAEyHgIaQAL2EqAA2Rt7ek4CxglQgIyHgAaQgL0EKED2xp6ek4BxAhQg4yGgASRgLwEKkL2xp+ckYJwABch4CGgACdhLgAJkb+zpOQkYJ0ABMh4CGkAC9hKgANkbe3pOAsYJUICMh4AGkIC9BChA9saenpOAcQIUIOMhoAEkYC8BCpC9safnJGCcAAXIeAhoAAnYS4ACZG/s6TkJGCdAATIeAhpAAvYSoADZG3t6TgLGCVCAjIeABpCAvQQoQPbGnp6TgHECFCDjIaABJGAvAQqQvbGn5yRgnAAFyHgIaAAJ2EuAAmRv7Ok5CRgnQAEyHgIaQAL2EqAA2Rt7ek4CxglQgIyHgAaQgL0EKED2xp6ek4BxAhQg4yGgASRgLwEKkL2xp+ckYJwABch4CGgACdhLgAJkb+zpOQkYJ0ABMh4CGkAC9hKgANkbe3pOAsYJUICMh4AGkIC9BChA9saenpOAcQIUIOMhoAEkYC8BCpC9safnJGCcAAXIeAhoAAnYS4ACZG/s6TkJGCdAATIeAhpAAvYSoADZG3t6TgLGCVCAjIeABpCAvQQoQPbGnp6TgHECFCDjIaABJGAvAQqQvbGn5yRgnAAFyHgIaAAJ2EuAAmRv7Ok5CRgnQAEyHgIaQAL2EqAA2Rt7ek4CxglQgIyHgAaQgL0EKED2xp6ek4BxAhQg4yGgASRgLwEKkL2xp+ckYJwABch4CGgACdhLgAJkb+zpOQkYJ0ABMh4CGkAC9hKgANkbe3pOAsYJUICMh4AGkIC9BChA9saenpOAcQIUIOMhoAEkYC8BCpC9safnJGCcAAXIeAhoAAnYS4ACZG/s6TkJGCdAATIeAhpAAvYSoAD5jH1+fr6sXr1aiouLfZZgNhAAr5UrV8qOHTsIJIkIrFu3TjZt2lRjj4wJ0NSpUyUlJUVyc3OjOvHuu+/q62vXro163e/JCy64QI455phw9iZNmsiDDz4Yfh3rwHEcOffcc6Vp06bSsWNHmTdvXqwi1b6+detWefnll6tdvroFL7vsMunbt291i1dY7m9/+5s0btxYunTpIrfddpuY8s810NsXZs2apfvXjz/+6F6u8t941BGt0UhOtRWfaG3HOgfh6dChg7Rr104OP/zwWNljXk+NmSPJMkBMevXq5durnJwc+ec//ynjxo2Tiy66SA4++GDfZaua8fLLL5fdu3frdqpaNhHz33vvvVrYnn32WWnZsqXgRkoU/9q0aSO/+c1vpFGjRtVGF486ojUe2Q8GDhworVu3jpb1gJ977rnnZMOGDfLJJ59Ip06daty+dQL09NNPVwnazz//rPOjs3bu3LlKZauauaysTD+Vq1ouUfNv3rxZi+mhhx6qTUwk/3r27Fnj0WY86ogWu0hOv/3tb6NlM3IO9wP8Pu644+LSfp1+/frtNw068sgj5V//+le4gfnz58uYMWOkRYsWMnToUHnqqacEkNyEUcJJJ52kpyldu3aVW2+9db+1kn//+98yfPhwyc7OltGjR4t7Y7t1VPR34cKFMmDAAMnKypITTjhB0JY37dy5U/7whz/oYWGzZs3k9NNPlzVr1nizlDseMmSIvPTSS+FzlZWfMGGCXHnllTrvGWecIVdccUW4nPcAT3pMMf7+97/rYSlsHTFihF4z8uarjNPVV1+tnypz5swRxARTPfz98ssvw1WAYeS5t99+W44++mgpKSmR0tJS+etf/yo9evTQT3bE8Y033giXxwHyogyeqhBUTHUj03/+8x9B2YcffjjyUvg1pi5nnnmm5o5RBKZw8B/phx9+0HYWFBQIGMJmPNXx1HT927hxo85bGX9kuOuuu+SOO+6QG2+8Ufe/m266SZeL9l9lfCPzgyvsWr9+vb6EGN5+++0yadIk6d27t2B0c9VVVwmm4E8++aR0795d33iPPPJIuKrIOnBTzpw5U5fDSBn/brjhhnL3QlFRkdxyyy26jYyMDOnWrZtce+21UlhYqOuN7AfgdN999wmmj27yE2c/trj1ef9+9tlncuyxx+qpM+5l8IbNSIj3m2++KcuXL9fsIvsW8uA+wCwjMv3ud7/TdeG8lwFeO8pJxfmXVKdOHUeJjD6hOpqjbmznlFNOcaZNm+aoDuGkpaU5U6ZM0deXLFniNGjQwFHBdF588UVHDbd1fmVEuMKvv/7aCYVCjlJy55133nHUjazrQNtqvhvO5z2YMWOGg+sqSM748eN12wqq07BhQ0fNQ3VWJYKOulEcJYyO6qSOWldyFDynefPmjlpb0nl+/etfO+qmC1etxMF54IEHfJWH3X/84x+1HarjOe+//364Hu+BguuoIbLTvn175+6773aUCDhoB0zcFIvTBx984BxxxBGO6vzO5MmTHbVo67Rq1cq588473SqcsWPHalvuueee8Dk1MnOU2OnXKvhOvXr1dBlwVje9zq9uqnD+9PR0R91cmtOpp57qfPPNN7petI20bNkyHT/V2Ry1gBwu5z1QC/LaP3BVYu5MnDjRGTRokG5LiYCTl5enfUC/QD+AP0royvmnhMfxEz817dX2qjUH58ILL3Qeeughrynh41h8kdHbFxBL9C+1QK7rQAzVNNE55JBDHCWauo/iunrgOkrQnccff9z5/e9/r8uoh6IuE1lHZmam07ZtW0etOer7wM2v1hx1fvx3zjnn6P755z//2VE3cDim6L9Ikf0AnBB3Nz7I4yfOfmxBXd60YMECp27dus5pp53mvPXWW85jjz3mqDU8Z+TIkTobzuEeVFMvHdPvv//eW1wfq4GLZrRq1arwNbVYret95ZVX9DkvA8W4cgE677zzHKX+jlLdcIVqxKE7ME6go6pRjbNnz57w9ddff10boZ6k+pwauYTzu5nUiELniSVA6ungFnEQDLUY7Fx//fX63KuvvqrrgFi5ST1JtGipp4w+5e10OOEVID/l1RNNt6F2wNwm9vuLzovArVixInwNggW2uBmR/HBSo7dwsFHm4osv1p0Zx0hqMVcH/8QTT9SvcQPjplFPaEct1mvxccVVZ1D/DRs2TAu0euroUxAgdGZvPN0OjjrUU9sZNWqUs3fvXreK/f5CTNST21EjzfA1NerR/qo1gvA53ARewYj0zw9/CJDarHCidfZwQ+rAD19vX4gUD8QQ8fK2gxsN51yRQnsQQvcBEFkH/O3fv7/XLEeN3h03Xrt27XLUwq3zzDPPlMuDc24eXIjk5MYH1/zGOZYtqCsyQTjx0ES/chMeLmCgFtz1qUsvvVQ/9N3rkX/VGp8WLa/oon9i4AD/IxnEXANST0jB9EONipQd+xKmYG6aPXu2DB48WDBsdxN2PpAf0wjV2QV1YGjmTZjSYTgXK2Fq5yYMWTGN++KLL/QpDBfRFqYAc+fOdbNJnz59yr0OX4g4qGl5b3UHHXRQuTUi7PwgYfsZO29+OHnrw7F68oi6aUQFTbZt2yZK4PR0AMNiTLm+++47PZVVo1PNGFveyO9NmApitwZb4ZiaIWEa5o0nzm3fvl1Po2Hva6+9JmokhdNR08knnyzqRtXXkH/p0qV6qog63alE1IIRJ/3yVyNBPVWJKF7uZXX4lqtAvcASA6ZEbsJmhRrtl1tsxdQMcagoYYrvTZjGuKyU+AuWFJAQP9SDe0OJvW9uyO83zpXZ4rURx0pIRI2A9HQPu9NuQqyRcH8pkXRPV/i3fv36ctZZZ+k+hGkzEjZxoCHwH8nLoFIBUkqo53voANESOhu2DLGmgH+RCe+bUSMAvcaEXRBvQiD9JO8WOvLDFleAUD9unMg8yNdBbRXGSjUt761fTfu8L0VNOfVrzNf9cCpX+L8v1OhFdwysm2BBFwJy9tln6zUGCD7WVLAgqKZ+oqbHegE7crdEDZl1bdi5cAUo2k4eBOqwww7TPLEOgvWPypIanssTTzwhWAtSUy1RUzBtKzqy3+SXP8S9slRdvpF1qulTuVNqVKu3m70nca6yhHVIb0I/wH3kps8//1yvkeLhDCHBehPWwdSIxc1S6V81tfEd51i2eBvCmix2KCPvS7DHbhf6j9+E9Sr0IfQN+I/+6x2AeBnoYQ0U2E14w50LDE80gME5b8ITGYtj6Hj4p6ZEugzKef+pea5++mOEAiHyJjw5/SQEyZvwviH3JsOCNm4+3OTednEM52OlmpaPVb973Q8nN6/3LxazcWN/9NFH8vHHH+udBwg5hARPfCx4YvSDBAHEzY+Rkje5nL07eNFuInQ0dBQ1FdE3yE8//eStptzxCy+8INddd51e8EdnQv+AACJVRYD88o9mr9eg6vL11oHjWO1E5o/22jt6iLyOBW+MSHFfYZMHfRkjGgi/31SVOFdmS2R7eJ8b7Iq8T5EPAuntP5FlI1/joYf+pJZitJ8YWbqjp0gGWoAwinEThvXehC1UdExvwk4AplZYzcZ1DNmR4DD+YZUcO1YYqeA1pkS4ibwJHddP8k6tMGzFjYenBhKe/tjxwm6E2zZugPPPP1/+8pe/xKy+puVjNvDfDLAtFidkRT6IqTehw4IdpitD/ju8x9/p06cLGKr1Gp0dviCpRUz91/0Pr/EQ6RBjRIhOgnx4kyaeWpWNgNSam/YHjLGbhukabiSwj7TftQN/I/2LF3+/fL22mDhGDPFAwM6gWujVD2f0aezeeblFcvLaWtM4e+vyHmOqieliZP9ZtGiRHn2795y3TEXHEDLcg5gV4Q3H2BVzxT2SQR10HgyP1O6HfPrpp6IWvMLTBzSAeRzWEB599FE9PEfHB0BsL2K+h7J4dyTeq6B2IkTtHMkll1wiW7ZsEbUgp228+eabtTFYO0IA1A6NHr5X5ID3PLbBMTeFMmOLEgqqdqZ0Fmzt4imKPHAWw0S0haeLq7jeuiKPa1o+sr7KXvvhhJHi4sWL9cgGo0wkrANhzoz1Anc6hbdCIFZYE8MICQkdBKMhjEYxNUN5zL2xLX/NNdfoPH7+w5MQI1eMaNB5oiVs06K/YFSGESoeNO7aU2VrQJH+xZO/H77RfDmQ57BWihsR73ZHfFarJQS8uRUPUTfesCeSk9fGeMXZW6d7jLfPYF0WAwwsbUAYYR8GG1g3rErCNAz9AgMIt2+gfCQDwSo3trrVNb16jW1V7Hq52/Dqqaa3JdXTUedBPqzSY0fKTdj5wO4UrqnhsN5FwZaeN6n1Ar2dijzY1scqOY5j7YJhS1QJnc6LbWnswHgTtsqxi4C61JND7/B4dxmU8xVuw6OeWOX97oJ5t9xRr1sOb2NwUyxO2IJ1Oaub2y3mqOGs3h52T6j5uvYXO5TeBJZqcV/vyIEH3p7g7ga6+bALhh06b/LusuC8msJqZtiuVx3Rm1Ufq2me7gOIdWpqqn67gPrYhaM2CMJvCUBG+OLdBYvmXyz+2AXDTpKfFIuvty9E7mBhFywyhtipVZsg5ZpWN5CDtz4gRdYBf7G97k3YNfLWq95vpLfqwQ1vZ1EPVUc93PWxesjqopGcIuPjJ85+bPHaiWPEHbYoAdT9C/cdYqrWH8NZY+2ChTOqAyWWerfUew7HXgYpOIHhHz5zhfUUDJ+iJZVNKzZ2dLA2ES2hDsxRMSePllAH8uBzJBhm+k1Yo8LoBvZVVA7rEOqtAHqR2m+93nw1Le+tK9ZxZZzACOs4GIlUN4ED1ujw2bXaTBjtYGSK+b7fVJF/8eRfGV+/dtZmPvdeAreKdhsr4uS1q7bijLYxKsNaq7uZ4m03HscuAy1A8aiQdZAACZBAVQlEH+5UtRbmJwESIIFqEKAAVQMai5AACcSHAAUoPhxZCwmQQDUI/D8BFS3XNyYQbgAAAABJRU5ErkJggg==" /><!-- --></p>
+<p>Second step: Eliminate variable D2 (Diagnosis2). We extend e2 to the space <span class="math inline">\(\prod(D2, D)\)</span>; we combine e2 extended with rel_2 and marginalize to D to get the final result.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># 2. Second step</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co"># Fusion of Expert2 and Relation 2 and eliminate diagnosis2</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co"># 2.1 Extension of Expert2 (e2)</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co"># here, use rel_2 as the relation of reference for extmin </span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">Expert2_ext &lt;-<span class="st"> </span><span class="kw">extmin</span>(e2, rel_<span class="dv">2</span>) </a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">temp1 &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">cbind</span>(<span class="kw">rownames</span>(Expert2_ext<span class="op">$</span>tt), Expert2_ext<span class="op">$</span>spec))</a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="kw">colnames</span>(temp1)[<span class="dv">1</span>] &lt;-<span class="st"> &quot;Expert2_ext&quot;</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co"># &quot;Evidence of Expert 2 extended to the product space D2 x D&quot;</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="kw">print</span>(temp1)</a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt;       Expert2_ext specnb mass</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; 1 C M + C T + C C      1 0.99</span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; 2 T M + T T + T C      2 0.01</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; 3           frame      3    0</span></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#</span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co"># 2.2 combinaison pf Expert2 and rel_2</span></a>
+<a class="sourceLine" id="cb5-17" data-line-number="17">r3 &lt;-<span class="st"> </span><span class="kw">nzdsr</span>(<span class="kw">dsrwon</span>(Expert2_ext, rel_<span class="dv">2</span>, <span class="dt">relnb =</span> <span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb5-18" data-line-number="18">temp1 &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">cbind</span>(<span class="kw">rownames</span>(r3<span class="op">$</span>tt), r3<span class="op">$</span>spec))</a>
+<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="kw">colnames</span>(temp1)[<span class="dv">1</span>] &lt;-<span class="st"> &quot;r3&quot;</span></a>
+<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co"># &quot;Subsets of the space D2 x D resulting from the combination of Expert 2 extended and r2&quot;</span></a>
+<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="kw">print</span>(temp1)</a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt;                             r3 specnb   mass</span></a>
+<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt; 1                    C M + C C      1 0.9801</span></a>
+<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt; 2                    T M + T T      2 0.0099</span></a>
+<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; 3        C M + C C + T M + T T      3      0</span></a>
+<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; 4                    C T + C C      4 0.0099</span></a>
+<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co">#&gt; 5                          T T      5  1e-04</span></a>
+<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="co">#&gt; 6              C T + C C + T T      6      0</span></a>
+<a class="sourceLine" id="cb5-29" data-line-number="29"><span class="co">#&gt; 7              C M + C T + C C      7      0</span></a>
+<a class="sourceLine" id="cb5-30" data-line-number="30"><span class="co">#&gt; 8  C M + C T + C C + T M + T T      8      0</span></a>
+<a class="sourceLine" id="cb5-31" data-line-number="31"><span class="co">#&gt; 9              T M + T T + T C      9      0</span></a>
+<a class="sourceLine" id="cb5-32" data-line-number="32"><span class="co">#&gt; 10                       frame     10      0</span></a>
+<a class="sourceLine" id="cb5-33" data-line-number="33"><span class="co">#</span></a>
+<a class="sourceLine" id="cb5-34" data-line-number="34"><span class="co"># 2.3 Final result: the belief function p attached to variable D)</span></a>
+<a class="sourceLine" id="cb5-35" data-line-number="35">p &lt;-<span class="st"> </span><span class="kw">elim</span>(r3, <span class="dt">xnb =</span> <span class="kw">order</span>(elim_order)[<span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb5-36" data-line-number="36"><span class="co">#</span></a>
+<a class="sourceLine" id="cb5-37" data-line-number="37"><span class="co"># add singletons with 0 mass to show all singletons in the results</span></a>
+<a class="sourceLine" id="cb5-38" data-line-number="38">p_sing &lt;-<span class="st"> </span><span class="kw">addTobca</span>(p,  <span class="dt">f =</span> <span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>), <span class="dt">ncol=</span><span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb5-39" data-line-number="39"><span class="co"># &quot;The final result after elimination of variable D2&quot;</span></a>
+<a class="sourceLine" id="cb5-40" data-line-number="40"><span class="kw">tabresul</span>(p_sing)</a>
+<a class="sourceLine" id="cb5-41" data-line-number="41"><span class="co">#&gt; $mbp</span></a>
+<a class="sourceLine" id="cb5-42" data-line-number="42"><span class="co">#&gt;       M T C   mass Belief Plausibility  Plty Ratio</span></a>
+<a class="sourceLine" id="cb5-43" data-line-number="43"><span class="co">#&gt; M     1 0 0 0.0000 0.0000       0.9900  0.99000000</span></a>
+<a class="sourceLine" id="cb5-44" data-line-number="44"><span class="co">#&gt; C     0 0 1 0.0000 0.0000       0.9900  0.99000000</span></a>
+<a class="sourceLine" id="cb5-45" data-line-number="45"><span class="co">#&gt; M + C 1 0 1 0.9801 0.9801       0.9999 50.24623116</span></a>
+<a class="sourceLine" id="cb5-46" data-line-number="46"><span class="co">#&gt; M + T 1 1 0 0.0099 0.0100       1.0000  1.01010101</span></a>
+<a class="sourceLine" id="cb5-47" data-line-number="47"><span class="co">#&gt; frame 1 1 1 0.0000 1.0000       1.0000         Inf</span></a>
+<a class="sourceLine" id="cb5-48" data-line-number="48"><span class="co">#&gt; T + C 0 1 1 0.0099 0.0100       1.0000  1.01010101</span></a>
+<a class="sourceLine" id="cb5-49" data-line-number="49"><span class="co">#&gt; T     0 1 0 0.0001 0.0001       0.0199  0.01990199</span></a>
+<a class="sourceLine" id="cb5-50" data-line-number="50"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-51" data-line-number="51"><span class="co">#&gt; $Conflict</span></a>
+<a class="sourceLine" id="cb5-52" data-line-number="52"><span class="co">#&gt; [1] 0</span></a></code></pre></div>
+<p>The plausibility ratio column shows that the odds for <span class="math inline">\(M \vee C\)</span> against T are 50:1. hence, the disease of the patient must be M or C. We also see that each single hypothesis, M, or, C, remains highly plausible (0.99). Although there is some support for T, its plausibility is very weak at 0.019. Finally, we use the plausibility transformation <a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a> to look at the probability distribution over the Fod {M, T, C} of the patient that we obtain</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">plautrans</span>(p)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt;   M T C      trplau</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; M 1 0 0 0.495024751</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; T 0 1 0 0.009950498</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; C 0 0 1 0.495024751</span></a></code></pre></div>
+<p>Now we have very high odds for M against T or for C against T: 495:1.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>L. A. Zadeh. A mathematical theory of evidence (book review). AI Magazine, 55(81—83), 1984<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>R. Haenni. Shedding New Light on Zadeh’s Criticism of Dempster’s Rule of Combination. Conference: Information Fusion, 2005 8th International Conference<a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>P. Smets (1993). Belief Functions: The Disjunctive Rule of Combination and the Generalized Bayesian Theorem. IRIDIA - Université Libre de Bruxelles, Brussels, Belgium<a href="#fnref3" class="footnote-back">↩</a></p></li>
+<li id="fn4"><p><a href="https://cran.r-project.org/package=dst" class="uri">https://cran.r-project.org/package=dst</a><a href="#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn5"><p>Csardi G, Nepusz T: The igraph software package for complex network research, InterJournal, Complex Systems 1695. 2006. <a href="http://igraph.org" class="uri">http://igraph.org</a><a href="#fnref5" class="footnote-back">↩</a></p></li>
+<li id="fn6"><p>P. P. Shenoy. A Valuation-Based Language for Expert systems. lnternational Journal of Approximate Reasoning 1989, 3 383–411<a href="#fnref6" class="footnote-back">↩</a></p></li>
+<li id="fn7"><p>P. P. Shenoy. Valuation-Based Systems. Third School on Belief Functions and Their Applications, Stella Plage, France. September 30, 2015<a href="#fnref7" class="footnote-back">↩</a></p></li>
+<li id="fn8"><p>Cobb, B. R. and Shenoy, P.P. (2006). On the plausibility transformation method for translating belief function models to probability models. Journal of Approximate Reasoning, 41(3), April 2006, 314–330<a href="#fnref8" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

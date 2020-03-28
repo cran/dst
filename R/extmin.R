@@ -11,7 +11,7 @@
 #' @references G. Shafer and P. P. Shenoy. Local Computations in Hypertrees. School of Business, University of Kansas, Lawrence, KS, 1991. See p. 78, vacuous extension of a belief function.
 #' @export
 #' @examples
-#' # Naking an empty reference relation with mass(frame) = 1 and
+#' # Making an empty reference relation with mass(frame) = 1 and
 #' # extending a bca to its space.
 #' init_tt= matrix(rep(1,10),nrow=1, 
 #' dimnames =list(NULL, c("3", "2", "1", "0", 
@@ -62,6 +62,23 @@ extmin <- function(rel1, relRef) {
   if (is.null(names(rel1$infovaluenames)) | (is.null(names(relRef$infovaluenames)))  ){
     stop("Names of variables missing. Check your inputs.")
   }
+  # 5 Check that variables names of rel1 are in relRef
+  values1 <- names(rel1$infovaluenames)
+  values2 <- names(relRef$infovaluenames)
+  values_ck <- outer(values1, values2, FUN="==")
+  nbval=as.integer(sum(rowSums(values_ck, dims = 1)))
+  if (nbval < length(values1)) {
+    stop("Names of rel not in relRef. Check variables names.")
+  }
+  # 6. Check that var names and var numbers are OK
+  values1_nb <- rel1$infovar[,1]
+  values2_nb <- relRef$infovar[,1]
+  values_nb_ck <- outer(values1_nb, values2_nb, FUN="==")
+  nb_ck = values_nb_ck == values_ck
+  if (sum(nb_ck) < prod(dim(nb_ck))) {  
+    stop("Variables names and numbers do not match. Check variables names, numbers and their position.")
+  }
+  #
   # B. Calculations
   ind_lvman <- (lvman >0) * 1:length(lvman)
   cardrelRef <- as.vector(infovar[,2])
