@@ -3,8 +3,9 @@
 \docType{data}
 \name{fw}
 \alias{fw}
-\title{The Captain's Problem. fw: Relation between variables Forecast of the weather (F) and  Weather at sea (W)}
-\format{An integer matrix with 4 rows and 6 columns.
+\title{The Captain's Problem. \code{fw}: Relation between variables Forecast of the weather (F) and  Weather at sea (W)}
+\format{
+An integer matrix with 4 rows and 6 columns.
 \describe{
   \item{[1,c(1,2)]}{value = 0, not used}
   \item{[1,3:6]}{Identification numbers of the two variables. Column 3,6: variable 5; columns 5,6: variable 7.}
@@ -12,7 +13,8 @@
   \item{m}{the value of the specification, a number between 0 and 1}
   \item{foul}{1 if foul is part of the specification, 0 otherwise}
   \item{fair}{1 if fair is part of the specification, 0 otherwise}
-  }}
+  }
+}
 \source{
 \url{https://www.researchgate.net/publication/265993533_Fusion_and_Propagation_in_Graphical_Belief_Models}
 }
@@ -20,7 +22,7 @@
 fw
 }
 \description{
-This dataset is the tt matrix establishing the relation between the two variables. An accurate forecast is described by this subset of two events: {(Forecast = foul, Weather = foul) and (Forecast = fair, Weather = fair)}. We assign a mass value of 0.8 to this subset. The remaining mass of 0.2 is allotted to the frame. To construct the tt matrix, we put the variables F and W side by side, as in a truth table representation.
+This dataset is the \code{tt} matrix establishing the relation between the two variables. An accurate forecast is described by this subset of two events: {(Forecast = foul, Weather = foul) and (Forecast = fair, Weather = fair)}. We assign a mass value of 0.8 to this subset. The remaining mass of 0.2 is allotted to the frame. To construct the \code{tt} matrix, we put the variables F and W side by side, as in a truth table representation. Each pair of the subset is described by a row of the matrix as a vector of zeros and ones.
 }
 \author{
 Claude Boivin, Stat.ASSQ

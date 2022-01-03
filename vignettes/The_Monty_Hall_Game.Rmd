@@ -86,7 +86,7 @@ MHABC_info =matrix(c(1:3, rep(3,3)), ncol = 2, dimnames = list(NULL, c("varnb", 
 # 
 # 4. call of the function with the name of the variables and the numbering of the relation
 # 
-MHABC_rel <-  bcaRel(tt = MHABC_tt, spec = MHABC_spec, infovar = MHABC_info, infovarnames = c("MHA", "MHB", "MHC"), relnb = 1)
+MHABC_rel <-  bcaRel(tt = MHABC_tt, spec = MHABC_spec, infovar = MHABC_info, varnames = c("MHA", "MHB", "MHC"), relnb = 1)
 # 
 # Relation vetween the three doors A, B and C
 bcaPrint(MHABC_rel)
@@ -107,7 +107,7 @@ Let's encode this evidence with function *bca*.
 
 ```{r}
 # Evidence related to choice of door A
-MHA_E <-  bca(f= diag(1,3,3), m= rep(1/3, 3), cnames =c("car", "goat1", "goat2"), infovarnames = "MHA", varnb = 1)
+MHA_E <-  bca(f= diag(1,3,3), m= rep(1/3, 3), cnames =c("car", "goat1", "goat2"), varnames = "MHA", varnb = 1)
 # Evidence of the contestant (function MHA_E attached to variable A)
 bcaPrint(MHA_E)
 ```
@@ -120,14 +120,14 @@ $m({goat1, goat2}) = 1$.
 Let's translate this in R with function *bca*:
 ```{r}
 # Evidence for door B
-MHB_E <- bca(f= matrix(c(0,1,1), ncol=3, byrow = TRUE), m=1, cnames =c("car", "goat1", "goat2"), infovarnames = "MHB" , varnb=2)
+MHB_E <- bca(f= matrix(c(0,1,1), ncol=3, byrow = TRUE), m=1, cnames =c("car", "goat1", "goat2"), varnames = "MHB" , varnb=2)
 # Evidence added by the Host (function MHB_E attached to variable B)
 bcaPrint(MHB_E)
 ```
 
 ## The hypergraph of the Monty Hall game
 
-We now have all the elements of a small belief network made of one relation (MHABC_rel) between three variables: Door *A*, Door *B*, Door *C*, and two pieces of evidence coming from the Contestant (MHA_E) and the Host two (MHB_E). Variables A, B and C (doors) are the nodes of the graph. The edges (hyperedges) are the evidences MHA_E (named ev_A on the graph) and MHB_E (ev_B on the graph) and the relation MHABC_rel (r_ABC on the graph). We use the package igraph ^[Csardi G, Nepusz T: The igraph software package for complex network research, InterJournal, Complex Systems 1695. 2006. http://igraph.org] to produce a bipartite graph corresponding to the desired hypergraph.
+We now have all the elements of a small belief network made of one relation (MHABC_rel) between three variables: Door *A*, Door *B*, Door *C*, and two pieces of evidence coming from the Contestant (MHA_E) and the Host two (MHB_E). Variables A, B and C (doors) are the nodes of the graph. The edges (hyperedges) are the evidences MHA_E (named ev_A on the graph) and MHB_E (ev_B on the graph) and the relation MHABC_rel (r_ABC on the graph). We use the package igraph ^[Csardi G, Nepusz T: The igraph software package for complex network research, InterJournal, Complex Systems 1695. 2006. https://igraph.org] to produce a bipartite graph corresponding to the desired hypergraph.
 
 
 ```{r, fig.show='hold', fig_caption: yes, echo=FALSE, message=FALSE}
@@ -152,7 +152,7 @@ plot(Monty_hg, vertex.label = V(Monty_hg)$name, vertex.size=(4+4*V(Monty_hg)$typ
 
 Since we want to know if there is advantage to switch doors, our goal is the calculation of a belief function *MHC* attached to the variable of interest *C* (Door C). To obtain this belief function, we need to combine evidence for doors A (Contestant) and B (Host) with the relation linking the three doors in the product space $F_{ABC}$. We will use a process of successive elimination of variables until only variable *C* remains.
 
-The calculations involved follow the principles of the valuation language of Shenoy ^[P. P. Shenoy. A Valuation-Based Language for Expert systems. lnternational Journal of Approximate Reasoning 1989, 3 383--411]; see also ^[P. P. Shenoy. Valuation-Based Systems. Third School on Belief Functions and Their Applications, Stella Plage, France. September 30, 2015]. The variables are linked to functions (called valuations). A function can be a piece of evidence attached to a variable or a relation between two or more variables.
+The calculations involved follow the principles of the valuation language of Shenoy ^[P. P. Shenoy. A Valuation-Based Language for Expert systems. International Journal of Approximate Reasoning 1989, 3 383--411]; see also ^[P. P. Shenoy. Valuation-Based Systems. Third School on Belief Functions and Their Applications, Stella Plage, France. September 30, 2015]. The variables are linked to functions (called valuations). A function can be a piece of evidence attached to a variable or a relation between two or more variables.
 
 Three kinds of operations are involved in the calculations:
 a) the minimal (vacuous) extension of a mass function to a larger Fod;
