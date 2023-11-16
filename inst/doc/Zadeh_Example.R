@@ -6,15 +6,14 @@ library(dst)  # attach package dst
 # knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = ""
 )
 
 ## ----"Zadeh's example", echo = FALSE, warning=FALSE---------------------------
 # Diagnosis from Expert 1. Coding the evidence with the bca function
 Expert1 <- bca(tt = matrix(c(1,0,0,0,1,0,1,1,1), ncol=3, byrow=TRUE), m= c(0.99, 0.01, 0), cnames =c("M", "T", "C"), varnames = "Diagnosis1", idvar = 1)
 # show the definition of Expert1
-cat("Expert 1")
-cat("Space of possibilities")
+cat("Space of possibilities and Basic Chance Assignment of Expert 1")
 Expert1$valuenames
 cat("\r")
 bcaPrint(Expert1)
@@ -23,8 +22,7 @@ bcaPrint(Expert1)
 Expert2 <- bca(tt = matrix(c(0,1,0,0,0,1,1,1,1), ncol=3, byrow=TRUE), m= c(0.01, 0.99, 0), cnames =c("M", "T", "C"), varnames = "Diagnosis2", idvar = 2)
 # show the definition of Expert2
 cat("\r")
-cat("Expert 2")
-cat("Space of possibilities")
+cat("Space of possibilities and Basic Chance Assignment of Expert 2")
 Expert2$valuenames
 cat("\r")
 bcaPrint(Expert2)
@@ -32,7 +30,8 @@ bcaPrint(Expert2)
 cat("\r")
 cat("Combination of the two experts by Dempster's rule")
 Ze1e2 <- nzdsr(dsrwon(Expert1, Expert2, relnb = 1))
-tabresul(Ze1e2)
+zz <- tabresul(Ze1e2)
+format(as.data.frame(zz$mbp), digits=2)
 
 ## ----"pieces of evidence", echo = FALSE, warning=FALSE------------------------
 library(dst)  # attach package dst
@@ -41,8 +40,7 @@ library(dst)  # attach package dst
 e1 <- bca(tt = matrix(c(1,0,0,1,1,1), ncol=2, byrow=TRUE), m= c(0.99, 0.01, 0), cnames =c("M", "T"), varnames = "D1", idvar = 1)
 #
 # show the definition of e1
-cat("Expert 1")
-cat("Space of possibilities")
+cat("Space of possibilities and Basic Chance Assignment of Expert 1")
 e1$valuenames
 cat("\r")
 bcaPrint(e1)
@@ -52,8 +50,7 @@ e2 <- bca(tt = matrix(c(1,0,0,1,1,1), ncol=2, byrow=TRUE), m= c(0.99, 0.01, 0), 
 #
 # show the definition of e2
 cat("\r")
-cat("Expert 2")
-cat("Space of possibilities")
+cat("Space of possibilities and Basic Chance Assignment of Expert 2")
 e2$valuenames
 cat("\r")
 bcaPrint(e2)
@@ -75,7 +72,7 @@ r1 <-bcaRel(tt = tt_r1, spec = spec_r1, infovar = info_r1, varnames = c("D1", "D
 cat(" The relation r1")
 bcaPrint(r1)
 
-## ---- fig.show='hold', fig_caption: yes, echo=FALSE, message=FALSE------------
+## ----fig.show='hold', fig_caption: yes, echo=FALSE, message=FALSE-------------
 # The network
 if (requireNamespace("igraph", quietly = TRUE) ) {
 library(igraph)
@@ -108,23 +105,28 @@ plot(meddiag_hg, vertex.label = V(meddiag_hg)$name, vertex.size=(3+6*V(meddiag_h
 }
 
 ## ----Print incidence matrix, echo=FALSE---------------------------------------
+cat("Row names are variables names (nodes).\n")
+cat("Column names are for pieces of evidence and relations (edges).\n")
 print(meddiag_hgm)
 
 ## ----Print names of evidence and relations, echo=FALSE------------------------
 meddiag_data_names
 
 ## ----Define elimination order, echo=FALSE-------------------------------------
-cbind(r1$infovar, r1$varnames)
+format(as.data.frame(cbind(r1$infovar, r1$varnames) ) )
 elim_order = c(1, 2, 3)
 
 ## ----The peeling, echo = FALSE, warning=FALSE---------------------------------
+# cat("\  ")
 p <- peeling(vars_def = meddiag_vars1, hgm = meddiag_hgm, hg_rel_names = meddiag_data_names, elim_order = c(1, 2, 3), verbose = FALSE ) 
 #
 # add singletons with 0 mass to show all singletons in the results
 p_sing <- addTobca(x = p,  tt = matrix(c(1,0,0,0,0,1), ncol=3))
 # "The final result after elimination of variable D2"
-tabresul(p_sing)
+cat("\  ")
+zz <- tabresul(p_sing)
+format(as.data.frame(zz$mbp), digits=2)
 
-## ---- echo = FALSE, warning=FALSE---------------------------------------------
-plautrans(p)
+## ----echo = FALSE, warning=FALSE----------------------------------------------
+format(as.data.frame(plautrans(p) ), digits = 4)
 

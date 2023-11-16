@@ -10,96 +10,109 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<meta name="author" content="Claude Boivin, Stat.ASSQ" />
+<meta name="author" content="Claude Boivin" />
 
 <meta name="date" content="2020-01-26" />
 
 <title>The Monty Hall Game</title>
 
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 
 <style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
 
 
 <style type="text/css">
-  code {
-    white-space: pre;
-  }
-  .sourceCode {
-    overflow: visible;
-  }
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
 </style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
 div.sourceCode
-  {  }
+{ }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -108,13 +121,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -319,218 +339,287 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 <h1 class="title toc-ignore">The Monty Hall Game</h1>
-<h4 class="author">Claude Boivin, Stat.ASSQ</h4>
+<h4 class="author">Claude Boivin<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></h4>
 <h4 class="date">2020-01-26</h4>
 
 
 
 <div id="the-monty-hall-game" class="section level1">
 <h1>The Monty Hall Game</h1>
-<p>Let us recall the Monty Hall Game from its statement in the Wikipedia article <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> on the subject:</p>
-<pre><code>&quot;Suppose you're on a game show. Three doors *A*, *B* and *C* are in front of you. Behind one door is a brand new car, and behind the two others, a goat. You are asked to pick one of the three doors. Then the host of the game, who knows what's behind the doors, opens one of the two remaining doors and shows a goat. He then asks you: &quot;Do you want to switch doors or keep your initial choice?&quot; </code></pre>
-<p>Say you have chosen the door <em>A</em> and the host has opened door <em>B</em>. The question now is: Is it to your advantage to switch your choice from door <em>A</em> to door <em>C</em>?&quot;</p>
+<p>Let us recall the Monty Hall Game from its statement in the Wikipedia
+article <a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>
+on the subject:</p>
+<pre><code>&quot;Suppose you&#39;re on a game show. Three doors *A*, *B* and *C* are in front of you. Behind one door is a brand new car, and behind the two others, a goat. You are asked to pick one of the three doors. Then the host of the game, who knows what&#39;s behind the doors, opens one of the two remaining doors and shows a goat. He then asks you: &quot;Do you want to switch doors or keep your initial choice?&quot; </code></pre>
+<p>Say you have chosen the door <em>A</em> and the host has opened door
+<em>B</em>. The question now is: Is it to your advantage to switch your
+choice from door <em>A</em> to door <em>C</em>?”</p>
 <p><strong>Some notation to begin with</strong></p>
-<p>For each door <em>A, B, C</em>, consider the same frame of discernment (Fod) <em>F</em> with three possible values: <span class="math display">\[F = \{car, goat 1, goat 2\}.\]</span> I use (0,1)-vectors to identify each element of the frame. Hence, the element “car” is identified by the vector <span class="math inline">\((1, 0, 0)\)</span>, goat 1 by the vector <span class="math inline">\((0, 1, 0)\)</span> and goat 2 by the vector <span class="math inline">\((0, 0, 1)\)</span>.</p>
-<p>With this notation, any subset of <em>F</em> has a unique (0,1) representation. For example, the subset <span class="math inline">\(\{goat 1, goat 2\}\)</span> is represented by the vector <span class="math inline">\((0, 1, 1)\)</span>.</p>
+<p>For each door <em>A, B, C</em>, consider the same frame of
+discernment (Fod) <em>F</em> with three possible values: <span class="math display">\[F = \{car, goat 1, goat 2\}.\]</span> I use
+(0,1)-vectors to identify each element of the frame. Hence, the element
+“car” is identified by the vector <span class="math inline">\((1, 0,
+0)\)</span>, goat 1 by the vector <span class="math inline">\((0, 1,
+0)\)</span> and goat 2 by the vector <span class="math inline">\((0, 0,
+1)\)</span>.</p>
+<p>With this notation, any subset of <em>F</em> has a unique (0,1)
+representation. For example, the subset <span class="math inline">\(\{goat 1, goat 2\}\)</span> is represented by the
+vector <span class="math inline">\((0, 1, 1)\)</span>.</p>
 <div id="analysis-of-the-problem" class="section level2">
 <h2>Analysis of the problem</h2>
 <p>We have three things to consider:</p>
 <ol style="list-style-type: decimal">
 <li>How the three doors are linked;</li>
-<li>Evidence pertaining to door <em>A</em> (choice of the contestant);</li>
-<li>Evidence pertaining to door <em>B</em> (the action of the host).</li>
+<li>Evidence pertaining to door <em>A</em> (choice of the
+contestant);</li>
+<li>Evidence pertaining to door <em>B</em> (the action of the
+host).</li>
 </ol>
 <div id="how-the-three-doors-are-linked" class="section level3">
 <h3>1. How the three doors are linked</h3>
-<p>There are six possible combinations of the car and the two goats behind the three doors <em>A, B, C</em>:</p>
+<p>There are six possible combinations of the car and the two goats
+behind the three doors <em>A, B, C</em>:</p>
 <p><span class="math inline">\(\{car, goat 1, goat 2\}\)</span> <span class="math inline">\(\{car, goat 2, goat 1\}\)</span> <span class="math inline">\(\{goat 1, car, goat 2\}\)</span> <span class="math inline">\(\{goat 1, goat 2, car\}\)</span> <span class="math inline">\(\{goat 2, car, goat 1\}\)</span> <span class="math inline">\(\{goat 2, goat 1, car\}\)</span>.</p>
-<p>These combinations are elements of the product space <span class="math inline">\(F_{ABC} = \prod(A, B, C)\)</span>. The number of elements of <span class="math inline">\(F_{ABC}\)</span> is <span class="math inline">\(3^3 = 27\)</span>. The six possible dispositions of the car and goats determine a subset <em>S</em> of the Fod <span class="math inline">\(F_{ABC}\)</span>. A mass of 1 is allotted to this subset <em>S</em>.</p>
-<p>I use the function <em>bcaRel</em> to code the desired relation between the doors.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># 1. define the tt matrix MHABC_tt, which encodes the subset S</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co"># </span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">MHABC_tt &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">                     <span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5">                     <span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb2-6" data-line-number="6">                     <span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,</a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">                     <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,</a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">                     <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">ncol=</span><span class="dv">9</span>, <span class="dt">byrow=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="kw">colnames</span>(MHABC_tt) &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;car&quot;</span>, <span class="st">&quot;goat1&quot;</span>, <span class="st">&quot;goat2&quot;</span>), <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co"># 2. define the spec matrix. </span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co"># Here we have one subset of six elements</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co"># </span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14">MHABC_spec =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">12</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>))) </a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co"># </span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co"># 3. define the info matrix. </span></a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co"># for each variable, we attribute a number and give the size of the frame</span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co"># </span></a>
-<a class="sourceLine" id="cb2-19" data-line-number="19">MHABC_info =<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="kw">rep</span>(<span class="dv">3</span>,<span class="dv">3</span>)), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )</a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co"># </span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co"># 4. call of the function with the name of the variables and the numbering of the relation</span></a>
-<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co"># </span></a>
-<a class="sourceLine" id="cb2-23" data-line-number="23">MHABC_rel &lt;-<span class="st">  </span><span class="kw">bcaRel</span>(<span class="dt">tt =</span> MHABC_tt, <span class="dt">spec =</span> MHABC_spec, <span class="dt">infovar =</span> MHABC_info, <span class="dt">varnames =</span> <span class="kw">c</span>(<span class="st">&quot;MHA&quot;</span>, <span class="st">&quot;MHB&quot;</span>, <span class="st">&quot;MHC&quot;</span>), <span class="dt">relnb =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co"># </span></a>
-<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co"># Relation vetween the three doors A, B and C</span></a>
-<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="kw">bcaPrint</span>(MHABC_rel)</a>
-<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">#&gt;                                                                                                   MHABC_rel</span></a>
-<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">#&gt; 1 car goat1 goat2 + car goat2 goat1 + goat1 car goat2 + goat1 goat2 car + goat2 car goat1 + goat2 goat1 car</span></a>
-<a class="sourceLine" id="cb2-29" data-line-number="29"><span class="co">#&gt;   specnb mass</span></a>
-<a class="sourceLine" id="cb2-30" data-line-number="30"><span class="co">#&gt; 1      1    1</span></a>
-<a class="sourceLine" id="cb2-31" data-line-number="31"><span class="co"># Note that row labels can become pretty long. If it is the case, the prmatrix function can be used to view results, for example:</span></a>
-<a class="sourceLine" id="cb2-32" data-line-number="32"><span class="co">#</span></a>
-<a class="sourceLine" id="cb2-33" data-line-number="33"><span class="co"># prmatrix(t(MHABC_rel$tt), collab = &quot;&quot;)</span></a>
-<a class="sourceLine" id="cb2-34" data-line-number="34"><span class="co">#</span></a>
-<a class="sourceLine" id="cb2-35" data-line-number="35"><span class="co"># Another way to check the tt matrix is:</span></a>
-<a class="sourceLine" id="cb2-36" data-line-number="36"><span class="co">#</span></a>
-<a class="sourceLine" id="cb2-37" data-line-number="37"><span class="co"># which(MHABC_rel$tt[1,] == TRUE)</span></a></code></pre></div>
+<p>These combinations are elements of the product space <span class="math inline">\(F_{ABC} = \prod(A, B, C)\)</span>. The number of
+elements of <span class="math inline">\(F_{ABC}\)</span> is <span class="math inline">\(3^3 = 27\)</span>. The six possible dispositions
+of the car and goats determine a subset <em>S</em> of the Fod <span class="math inline">\(F_{ABC}\)</span>. A mass of 1 is allotted to this
+subset <em>S</em>.</p>
+<p>I use the function <em>bcaRel</em> to code the desired relation
+between the doors.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># 1. define the tt matrix MHABC_tt, which encodes the subset S</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>MHABC_tt <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>                     <span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>                     <span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>                     <span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>                     <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>                     <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">ncol=</span><span class="dv">9</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="fu">colnames</span>(MHABC_tt) <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;car&quot;</span>, <span class="st">&quot;goat1&quot;</span>, <span class="st">&quot;goat2&quot;</span>), <span class="dv">3</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co"># 2. define the spec matrix. </span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co"># Here we have one subset of six elements</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>MHABC_spec <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">12</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>))) </span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co"># 3. define the info matrix. </span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co"># for each variable, we attribute a number and give the size of the frame</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>MHABC_info <span class="ot">=</span><span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="fu">rep</span>(<span class="dv">3</span>,<span class="dv">3</span>)), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )</span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co"># 4. call of the function with the name of the variables and the numbering of the relation</span></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a>MHABC_rel <span class="ot">&lt;-</span>  <span class="fu">bcaRel</span>(<span class="at">tt =</span> MHABC_tt, <span class="at">spec =</span> MHABC_spec, <span class="at">infovar =</span> MHABC_info, <span class="at">varnames =</span> <span class="fu">c</span>(<span class="st">&quot;MHA&quot;</span>, <span class="st">&quot;MHB&quot;</span>, <span class="st">&quot;MHC&quot;</span>), <span class="at">relnb =</span> <span class="dv">1</span>)</span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="co"># Relation vetween the three doors A, B and C</span></span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="fu">bcaPrint</span>(MHABC_rel)</span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="co">#&gt;                                                                                                   MHABC_rel</span></span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="co">#&gt; 1 car goat1 goat2 + car goat2 goat1 + goat1 car goat2 + goat1 goat2 car + goat2 car goat1 + goat2 goat1 car</span></span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a><span class="co">#&gt;   specnb mass</span></span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a><span class="co">#&gt; 1      1    1</span></span>
+<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a><span class="co"># Note that row labels can become pretty long. If it is the case, the prmatrix function can be used to view results, for example:</span></span>
+<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a><span class="co"># prmatrix(t(MHABC_rel$tt), collab = &quot;&quot;)</span></span>
+<span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a><span class="co"># Another way to check the tt matrix is:</span></span>
+<span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb2-37"><a href="#cb2-37" tabindex="-1"></a><span class="co"># which(MHABC_rel$tt[1,] == TRUE)</span></span></code></pre></div>
 </div>
 <div id="evidence-pertaining-to-the-choice-of-the-contestant-door-a" class="section level3">
-<h3>2. Evidence pertaining to the choice of the contestant (door <em>A</em>)</h3>
-<p>You have chosen door <em>A</em>. At this point, the problem is quite simple. Your belief is equally divided between 3 possible outcomes: car, goat 1 or goat 2: <span class="math inline">\(m({car}) = m({goat1}) = m({goat2}) = 1/3\)</span>. Let’s encode this evidence with function <em>bca</em>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Evidence related to choice of door A</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">MHA_E &lt;-<span class="st">  </span><span class="kw">bca</span>(<span class="dt">f=</span> <span class="kw">diag</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">3</span>), <span class="dt">m=</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">3</span>, <span class="dv">3</span>), <span class="dt">cnames =</span><span class="kw">c</span>(<span class="st">&quot;car&quot;</span>, <span class="st">&quot;goat1&quot;</span>, <span class="st">&quot;goat2&quot;</span>), <span class="dt">varnames =</span> <span class="st">&quot;MHA&quot;</span>, <span class="dt">varnb =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; Warning in bca(f = diag(1, 3, 3), m = rep(1/3, 3), cnames = c(&quot;car&quot;, &quot;goat1&quot;, :</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Parameter name 'f' is deprecated. Use 'tt' instead.</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Warning in bca(f = diag(1, 3, 3), m = rep(1/3, 3), cnames = c(&quot;car&quot;, &quot;goat1&quot;, :</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; Parameter name 'varnb' is deprecated. Use 'idvar' instead.</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co"># Evidence of the contestant (function MHA_E attached to variable A)</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="kw">bcaPrint</span>(MHA_E)</a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt;   MHA_E specnb              mass</span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; 1   car      1 0.333333333333333</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; 2 goat1      2 0.333333333333333</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; 3 goat2      3 0.333333333333333</span></a></code></pre></div>
+<h3>2. Evidence pertaining to the choice of the contestant (door
+<em>A</em>)</h3>
+<p>You have chosen door <em>A</em>. At this point, the problem is quite
+simple. Your belief is equally divided between 3 possible outcomes: car,
+goat 1 or goat 2: <span class="math inline">\(m({car}) = m({goat1}) =
+m({goat2}) = 1/3\)</span>. Let’s encode this evidence with function
+<em>bca</em>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Evidence related to choice of door A</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>MHA_E <span class="ot">&lt;-</span>  <span class="fu">bca</span>(<span class="at">f=</span> <span class="fu">diag</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">3</span>), <span class="at">m=</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>, <span class="dv">3</span>), <span class="at">cnames =</span><span class="fu">c</span>(<span class="st">&quot;car&quot;</span>, <span class="st">&quot;goat1&quot;</span>, <span class="st">&quot;goat2&quot;</span>), <span class="at">varnames =</span> <span class="st">&quot;MHA&quot;</span>, <span class="at">varnb =</span> <span class="dv">1</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; Warning in bca(f = diag(1, 3, 3), m = rep(1/3, 3), cnames = c(&quot;car&quot;, &quot;goat1&quot;, :</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; Parameter name &#39;f&#39; is deprecated. Use &#39;tt&#39; instead.</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; Warning in bca(f = diag(1, 3, 3), m = rep(1/3, 3), cnames = c(&quot;car&quot;, &quot;goat1&quot;, :</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; Parameter name &#39;varnb&#39; is deprecated. Use &#39;idvar&#39; instead.</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co"># Evidence of the contestant (function MHA_E attached to variable A)</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="fu">bcaPrint</span>(MHA_E)</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt;   MHA_E specnb              mass</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; 1   car      1 0.333333333333333</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; 2 goat1      2 0.333333333333333</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; 3 goat2      3 0.333333333333333</span></span></code></pre></div>
 </div>
 <div id="evidence-pertaining-to-door-b" class="section level3">
 <h3>3. Evidence pertaining to door B</h3>
-<p>But the host wanted to add some thrill to the game. He has opened door B and revealed a goat. The host has given us a small piece of evidence: Goat 1 or goat 2 was behind door B. Since the host knows what is behind each door, the mass value of this piece of evidence is: <span class="math inline">\(m({goat1, goat2}) = 1\)</span>.</p>
+<p>But the host wanted to add some thrill to the game. He has opened
+door B and revealed a goat. The host has given us a small piece of
+evidence: Goat 1 or goat 2 was behind door B. Since the host knows what
+is behind each door, the mass value of this piece of evidence is: <span class="math inline">\(m({goat1, goat2}) = 1\)</span>.</p>
 <p>Let’s translate this in R with function <em>bca</em>:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Evidence for door B</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">MHB_E &lt;-<span class="st"> </span><span class="kw">bca</span>(<span class="dt">f=</span> <span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">ncol=</span><span class="dv">3</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>), <span class="dt">m=</span><span class="dv">1</span>, <span class="dt">cnames =</span><span class="kw">c</span>(<span class="st">&quot;car&quot;</span>, <span class="st">&quot;goat1&quot;</span>, <span class="st">&quot;goat2&quot;</span>), <span class="dt">varnames =</span> <span class="st">&quot;MHB&quot;</span> , <span class="dt">varnb=</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; Warning in bca(f = matrix(c(0, 1, 1), ncol = 3, byrow = TRUE), m = 1, cnames =</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; c(&quot;car&quot;, : Parameter name 'f' is deprecated. Use 'tt' instead.</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; Warning in bca(f = matrix(c(0, 1, 1), ncol = 3, byrow = TRUE), m = 1, cnames =</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; c(&quot;car&quot;, : Parameter name 'varnb' is deprecated. Use 'idvar' instead.</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co"># Evidence added by the Host (function MHB_E attached to variable B)</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="kw">bcaPrint</span>(MHB_E)</a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt;           MHB_E specnb mass</span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; 1 goat1 + goat2      1    1</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Evidence for door B</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>MHB_E <span class="ot">&lt;-</span> <span class="fu">bca</span>(<span class="at">f=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">ncol=</span><span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>), <span class="at">m=</span><span class="dv">1</span>, <span class="at">cnames =</span><span class="fu">c</span>(<span class="st">&quot;car&quot;</span>, <span class="st">&quot;goat1&quot;</span>, <span class="st">&quot;goat2&quot;</span>), <span class="at">varnames =</span> <span class="st">&quot;MHB&quot;</span> , <span class="at">varnb=</span><span class="dv">2</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; Warning in bca(f = matrix(c(0, 1, 1), ncol = 3, byrow = TRUE), m = 1, cnames =</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; c(&quot;car&quot;, : Parameter name &#39;f&#39; is deprecated. Use &#39;tt&#39; instead.</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; Warning in bca(f = matrix(c(0, 1, 1), ncol = 3, byrow = TRUE), m = 1, cnames =</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; c(&quot;car&quot;, : Parameter name &#39;varnb&#39; is deprecated. Use &#39;idvar&#39; instead.</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co"># Evidence added by the Host (function MHB_E attached to variable B)</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="fu">bcaPrint</span>(MHB_E)</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt;           MHB_E specnb mass</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; 1 goat1 + goat2      1    1</span></span></code></pre></div>
 </div>
 </div>
 <div id="the-hypergraph-of-the-monty-hall-game" class="section level2">
 <h2>The hypergraph of the Monty Hall game</h2>
-<p>We now have all the elements of a small belief network made of one relation (MHABC_rel) between three variables: Door <em>A</em>, Door <em>B</em>, Door <em>C</em>, and two pieces of evidence coming from the Contestant (MHA_E) and the Host two (MHB_E). Variables A, B and C (doors) are the nodes of the graph. The edges (hyperedges) are the evidences MHA_E (named ev_A on the graph) and MHB_E (ev_B on the graph) and the relation MHABC_rel (r_ABC on the graph). We use the package igraph <a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> to produce a bipartite graph corresponding to the desired hypergraph.</p>
-<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>We now have all the elements of a small belief network made of one
+relation (MHABC_rel) between three variables: Door <em>A</em>, Door
+<em>B</em>, Door <em>C</em>, and two pieces of evidence coming from the
+Contestant (MHA_E) and the Host two (MHB_E). Variables A, B and C
+(doors) are the nodes of the graph. The edges (hyperedges) are the
+evidences MHA_E (named ev_A on the graph) and MHB_E (ev_B on the graph)
+and the relation MHABC_rel (r_ABC on the graph). We use the package
+igraph <a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>
+to produce a bipartite graph corresponding to the desired
+hypergraph.</p>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
 </div>
 <div id="now-the-solution-with-the-calculus-of-belief-functions" class="section level2">
 <h2>Now, the solution with the calculus of belief functions</h2>
-<p>Since we want to know if there is advantage to switch doors, our goal is the calculation of a belief function <em>MHC</em> attached to the variable of interest <em>C</em> (Door C). To obtain this belief function, we need to combine evidence for doors A (Contestant) and B (Host) with the relation linking the three doors in the product space <span class="math inline">\(F_{ABC}\)</span>. We will use a process of successive elimination of variables until only variable <em>C</em> remains.</p>
-<p>The calculations involved follow the principles of the valuation language of Shenoy <a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>; see also <a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>. The variables are linked to functions (called valuations). A function can be a piece of evidence attached to a variable or a relation between two or more variables.</p>
-<p>Three kinds of operations are involved in the calculations: a) the minimal (vacuous) extension of a mass function to a larger Fod; b) the combination of two mass functions by Dempster’s rule; c) the marginalization of a mass function, i.e. eliminating a variable to reduce the function to a smaller Fod.</p>
+<p>Since we want to know if there is advantage to switch doors, our goal
+is the calculation of a belief function <em>MHC</em> attached to the
+variable of interest <em>C</em> (Door C). To obtain this belief
+function, we need to combine evidence for doors A (Contestant) and B
+(Host) with the relation linking the three doors in the product space
+<span class="math inline">\(F_{ABC}\)</span>. We will use a process of
+successive elimination of variables until only variable <em>C</em>
+remains.</p>
+<p>The calculations involved follow the principles of the valuation
+language of Shenoy <a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>; see also <a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>. The variables are
+linked to functions (called valuations). A function can be a piece of
+evidence attached to a variable or a relation between two or more
+variables.</p>
+<p>Three kinds of operations are involved in the calculations: a) the
+minimal (vacuous) extension of a mass function to a larger Fod; b) the
+combination of two mass functions by Dempster’s rule; c) the
+marginalization of a mass function, i.e. eliminating a variable to
+reduce the function to a smaller Fod.</p>
 <div id="first-step-eliminate-variable-a-door-a" class="section level3">
 <h3>First step: Eliminate variable <em>A</em> (Door A)</h3>
-<p>Using function <em>extmin</em>, we extend the mass function MHA_E to the space <span class="math inline">\(\prod(A, B, C)\)</span>; then we combine MHA_E extended with MHABC_rel, using functions <em>dsrwon</em> and <em>nzdsr</em> (normalization); finally, we use function <em>elim</em> to eliminate <em>A</em> by marginalizing to <span class="math inline">\(\prod(B, C)\)</span>. The mass function obtained is named MHBC. This gives a reduced network with <em>B</em> and <em>C</em>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># 1. Extend MHA to the product space A x B x C</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">MHA_ext &lt;-<span class="st"> </span><span class="kw">extmin</span>(MHA_E, MHABC_rel )</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">&quot;Evidence of Contestant extended to the product space A x B x C&quot;</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; [1] &quot;Evidence of Contestant extended to the product space A x B x C&quot;</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="kw">bcaPrint</span>(MHA_ext)</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;                                                                                                                                                                 MHA_ext</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; 1                   car car car + car car goat1 + car car goat2 + car goat1 car + car goat1 goat1 + car goat1 goat2 + car goat2 car + car goat2 goat1 + car goat2 goat2</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; 2 goat1 car car + goat1 car goat1 + goat1 car goat2 + goat1 goat1 car + goat1 goat1 goat1 + goat1 goat1 goat2 + goat1 goat2 car + goat1 goat2 goat1 + goat1 goat2 goat2</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; 3 goat2 car car + goat2 car goat1 + goat2 car goat2 + goat2 goat1 car + goat2 goat1 goat1 + goat2 goat1 goat2 + goat2 goat2 car + goat2 goat2 goat1 + goat2 goat2 goat2</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt;   specnb              mass</span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; 1      1 0.333333333333333</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; 2      2 0.333333333333333</span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; 3      3 0.333333333333333</span></a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#</span></a>
-<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co"># 2. Combine MHA_ext and MHABC_rel</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16">MHA_ABC_comb &lt;-<span class="st"> </span><span class="kw">dsrwon</span>(MHA_ext,MHABC_rel)</a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co"># since  the measure of contradiction is 0, no need to normalize</span></a>
-<a class="sourceLine" id="cb5-18" data-line-number="18">MHA_ABC_comb<span class="op">$</span>con</a>
-<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; [1] 0</span></a>
-<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co"># &quot;Subsets resulting from the combination of Expert 1 extended and r1&quot;</span></a>
-<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="kw">bcaPrint</span>(MHA_ABC_comb)</a>
-<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt;                        MHA_ABC_comb specnb              mass</span></a>
-<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt; 1 car goat1 goat2 + car goat2 goat1      1 0.333333333333333</span></a>
-<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt; 2 goat1 car goat2 + goat1 goat2 car      2 0.333333333333333</span></a>
-<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; 3 goat2 car goat1 + goat2 goat1 car      3 0.333333333333333</span></a>
-<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#</span></a>
-<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co"># 3. Eliminate variable A</span></a>
-<a class="sourceLine" id="cb5-28" data-line-number="28">MHBC &lt;-<span class="st"> </span><span class="kw">elim</span>(MHA_ABC_comb, <span class="dt">xnb =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb5-29" data-line-number="29"><span class="kw">bcaPrint</span>(MHBC)</a>
-<a class="sourceLine" id="cb5-30" data-line-number="30"><span class="co">#&gt;                        MHBC specnb              mass</span></a>
-<a class="sourceLine" id="cb5-31" data-line-number="31"><span class="co">#&gt; 1 goat1 goat2 + goat2 goat1      1 0.333333333333333</span></a>
-<a class="sourceLine" id="cb5-32" data-line-number="32"><span class="co">#&gt; 2     car goat2 + goat2 car      2 0.333333333333333</span></a>
-<a class="sourceLine" id="cb5-33" data-line-number="33"><span class="co">#&gt; 3     car goat1 + goat1 car      3 0.333333333333333</span></a></code></pre></div>
+<p>Using function <em>extmin</em>, we extend the mass function MHA_E to
+the space <span class="math inline">\(\prod(A, B, C)\)</span>; then we
+combine MHA_E extended with MHABC_rel, using functions <em>dsrwon</em>
+and <em>nzdsr</em> (normalization); finally, we use function
+<em>elim</em> to eliminate <em>A</em> by marginalizing to <span class="math inline">\(\prod(B, C)\)</span>. The mass function obtained
+is named MHBC. This gives a reduced network with <em>B</em> and
+<em>C</em>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># 1. Extend MHA to the product space A x B x C</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>MHA_ext <span class="ot">&lt;-</span> <span class="fu">extmin</span>(MHA_E, MHABC_rel )</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="st">&quot;Evidence of Contestant extended to the product space A x B x C&quot;</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Evidence of Contestant extended to the product space A x B x C&quot;</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">bcaPrint</span>(MHA_ext)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt;                                                                                                                                                                 MHA_ext</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; 1                   car car car + car car goat1 + car car goat2 + car goat1 car + car goat1 goat1 + car goat1 goat2 + car goat2 car + car goat2 goat1 + car goat2 goat2</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; 2 goat1 car car + goat1 car goat1 + goat1 car goat2 + goat1 goat1 car + goat1 goat1 goat1 + goat1 goat1 goat2 + goat1 goat2 car + goat1 goat2 goat1 + goat1 goat2 goat2</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; 3 goat2 car car + goat2 car goat1 + goat2 car goat2 + goat2 goat1 car + goat2 goat1 goat1 + goat2 goat1 goat2 + goat2 goat2 car + goat2 goat2 goat1 + goat2 goat2 goat2</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt;   specnb              mass</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; 1      1 0.333333333333333</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; 2      2 0.333333333333333</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; 3      3 0.333333333333333</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co"># 2. Combine MHA_ext and MHABC_rel</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>MHA_ABC_comb <span class="ot">&lt;-</span> <span class="fu">dsrwon</span>(MHA_ext,MHABC_rel)</span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co"># since  the measure of contradiction is 0, no need to normalize</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>MHA_ABC_comb<span class="sc">$</span>con</span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co"># &quot;Subsets resulting from the combination of Expert 1 extended and r1&quot;</span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="fu">bcaPrint</span>(MHA_ABC_comb)</span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt;                        MHA_ABC_comb specnb              mass</span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">#&gt; 1 car goat1 goat2 + car goat2 goat1      1 0.333333333333333</span></span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; 2 goat1 car goat2 + goat1 goat2 car      2 0.333333333333333</span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt; 3 goat2 car goat1 + goat2 goat1 car      3 0.333333333333333</span></span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="co"># 3. Eliminate variable A</span></span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a>MHBC <span class="ot">&lt;-</span> <span class="fu">elim</span>(MHA_ABC_comb, <span class="at">xnb =</span> <span class="dv">1</span>)</span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a><span class="fu">bcaPrint</span>(MHBC)</span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a><span class="co">#&gt;                        MHBC specnb              mass</span></span>
+<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a><span class="co">#&gt; 1 goat1 goat2 + goat2 goat1      1 0.333333333333333</span></span>
+<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a><span class="co">#&gt; 2     car goat2 + goat2 car      2 0.333333333333333</span></span>
+<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a><span class="co">#&gt; 3     car goat1 + goat1 car      3 0.333333333333333</span></span></code></pre></div>
 <p>After this first step, the graph is updated.</p>
 <div id="the-reduced-belief-network" class="section level4">
 <h4>The reduced belief network</h4>
-<pre><code>#&gt; + 4/4 vertices, named, from 1652a34:
+<pre><code>#&gt; + 4/4 vertices, named, from d0c5b62:
 #&gt; [1] B    C    r_BC ev_B</code></pre>
-<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p><img src="data:image/png;base64,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5L7/PzPHJunBpSu62txBwJYA74BsSVusc2D/XuX167w6xdmuSup3K79/kqprD1vsIaUQ6BQggEK4EgqKztPB+s6pPdtVSf3hHzjaoYL8wSGUYEhBFyCAgj5DMfSvvHyOVu3Iimx5tquS+i9atS1Js+bMi6ESmyDQOwE+BeudXyC3bmtr08Sxpbq3fL93SeQUHWrI1D8uulKZaa2a610iubYhS5OGHdAlo/apzrvq6Vee6ND/fbieMyEGcjbD3SkCKKTzu3LlSs2fN1dLvpeicUM73+geacxQQ1OahuZ0Xgq5sblD857s0F/fdY8eefTxkEowrCALEEBBnp1e9m3VqlWaPXu27r8+Qzd7n7oPzOr8S2j/DxBXb2vXj5Zmat5Xb9a//fuzvazE5gjEJkAAxeYWN1tt2rRJjz58v5YtW6HcAanKzkzV3upGjR9bpvsefFQ33HBD3IyFjoZPgAAK35xGHVFTU5P27NmjxsZGFRcXKy8vL+rreBABmwIEkE1taiGAgCHAx/AGBw0EELApQADZ1KYWAggYAgSQwUEDAQRsChBANrWphQAChgABZHDQQAABmwIEkE1taiGAgCFAABkcNBBAwKYAAWRTm1oIIGAIEEAGBw0EELApQADZ1KYWAggYAgSQwUEDAQRsChBANrWphQAChgABZHDQQAABmwIEkE1taiGAgCFAABkcNBBAwKYAAWRTm1oIIGAIEEAGBw0EELApQADZ1KYWAggYAgSQwUEDAQRsChBANrWphQAChgABZHDQQAABmwIEkE1taiGAgCFAABkcNBBAwKYAAWRTm1oIIGAIEEAGBw0EELApQADZ1KYWAggYAgSQwUEDAQRsChBANrWphQAChgABZHDQQAABmwIEkE1taiGAgCFAABkcNBBAwKYAAWRTm1oIIGAIEEAGBw0EELApQADZ1KYWAggYAgSQwUEDAQRsChBANrWphQAChgABZHDQQAABmwIEkE1taiGAgCFAABkcNBBAwKYAAWRTm1oIIGAIEEAGBw0EELApQADZ1KYWAggYAgSQwUEDAQRsChBANrWphQAChgABZHDQQAABmwIEkE1taiGAgCFAABkcNBBAwKYAAWRTm1oIIGAIEEAGBw0EELApQADZ1KYWAggYAgSQwUEDAQRsChBANrWphQAChgABZHDQQAABmwIEkE1taiGAgCFAABkcNBBAwKYAAWRTm1oIIGAIEEAGBw0EELApQADZ1KYWAggYAgSQwUEDAQRsChBANrWphQAChgABZHDQQAABmwIEkE1taiGAgCFAABkcNBBAwKYAAWRTm1oIIGAIEEAGBw0EELApQADZ1KYWAggYAgSQwUEDAQRsChBANrWphQAChgABZHDQQAABmwIEkE1taiGAgCFAABkcNBBAwKYAAWRTm1oIIGAIEEAGBw0EELApQADZ1KYWAggYAgSQwUEDAQRsChBANrWphQAChgABZHDQQAABmwIEkE1taiGAgCFAABkcNBBAwKYAAWRTm1oIIGAIEEAGBw0EELApQADZ1KYWAggYAgSQwUEDAQRsChBANrWphQAChgABZHDQQAABmwIEkE1taiGAgCFAABkcNBBAwKYAAWRTm1oIIGAIEEAGBw0EELApQADZ1KYWAggYAgSQwUEDAQRsChBANrWphQAChgABZHDQQAABmwIEkE1taiGAgCFAABkcNBBAwKYAAWRTm1oIIGAIEEAGBw0EELApQADZ1KYWAggYAgSQwUEDAQRsChBANrWphQAChgABZHDQQAABmwIEkE1taiGAgCFAABkcNBBAwKYAAWRTm1oIIGAIEEAGBw0EELApQADZ1KYWAggYAv8PGJNNBCDsnIEAAAAASUVORK5CYII=" /><!-- --></p>
 </div>
 </div>
 <div id="second-step-eliminate-variable-b-door-b" class="section level3">
 <h3>2. Second step: Eliminate variable <em>B</em> (door B)</h3>
-<p>Similarly, we extend evidence on B in the product space <span class="math inline">\(\prod(B, C)\)</span>, combine the extended evidence with the relation MHBC, then marginalize to C. This will give the final result.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># 1. Extend MHB_E to the space B x C</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">MHB_ext &lt;-<span class="st"> </span><span class="kw">extmin</span>(MHB_E, MHBC )</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co"># Evidence of Host extended to the product space B x C&quot;</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="kw">bcaPrint</span>(MHB_ext)</a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;                                                                         MHB_ext</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 1 goat1 car + goat1 goat1 + goat1 goat2 + goat2 car + goat2 goat1 + goat2 goat2</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt;   specnb mass</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; 1      1    1</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co"># 2. combination of MHB_ext and MHBC</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11">MHB_BC_comb &lt;-<span class="st"> </span><span class="kw">dsrwon</span>(MHB_ext, MHBC)</a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co"># &quot;Subsets of the space B x C resulting from the combination of Host extended and MHBC&quot;</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="kw">bcaPrint</span>(MHB_BC_comb)</a>
-<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt;                 MHB_BC_comb specnb              mass</span></a>
-<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt; 1                 goat2 car      1 0.333333333333333</span></a>
-<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt; 2                 goat1 car      2 0.333333333333333</span></a>
-<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt; 3 goat1 goat2 + goat2 goat1      3 0.333333333333333</span></a>
-<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co"># MHA_BC_comb$con = 0, no need to normalize)</span></a>
-<a class="sourceLine" id="cb7-19" data-line-number="19">MHB_BC_comb<span class="op">$</span>con</a>
-<a class="sourceLine" id="cb7-20" data-line-number="20"><span class="co">#&gt; [1] 0</span></a>
-<a class="sourceLine" id="cb7-21" data-line-number="21"><span class="co">#</span></a>
-<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="co"># 3. Eliminate variable B</span></a>
-<a class="sourceLine" id="cb7-23" data-line-number="23">MHC &lt;-<span class="st"> </span><span class="kw">elim</span>(MHB_BC_comb, <span class="dt">xnb =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb7-24" data-line-number="24"><span class="co"># Final result: the belief function MHC attached to variable C</span></a>
-<a class="sourceLine" id="cb7-25" data-line-number="25"><span class="kw">belplau</span>(MHC)</a>
-<a class="sourceLine" id="cb7-26" data-line-number="26"><span class="co">#&gt;                  Belief Plausibility Plty Ratio</span></a>
-<a class="sourceLine" id="cb7-27" data-line-number="27"><span class="co">#&gt; car           0.6666667    0.6666667        2.0</span></a>
-<a class="sourceLine" id="cb7-28" data-line-number="28"><span class="co">#&gt; goat1 + goat2 0.3333333    0.3333333        0.5</span></a></code></pre></div>
+<p>Similarly, we extend evidence on B in the product space <span class="math inline">\(\prod(B, C)\)</span>, combine the extended
+evidence with the relation MHBC, then marginalize to C. This will give
+the final result.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># 1. Extend MHB_E to the space B x C</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>MHB_ext <span class="ot">&lt;-</span> <span class="fu">extmin</span>(MHB_E, MHBC )</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co"># Evidence of Host extended to the product space B x C&quot;</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="fu">bcaPrint</span>(MHB_ext)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt;                                                                         MHB_ext</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; 1 goat1 car + goat1 goat1 + goat1 goat2 + goat2 car + goat2 goat1 + goat2 goat2</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt;   specnb mass</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; 1      1    1</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co"># 2. combination of MHB_ext and MHBC</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>MHB_BC_comb <span class="ot">&lt;-</span> <span class="fu">dsrwon</span>(MHB_ext, MHBC)</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co"># &quot;Subsets of the space B x C resulting from the combination of Host extended and MHBC&quot;</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="fu">bcaPrint</span>(MHB_BC_comb)</span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt;                 MHB_BC_comb specnb              mass</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt; 1                 goat2 car      1 0.333333333333333</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt; 2                 goat1 car      2 0.333333333333333</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt; 3 goat1 goat2 + goat2 goat1      3 0.333333333333333</span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co"># MHA_BC_comb$con = 0, no need to normalize)</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>MHB_BC_comb<span class="sc">$</span>con</span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co"># 3. Eliminate variable B</span></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a>MHC <span class="ot">&lt;-</span> <span class="fu">elim</span>(MHB_BC_comb, <span class="at">xnb =</span> <span class="dv">2</span>)</span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="co"># Final result: the belief function MHC attached to variable C</span></span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="fu">belplau</span>(MHC)</span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a><span class="co">#&gt;                  Belief Plausibility Plty Ratio</span></span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a><span class="co">#&gt; car           0.6666667    0.6666667        2.0</span></span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a><span class="co">#&gt; goat1 + goat2 0.3333333    0.3333333        0.5</span></span></code></pre></div>
 </div>
 </div>
 <div id="conclusion" class="section level2">
 <h2>Conclusion:</h2>
-<p>As we can see, we double our chances of winning the car if we switch from door A to door C.</p>
-<p>Note that there is no loss of generality by fixing the choices in the analysis (door A for the contestant, door B for the host).</p>
-<p>To be more specific and make a bridge with probability theory, we can add to our result all the elementary events that have 0 mass, so that we can see their measure of plausibility.</p>
+<p>As we can see, we double our chances of winning the car if we switch
+from door A to door C.</p>
+<p>Note that there is no loss of generality by fixing the choices in the
+analysis (door A for the contestant, door B for the host).</p>
+<p>To be more specific and make a bridge with probability theory, we can
+add to our result all the elementary events that have 0 mass, so that we
+can see their measure of plausibility.</p>
 <p>The function <em>addTobca</em> serves this purpose.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">MHC_plus_singl &lt;-<span class="st"> </span><span class="kw">addTobca</span>(MHC, <span class="dt">f=</span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>), <span class="dt">ncol =</span> <span class="dv">3</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; Warning in addTobca(MHC, f = matrix(c(0, 1, 0, 0, 0, 1), ncol = 3, byrow =</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; TRUE)): Parameter name 'f' is deprecated. Use 'tt' instead.</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="kw">tabresul</span>(MHC_plus_singl)</a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; $mbp</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt;               car goat1 goat2      mass    Belief Plausibility Plty Ratio</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; goat1           0     1     0 0.0000000 0.0000000    0.3333333  0.3333333</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; goat2           0     0     1 0.0000000 0.0000000    0.3333333  0.3333333</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; car             1     0     0 0.6666667 0.6666667    0.6666667  2.0000000</span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; goat1 + goat2   0     1     1 0.3333333 0.3333333    0.3333333  0.5000000</span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt; $Conflict</span></a>
-<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt; [1] 0</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>MHC_plus_singl <span class="ot">&lt;-</span> <span class="fu">addTobca</span>(MHC, <span class="at">f=</span><span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; Warning in addTobca(MHC, f = matrix(c(0, 1, 0, 0, 0, 1), ncol = 3, byrow =</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt; TRUE)): Parameter name &#39;f&#39; is deprecated. Use &#39;tt&#39; instead.</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="fu">tabresul</span>(MHC_plus_singl)</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt; $mbp</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt;               car goat1 goat2      mass    Belief Plausibility Plty Ratio</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt; goat1           0     1     0 0.0000000 0.0000000    0.3333333  0.3333333</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; goat2           0     0     1 0.0000000 0.0000000    0.3333333  0.3333333</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; car             1     0     0 0.6666667 0.6666667    0.6666667  2.0000000</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; goat1 + goat2   0     1     1 0.3333333 0.3333333    0.3333333  0.5000000</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; $Conflict</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span></code></pre></div>
 </div>
 </div>
-<div class="footnotes">
+<div class="footnotes footnotes-end-of-document">
 <hr />
 <ol>
-<li id="fn1"><p><a href="https://en.wikipedia.org/w/index.php?title=Monty_Hall_problem&amp;oldid=829292640" class="uri">https://en.wikipedia.org/w/index.php?title=Monty_Hall_problem&amp;oldid=829292640</a><a href="#fnref1" class="footnote-back">↩</a></p></li>
-<li id="fn2"><p>Csardi G, Nepusz T: The igraph software package for complex network research, InterJournal, Complex Systems 1695. 2006. <a href="https://igraph.org" class="uri">https://igraph.org</a><a href="#fnref2" class="footnote-back">↩</a></p></li>
-<li id="fn3"><p>P. P. Shenoy. A Valuation-Based Language for Expert systems. International Journal of Approximate Reasoning 1989, 3 383–411<a href="#fnref3" class="footnote-back">↩</a></p></li>
-<li id="fn4"><p>P. P. Shenoy. Valuation-Based Systems. Third School on Belief Functions and Their Applications, Stella Plage, France. September 30, 2015<a href="#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p>Retired Statistician, Stat.ASSQ<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p><a href="https://en.wikipedia.org/w/index.php?title=Monty_Hall_problem&amp;oldid=829292640" class="uri">https://en.wikipedia.org/w/index.php?title=Monty_Hall_problem&amp;oldid=829292640</a><a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>Csardi G, Nepusz T: The igraph software package for
+complex network research, InterJournal, Complex Systems 1695. 2006. <a href="https://igraph.org" class="uri">https://igraph.org</a><a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>P. P. Shenoy. A Valuation-Based Language for Expert
+systems. International Journal of Approximate Reasoning 1989, 3
+383–411<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
+<li id="fn5"><p>P. P. Shenoy. Valuation-Based Systems. Third School on
+Belief Functions and Their Applications, Stella Plage, France. September
+30, 2015<a href="#fnref5" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
 

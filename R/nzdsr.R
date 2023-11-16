@@ -3,7 +3,7 @@
 #' It may occur that the result of the combination of two basic chance assignments with Dempster's Rule of combination contains a non-zero mass allocated to the empty set. The function \code{nzdsr} normalizes the result of function \code{dsrwon} by dividing the mass value of the non-empty subsets by 1 minus the mass of the empty set. 
 #' @param x A basic chance assignment, i.e. a object of class bcaspec.
 #' @return z The normalized basic chance assignment.
-#' @author Claude Boivin, Stat.ASSQ
+#' @author Claude Boivin
 #' @references Shafer, G., (1976). A Mathematical Theory of Evidence. Princeton University Press, Princeton, New Jersey, pp. 57-61: Dempster's rule of combination.
 #' @examples 
 #' x1 <- bca(tt= matrix(c(1,0,1,1),nrow = 2, byrow = TRUE), 
@@ -26,6 +26,7 @@
 nzdsr<-function(x) {
   #
   # Local variables: nc, vacuous, w1, w12, mac, MACC, empty, m_empty, tri, ind
+  # Functions calls: nameRows
   #
   ## 1. Checks
   if ( inherits(x, "bcaspec") == FALSE) {
@@ -36,8 +37,9 @@ nzdsr<-function(x) {
   #
   ## 2. Reconstruct I12 matrix (need to be updated if missing or if function addTobca has been used to add subsets)
   nc <- ncol(x$tt)
-  vacuous <- bca(matrix(rep(1, nc), nrow=1), m=1)
+  vacuous <- bca(matrix(rep(1, nc), nrow=1), m=1, cnames = colnames(x$tt))
   vacuous$valuenames <- x$valuenames
+  vacuous$infovar <- x$infovar
   x <- dsrwon(x,vacuous)
   #
   # 3. Assign variables

@@ -56,7 +56,7 @@ MHB_E <- bca(f= matrix(c(0,1,1), ncol=3, byrow = TRUE), m=1, cnames =c("car", "g
 # Evidence added by the Host (function MHB_E attached to variable B)
 bcaPrint(MHB_E)
 
-## ---- fig.show='hold', fig_caption: yes, echo=FALSE, message=FALSE------------
+## ----fig.show='hold', fig_caption: yes, echo=FALSE, message=FALSE-------------
 # The network
 if (requireNamespace("igraph", quietly = TRUE) ) {
 library(igraph)

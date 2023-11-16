@@ -10,21 +10,35 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<meta name="author" content="Claude Boivin, Stat.ASSQ" />
+<meta name="author" content="Claude Boivin" />
 
-<meta name="date" content="2021-12-21" />
+<meta name="date" content="2022-03-03" />
 
 <title>Peeling algorithm on Zadeh’s Example</title>
 
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 
 <style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
 
 
 
@@ -224,160 +238,249 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 <h1 class="title toc-ignore">Peeling algorithm on Zadeh’s Example</h1>
-<h4 class="author">Claude Boivin, Stat.ASSQ</h4>
-<h4 class="date">2021-12-21</h4>
+<h4 class="author">Claude Boivin<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></h4>
+<h4 class="date">2022-03-03</h4>
 
 
 
-<p>The criticism of Dempster-Shafer Theory (DST) by L. A. Zadeh <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> has generated a lot of discussions and articles on the subject of conflicting evidence. In 2005, R. Haenni <a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> showed that the surprising result obtained by applying Dempster’s rule to Zadeh’s example was more due to the modelling of the situation than Dempster’s rule not working. I add my grain of salt to the debate on Zadeh’s example by showing a formulation of the problem as a small belief network and using Dempster’s rule of combination to obtain a realistic result. This belief network gives the same results as the combination of the two evidences with the disjunctive rule of combination <a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>. At the same time, I show how to use my <em>R</em> package <em>dst</em> <a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> to do calculations on a belief network.</p>
+<div id="summary" class="section level1">
+<h1>Summary</h1>
+<p>The criticism of Dempster-Shafer Theory (DST) by L. A. Zadeh <a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> has
+generated a lot of discussions and articles on the subject of
+conflicting evidence. In 2005, R. Haenni <a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> showed that the
+surprising result obtained by applying Dempster’s rule to Zadeh’s
+example was more due to the modelling of the situation than Dempster’s
+rule not working. I add my grain of salt to the debate on Zadeh’s
+example by showing a formulation of the problem as a small belief
+network and using Dempster’s rule of combination to obtain a realistic
+result. This belief network gives the same results as the combination of
+the two evidences with the disjunctive rule of combination <a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>. At the
+same time, I show how to do the calculations using my <em>R</em> package
+<em>dst</em><a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>.</p>
 <div id="zadehs-example" class="section level2">
 <h2>Zadeh’s Example</h2>
-<p>We suppose that a patient is examined by two doctors, A and B. A’s diagnosis is that P has either meningitis (M), with probability 0.99, or brain tumor (T), with probability 0.01. B agrees with A that the probability of a brain tumor is 0.01, but believes that it is the probability of concussion (C) rather than meningitis that is 0.99.</p>
-<p>Zadeh considers the same space of diseases {M, T, C} for the two experts. Hence, after the combination of the two pieces of evidence by Dempster’s rule, we find as a result that the belief of a brain tumor is certain.</p>
-<pre><code>#&gt; Expert 1
-#&gt; Space of possibilities
-#&gt; $Diagnosis1
-#&gt; [1] &quot;M&quot; &quot;T&quot; &quot;C&quot;</code></pre>
-<pre><code>#&gt;   Expert1 specnb mass
-#&gt; 1       M      1 0.99
-#&gt; 2       T      2 0.01
-#&gt; 3   frame      3    0</code></pre>
-<pre><code>#&gt; Expert 2
-#&gt; Space of possibilities
-#&gt; $Diagnosis2
-#&gt; [1] &quot;M&quot; &quot;T&quot; &quot;C&quot;</code></pre>
-<pre><code>#&gt;   Expert2 specnb mass
-#&gt; 1       T      1 0.01
-#&gt; 2       C      2 0.99
-#&gt; 3   frame      3    0</code></pre>
-<pre><code>#&gt; Combination of the two experts by Dempster's rule
-#&gt; $mbp
-#&gt;       M T C mass Belief Plausibility    Plty Ratio
-#&gt; T     0 1 0    1      1            1 -9.079838e+12
-#&gt; C     0 0 1    0      0            0  0.000000e+00
-#&gt; M     1 0 0    0      0            0  0.000000e+00
-#&gt; frame 1 1 1    0      1            1 -9.079838e+12
-#&gt; 
-#&gt; $Conflict
-#&gt; [1] 0.9999</code></pre>
-<p>Indeed, the result does not reflect the opinions of the two experts. Before rejecting Dempster’s rule as inappropriate to this situation, let’s look more closely at the problem at hand.</p>
+<p>We suppose that a patient is examined by two doctors, A and B. A’s
+diagnosis is that P has either meningitis (M), with probability 0.99, or
+brain tumor (T), with probability 0.01. B agrees with A that the
+probability of a brain tumor is 0.01, but believes that it is the
+probability of concussion (C) rather than meningitis that is 0.99.</p>
+<p>Zadeh considers the same space of diseases {M, T, C} for the two
+experts. Hence, after the combination of the two pieces of evidence by
+Dempster’s rule, we find as a result that the belief of a brain tumor is
+certain.</p>
+<pre><code>Space of possibilities and Basic Chance Assignment of Expert 1
+$Diagnosis1
+[1] &quot;M&quot; &quot;T&quot; &quot;C&quot;</code></pre>
+<pre><code>  Expert1 specnb mass
+1       M      1 0.99
+2       T      2 0.01
+3   frame      3    0</code></pre>
+<pre><code>Space of possibilities and Basic Chance Assignment of Expert 2
+$Diagnosis2
+[1] &quot;M&quot; &quot;T&quot; &quot;C&quot;</code></pre>
+<pre><code>  Expert2 specnb mass
+1       T      1 0.01
+2       C      2 0.99
+3   frame      3    0</code></pre>
+<pre><code>Combination of the two experts by Dempster&#39;s rule
+      M T C mass Belief Plausibility Plty Ratio
+T     0 1 0    1      1            1   -9.1e+12
+C     0 0 1    0      0            0    0.0e+00
+M     1 0 0    0      0            0    0.0e+00
+frame 1 1 1    0      1            1   -9.1e+12</code></pre>
+<p>Indeed, the result does not reflect the opinions of the two experts.
+Before rejecting Dempster’s rule as inappropriate to this situation,
+let’s look more closely at the problem at hand.</p>
+</div>
 </div>
 <div id="a-correct-solution-using-dempsters-rule-of-combination" class="section level1">
 <h1>A correct solution using Dempster’s rule of combination</h1>
 <div id="diagnosis-of-the-two-experts" class="section level2">
 <h2>Diagnosis of the two experts</h2>
-<p>Let’s take <em>Expert one</em>. <em>Expert one</em> distributes the whole mass between the two singletons {M} and {T}. <em>Expert one</em> does not consider {C} as a possibility. Hence we conclude that the space of possibilities of <em>Expert one</em> cannot be {M, T, C}. We say that <em>Expert one</em> has restricted the space of possibilities of his/her diagnostic to the set {M, T}:</p>
-<p><span class="math inline">\(F(D1) = \{M, T\}\)</span>. For simplicity, we write <span class="math inline">\(D1 =\{M, T\}\)</span>.</p>
-<p>The same line of reasoning is applied to <em>Expert two</em>. The whole mass of one is allotted to the set {T, C}, and the third possibility (M) is not considered at all. Hence <span class="math inline">\(D2 = \{T, C\}\)</span>.</p>
-<p>I show the coding of these two pieces of evidence with the function <em>bca</em> of the package <em>dst</em>.</p>
-<pre><code>#&gt; Expert 1
-#&gt; Space of possibilities
-#&gt; $D1
-#&gt; [1] &quot;M&quot; &quot;T&quot;</code></pre>
-<pre><code>#&gt;      e1 specnb mass
-#&gt; 1     M      1 0.99
-#&gt; 2     T      2 0.01
-#&gt; 3 frame      3    0</code></pre>
-<pre><code>#&gt; Expert 2
-#&gt; Space of possibilities
-#&gt; $D2
-#&gt; [1] &quot;C&quot; &quot;T&quot;</code></pre>
-<pre><code>#&gt;      e2 specnb mass
-#&gt; 1     C      1 0.99
-#&gt; 2     T      2 0.01
-#&gt; 3 frame      3    0</code></pre>
+<p>Let’s take <em>Expert one</em>. <em>Expert number one</em>
+distributes the whole mass between the two singletons {M} and {T}.
+<em>Expert number one</em> does not consider {C} as a possibility. Hence
+we conclude that the space of possibilities of <em>Expert number
+one</em> cannot be {M, T, C}. We can say that <em>Expert number one</em>
+has restricted the space of possibilities of his/her diagnostic to the
+set {M, T}:</p>
+<p><span class="math inline">\(F(D1) = \{M, T\}\)</span>. For
+simplicity, we write <span class="math inline">\(D1 =\{M,
+T\}\)</span>.</p>
+<p>The same line of reasoning is applied to <em>Expert number two</em>.
+The whole mass of one is allotted to the set {T, C}, and the third
+possibility (M) is not considered at all. Hence <span class="math inline">\(D2 = \{T, C\}\)</span>.</p>
+<p>I show the coding of these two pieces of evidence with the function
+<em>bca</em> of the package <em>dst</em>.</p>
+<pre><code>Space of possibilities and Basic Chance Assignment of Expert 1
+$D1
+[1] &quot;M&quot; &quot;T&quot;</code></pre>
+<pre><code>     e1 specnb mass
+1     M      1 0.99
+2     T      2 0.01
+3 frame      3    0</code></pre>
+<pre><code>Space of possibilities and Basic Chance Assignment of Expert 2
+$D2
+[1] &quot;C&quot; &quot;T&quot;</code></pre>
+<pre><code>     e2 specnb mass
+1     C      1 0.99
+2     T      2 0.01
+3 frame      3    0</code></pre>
 </div>
 <div id="linking-the-experts-to-the-patient" class="section level2">
 <h2>Linking the Experts to… the Patient</h2>
-<p>The two experts are reasoning in two different spaces of possibilities. To be able to combine their diagnosis, we need a common ground. This can be done if we introduce a third person, the patient, with a variable of interest, his/her disease (D). Then it is natural to take the union of the space of possibilities of <em>Expert one</em> and <em>Expert two</em> as the space of possibilities of the patient:</p>
-<p><span class="math inline">\(D = \{M, T\} \cup \{C, T\} = \{M, T, C\}\)</span>.</p>
-<p>Thus, the patient’s assessment of his/her illness involves bringing together the assessment of the two experts, using the “or” operator. This situation is described by a relation of implication between experts and patient:</p>
-<p>r1: <span class="math inline">\(D1 \cup D2 \rightarrow D\)</span>.</p>
-<p>The relation <em>r1</em> is represented in the product space <span class="math inline">\(\prod(D1, D2, D)\)</span> by one focal set of mass one:</p>
-<p><span class="math inline">\(m(M C M + M C C + M T M + M T T + T C T + T C C + T T T) = 1\)</span> (for simplicity, the “+” sign is used as the <span class="math inline">\(\vee\)</span> disjunctive operator in the functions of the package dst). Now I use the function <em>bcaRel</em> to code this relation.</p>
-<pre><code>#&gt;  The relation r1
-#&gt;                                                      r1 specnb mass
-#&gt; 1 M C M + M C C + M T M + M T T + T C T + T C C + T T T      1    1
-#&gt; 2                                                 frame      2    0</code></pre>
+<p>The two experts are reasoning in two different spaces of
+possibilities. To be able to combine their diagnosis, we need a common
+ground. This can be done if we introduce a third person, the patient,
+with a variable of interest, his/her disease (D). Then it is natural to
+take the union of the space of possibilities of <em>Expert number
+one</em> and <em>Expert number two</em> as the space of possibilities of
+the patient:</p>
+<p><span class="math inline">\(D = \{M, T\} \cup \{C, T\} = \{M, T,
+C\}\)</span>.</p>
+<p>Thus, the diagnosis of the patient’s disease involves pooling the
+assessments of the two experts, using the “or” operator. This situation
+is described by a relation of implication between experts and
+patient:</p>
+<p>r1: <span class="math inline">\(D1 \cup D2 \rightarrow
+D\)</span>.</p>
+<p>The relation <em>r1</em> is represented in the product space <span class="math inline">\(\prod(D1, D2, D)\)</span> by one focal set of mass
+one:</p>
+<p><span class="math inline">\(m(M C M + M C C + M T M + M T T + T C T +
+T C C + T T T) = 1\)</span> (for simplicity, the “+” sign is used as the
+<span class="math inline">\(\vee\)</span> disjunctive operator in the
+functions of the package dst). Now I use the function <em>bcaRel</em> to
+code this relation.</p>
+<pre><code> The relation r1
+                                                     r1 specnb mass
+1 M C M + M C C + M T M + M T T + T C T + T C C + T T T      1    1
+2                                                 frame      2    0</code></pre>
 </div>
 <div id="the-belief-network" class="section level2">
 <h2>The belief network</h2>
-<p>We now have all the elements of a small network made of one relation (r1) between three variables: Disease (D), Diagnosis1 (D1), Diagnosis2 (D2), and two pieces of evidence coming from <em>Expert one</em> (e1) and <em>Expert two</em> (e2).</p>
-<p>The three variables <em>D</em>, <em>D1</em> and <em>D2</em> are the nodes of the graph. The edges (hyperedges) are given by the relation <em>r1</em> and the two pieces of evidence <em>e1</em> and <em>e2</em>.</p>
-<p>Using the igraph package, <a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> a bipartite graph corresponding to the hypergraph can be obtained.</p>
-<p><img src="data:image/png;base64,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Xm3m9ddfr3tAlWkzrva+V3z0Vv785z8LLiBvvfVWZRZXKXmhXSKkpqYGld9ll10mzZo1CyqPSEls7BAsEED0WhISEiQ2tqjp6DF07dpV92p69OghJXWDFy9eLOedd57s2rXLU0xJ6UeNGqUFb+PGjTrd5MmTPem8Ny688EL56quv5I9//KNuQGhEDz30UJG5kePHj8sf/vAHfcLWr19fLr/8csHwDiE3N1d69eqlt//yl7/I7373Oxk9erQ89dRTeh/+nThxQlA/733IE/u+++47HQ/CAKHGiYoy0KC9h5sY3qGHgaEoei39+/eXQ4cOecqwN/75z39Kz549Bb1N3/Daa6/JXXfdpXeDz5133qm3K6ts3/IgyhC6jIwM+eijj3S97DjTpk3TvUUMBRs1aiTDhg0T9JS8A4ZHQ4YM0T0L8LDF0ztOSW3Ajnfy5Em5++67pXHjxnL22WfLI4884rlgtGvXTrdLXOAQli5dKmgTaLMYosInhw8ftrOq8Cfqi/aLtmaHhQsX6n2fffaZ3oURw6OPPiqdOnWS6tWrC4as9913n25jdhrY9uWXX8rvf/97za1z587y8ccf6zjo0UJQR4wYId9++62dRP72t7/pOr/00kt6BAIGDz74oKANBgoltXnAMzKoExDdAEsZbymYljrxLNX4LOV8SzU0a8uWLR671YliValSxVLzEZYSB+uee+6x1JyBpcb5njhKtCwFTX9XjtN523mUlh759OvXz1KNyHr33Xct1bg9+XpvpKSkWOqEttTJbb366qvWbbfdpstR8wY6WmFhoaUExqpXr541btw4a9KkSZYaZlkNGjSwlABYahLXUld2neaWW26xlIha6iS3VIP2FKNEQx9XDcuzb8aMGZYaplqqcWtWHTp0sNRclfX2229b6mS1unXrZtWqVctSQ0idBvHBS/UwrKuuusoaOXKk3o84zzzzjN5WQ05Libyur6cgrw0lSpZqeNoW8Js9e3ZQZXtl7XdTzU0VYWlH+vTTT/X+O+64w8K2Gg5a6sQpwkzNGVpVq1a1brjhBkudvNbtt99uqTlBne7AgQM6q9LaACLBv0h3ySWXaD/99re/1Xm88MILtjmWukjp7WPHjmk/K9HTPkDbUz0jS81heuL6brzxxhs6P3VB8j1U5Lsaplvdu3e31MmvzwucG23btrXOP/98q6CgQMfFuYB2Bn+ind18880678cff9yTF+qjBNu69NJLLZStLjZWtWrVdD7Dhw+30AaU0FlpaWmeNGiXaCco+/PPP7eUYOl6qYulJw64oF0jlNbmjRcgiJDvHypuB7UCY6nJQcsbAI6pnoOl5ojsaFYgASpr+ltvvdVSvQxPfv424FCc7IBuBzj14osv1l/hLNQFAmAHCKwa22tBwj6ILeJA6BDUlVt/Vytv+juES02Ga4GFaCGoHpelrmZ6+z//+Y8WDm+RzMnJsdScgoWTFAHlowx1NdPf7X+2AOFEhkBBREsK6uqp81ErYDpaMGWXVM6CBQu0wKqeSxG2SIOLje9JrXqH2i4IMgL42yeE3qH+IS8wgACVtQ3Av2oBQvvIzgcn4pVXXml/9XyqXrbOf+XKlZ59EALY690+PAfVhi1AaKsQOt+/f//7357oav5Nt2lcqNVUhKV6OdbmzZv1cbQpXIReeeUVT3xsqB6ONWjQIM8+uz648CEsW7ZM26xGEp44amFB79uwYYPeBwHCxX3dunWeOLNmzdJxVI9P7/MWoNLavPFzQP/6179EnQy6m7tnzx6ZN2+eqAqKOkHliiuu0CtiR44cEXVFkOXLl6s2dSagG6wcLqqBiboS2LuLfWJFLZj0vhkOGDBAr2TY+zFRjqEbAiawsZKCYZG3rVhVUyeZnaTIJ/JTVyXdDcZ8GLrDGAKMHTtWp0EXGd1oJZA63ZIlSzQLdUX05IMhAIZ66enpnn3YwNDLN4Cvukrq1S17WOUbJ9D3YMv2ly+Ghqg3hrMTJkwowhbxX3zxRU8yzBGpE0M2bdqk92FIq0RVtxEMR7wD8rSHK+VpA6onXGROEqs9P/74o3fWehvtD5PGGEIr4RfVyxAlVPqvWGSfHffff7+222e39O7d27NLCYyoi5GoHo5eoFHir4eEiIBysUCAoBRB3yKBOirhKzZUwlAcizwIHTt21J9YabYDhpoIYGqvPJ577rliDzNxDENbtFEM1TE09A6ltXnjBQgnm/cktOpiykUXXSSPPfaYFiDcf4KAeP4CjpckQMGm9y0T4uIdVNdfOx77UBbEDvMqvgFL/P4CHAuhmDt3rqihkp5XUFdKffLAuWg0EDgIEQLmevytRmE+aOfOnUWK8DfRqYZSgrkMnJyYb/GdCC6Sgc+XYMv2yU6fPJiLwAIABBpi4htwDxLEGPMiuEBhHgi3SiDg5IOA4SLkOzEMHnYoTxuwT0g7LfyLlUvfUKNGDc/8ysMPPyz4g2iooZ4MHjzYN3qR75hb8+ebIpHUFwjV3//+d0FZ4OQdMP+EcwTcMAcD8YAgI6538OaACz0C5qvsYIuT/R2f/mzDfJEt/N5xS2vzsd6RI2EbkNQYXE8yomHi3hWE+fPna9CA7f2HiemSQrDpffPG/SqBAk4gCI2aHyhiI+xdv359oGR6UhUChMaEHhRW4yBKECD0fnBbgL0sjeVbfxOdOBF9bx+wG5x3wWqeRDBJr7rnnoll7+MlbQdbtm/e6P1iMUHNsYga2voe1t8xMY1J6TFjxsjq1au12DzwwAOeuGCOSVhfJmBuh/K0gZL8a+dnf+I2CvSOfvrpJ/nHP/6heypqbkULux0nmM8nn3xSX5xxUUav1Q64URbnyNGjR/VqIW4fUUMov/ev+RMYO59An2pIX+wQ2hfatm8orc1HnAChgmqsqk8Q9GzsE0/NC+muJ7qf+MP9KZjdL+3u3GDT+wIv6TuEA1cEiI1tJ3o49957r/z3v//VSe0Gju6yHbCqoybM5f333xcMARAHQzMM43BDHRq1HdA1RlfYu5GgJ4AVMruLbcf194n0EB813yBqbC+4IbCsIdiyvcuBCGLYdO211wYUQqz0oMcGfvjDig/YrFmzRmeFnglWS7G6gwuUd/C+aTIUbQD5o1cK4UOPEj0g3NcEsVDzQt6mVGgb+T///PO6B4T7orBt1wm+Rs8QtypgqImVQbQnDE9RfrABfNGbsgOEH+0NnH1DaW3eeAHC1Q2Owx+WSdEgcQ8QxAWNC3MsGGfjmJo01Q7H8rKa7NNDETWR58ukyPdg0xfJrJQvmAvA1RYnC5ZQMWeB5XbYjrE4Aq5IsBlzMXAsAnoumNMBA/R8EDAfgB4MekDeAoR648RTqx56SIIhH3oH6B5jGbisQa2O6aEClm5xdStLqKyyIZi4wxq3W0Bobf/7fqL+9nI0rvo4KSDS9rwQbllAwDIxbp0AZ5woanJWC6xdp1C0AYg9hkG4DQMXHQwPMYcFm73ncmwbvD8xnPStq/0dvRrcCgBfYiiPeTpwR08f+3AMt3Lg3MBFGN9Rtlr508Nzb+HwLrM822gPEDZcSLdt26bzHjhwoOcWEu+8Sm3zytlGBnsZXlVGz7DjU3XnLCw/Y1nbnrmH8VjtwBKrOnl1XCwtYglcwfbULdAqWFnTl3UVTHW1PWViA+mwlGkHrDSoSTxtp7paW1hxeP311+3D+lOd9Louaj7Js1+N93UadfXx7MPKF1Y/VCPz7MOGus/HUlddHR9L6eoqZM2cOdMTx14FU8+1efZhA3ztZXh8x6oKlq9Vw8bXYsF3FQwRKlq2d+ZYZvb2e6BtNYyyvvnmG70kjXrCx1iKVuKtV/HUCe/JVomSpeZvdL5YEXz66af1tr0MX5Y2hFUjX/+qC6H2p6cgrw11odT22O0St2hgxShQsFfBAtUX+7HMj9sfUFfvlSh1sdJtBscQVK/IUvM7Oh7i4nYO1UvS35WA6Di+9bG541YQO+DWDZRrr9xiFQxtC0v3aL9qftbCrQbqYmonsbxXwbCzpDYfgwiqgKgI6JLj5kKMRdEVL28INn15ykPXPC8vr9jkqJ0Hrt7oNmP+oqJh//79OqnvxHhF8ytPunCXjR4QhrUYPgYKaOq46ROTqOgh+AuhaAPodWHOCUOhcAbUF70vLEp4L+QEYwNWW9EzR+8Ok/vorZf1kSZ/bT6qBCgYsExLAiRQOgFvASo9dukx/F8GSk/HGCRAAiQQNAH2gIJGyAxIwD0EcC8ZJrbV4xmVUmkKUKVgZCYkQAIVIfD/ZM+EP6cJ+/sAAAAASUVORK5CYII=" /><!-- --></p>
+<p>We now have all the elements of a small network made of one relation
+(r1) between three variables: Disease (D), Diagnosis1 (D1), Diagnosis2
+(D2), and two pieces of evidence coming from <em>Expert one</em> (e1)
+and <em>Expert two</em> (e2).</p>
+<p>The three variables <em>D</em>, <em>D1</em> and <em>D2</em> are the
+nodes of the graph. The edges (hyperedges) are given by the relation
+<em>r1</em> and the two pieces of evidence <em>e1</em> and
+<em>e2</em>.</p>
+<p>Using the igraph package, <a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> a bipartite graph corresponding to the
+hypergraph can be obtained.</p>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
 </div>
 <div id="calculations-on-the-belief-network-the-peeling-algorithm" class="section level2">
 <h2>Calculations on the Belief Network: The peeling algorithm</h2>
-<p>Our goal is the calculation of the belief function of the variable of interest “D” (Disease of the patient). We apply an algorithm called “Peeling” to the belief network. This is a process of successive elimination of variables (peeling) until only the variable of interest (<em>D</em> here) remains. The elimination of a variable has the effect of integrating its contribution to the reduced graph.</p>
-<p>Four parameters are necessary to activate the algorithm. The first three are already defined when constructing the hypergraph. The fourth parameter is an order of elimination of the variables that we have to set.</p>
+<p>Our goal is the calculation of the belief function of the variable of
+interest “D” (Disease of the patient). We apply an algorithm called
+“Peeling” to the belief network. This is a process of successive
+elimination of variables (peeling) until only the variable of interest
+(<em>D</em> here) remains. The elimination of a variable has the effect
+of integrating its contribution to the reduced graph.</p>
+<p>Four parameters are necessary to trigger the algorithm. The first
+three are already defined when constructing the hypergraph. The fourth
+parameter is an order of elimination of the variables that we have to
+set.</p>
 <ol style="list-style-type: decimal">
-<li><p>Identification of variables and their space of possibilities <span class="math display">\[\begin{array}\
-F(D1) = \{M, T\}\\
-F(D2) = \{M, C\}\\
-F(D) = \{M, T, C\}
-\end{array}
-\]</span></p></li>
+<li><p>Identification of variables and their space of possibilities
+<span class="math display">\[F(D1) = \{M, T\}\]</span> <span class="math display">\[F(D2) = \{M, C\}\]</span> <span class="math display">\[F(D) = \{M, T, C\}\]</span></p></li>
 <li><p>Incidence matrix of the graph (nodes and edges)</p></li>
 </ol>
-<pre><code>#&gt;    e1 e2 r1
-#&gt; D1  1  0  1
-#&gt; D2  0  1  1
-#&gt; D   0  0  1</code></pre>
+<pre><code>Row names are variables names (nodes).
+Column names are for pieces of evidence and relations (edges).
+   e1 e2 r1
+D1  1  0  1
+D2  0  1  1
+D   0  0  1</code></pre>
 <ol start="3" style="list-style-type: decimal">
-<li>The names of data specifications (evidence and relations between variables)</li>
+<li>The names of data specifications (evidence and relations between
+variables)</li>
 </ol>
-<pre><code>#&gt; [1] &quot;e1&quot; &quot;e2&quot; &quot;r1&quot;</code></pre>
+<pre><code>[1] &quot;e1&quot; &quot;e2&quot; &quot;r1&quot;</code></pre>
 <ol start="4" style="list-style-type: decimal">
-<li>The variable numbers are used to fix the order of elimination. Here we eliminate D1 first, then D2.</li>
+<li>Variable numbers are used to fix the order of elimination. Here we
+eliminate D1 first, then D2.</li>
 </ol>
-<pre><code>#&gt;      varnb size     
-#&gt; [1,] &quot;1&quot;   &quot;2&quot;  &quot;D1&quot;
-#&gt; [2,] &quot;2&quot;   &quot;2&quot;  &quot;D2&quot;
-#&gt; [3,] &quot;3&quot;   &quot;3&quot;  &quot;D&quot;</code></pre>
-<p>The calculations involved follow the principles of the valuation language of Shenoy <a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a>; see also <a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a>. The variables are linked to functions (called valuations). A function can be a piece of evidence attached to a variable or a relation between two or more variables.</p>
-<p>Three kinds of operations are involved in the process of variable elimination: a) the minimal (vacuous) extension of a mass function to a larger space of possibilities; b) the combination of two mass functions by Dempster’s rule; c) the marginalization of a mass function, i.e. eliminating a variable to reduce the function to a smaller space of possibilities. Let’s do it.</p>
-<p>First step: Eliminate variable D1 (Diagnosis1). The mass function <em>e1</em> is extended to the space <span class="math inline">\(\prod(D1, D2, D)\)</span>; then <em>e1 extended</em> is combined with <em>r1</em> by Dempster’s rule; finally, D1 is eliminated by marginalizing the result of the combination to <span class="math inline">\(\prod(D2, D)\)</span>. The mass function obtained is named <em>rel_2</em>.</p>
-<p>Second step: Eliminate variable D2 (Diagnosis2). Evidence <em>e2</em> is extended to the space <span class="math inline">\(\prod(D2, D)\)</span>; Then <em>e2 extended</em> is combined with <em>rel_2</em> by Dempster’s rule; the result of the combination is marginalized to D to produce the final result.</p>
+<pre><code>  varnb size V3
+1     1    2 D1
+2     2    2 D2
+3     3    3  D</code></pre>
+<p>The calculations involved follow the principles of the valuation
+language of Shenoy <a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a>; see also <a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a>. The variables are
+linked to functions (called valuations). A function can be a piece of
+evidence attached to a variable or a relation between two or more
+variables.</p>
+<p>Three kinds of operations are involved in the process of variable
+elimination: a) the minimal (vacuous) extension of a mass function to a
+larger space of possibilities; b) the combination of two mass functions
+by Dempster’s rule; c) the marginalization of a mass function,
+i.e. eliminating a variable to reduce the function to a smaller space of
+possibilities. Let’s do it.</p>
+<p>First step: Eliminate variable D1 (Diagnosis1). The mass function
+<em>e1</em> is extended to the space <span class="math inline">\(\prod(D1, D2, D)\)</span>; then <em>e1
+extended</em> is combined with <em>r1</em> by Dempster’s rule; finally,
+D1 is eliminated by marginalizing the result of the combination to <span class="math inline">\(\prod(D2, D)\)</span>. The mass function obtained
+is named <em>rel_2</em>.</p>
+<p>Second step: Eliminate variable D2 (Diagnosis2). Evidence <em>e2</em>
+is extended to the space <span class="math inline">\(\prod(D2,
+D)\)</span>; Then <em>e2 extended</em> is combined with <em>rel_2</em>
+by Dempster’s rule; the result of the combination is marginalized to D
+to produce the final result.</p>
 </div>
 <div id="the-result" class="section level2">
 <h2>The result</h2>
-<pre><code>#&gt; i = : 1 . Eliminating variable no  1 : D1 
-#&gt; rels numbers to elim 1 3 
-#&gt; i = : 2 . Eliminating variable no  2 : D2 
-#&gt; rels numbers to elim 2 4 
-#&gt; Peeling ended
-#&gt; $mbp
-#&gt;       M T C   mass Belief Plausibility  Plty Ratio
-#&gt; M     1 0 0 0.0000 0.0000       0.9900  0.99000000
-#&gt; C     0 0 1 0.0000 0.0000       0.9900  0.99000000
-#&gt; T     0 1 0 0.0001 0.0001       0.0199  0.01990199
-#&gt; T + C 0 1 1 0.0099 0.0100       1.0000  1.01010101
-#&gt; M + C 1 0 1 0.9801 0.9801       0.9999 50.24623116
-#&gt; M + T 1 1 0 0.0099 0.0100       1.0000  1.01010101
-#&gt; frame 1 1 1 0.0000 1.0000       1.0000         Inf
-#&gt; 
-#&gt; $Conflict
-#&gt; [1] 0</code></pre>
-<p>The plausibility ratio column shows that the odds of <span class="math inline">\(M \vee C\)</span> against T are 50:1. hence, the disease of the patient must be M or C. We also see that each single hypothesis, M and C, remains highly plausible (0.99). Although there is some support for T, its plausibility is very weak at 0.019.</p>
-<p>Finally, we use the plausibility transformation <a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a> to look at the results from the point of view of probability distribution. We see again that the odds for M against T or for C against T are very similar.</p>
-<pre><code>#&gt;   M T C      trplau
-#&gt; M 1 0 0 0.495024751
-#&gt; T 0 1 0 0.009950498
-#&gt; C 0 0 1 0.495024751</code></pre>
+<pre><code>i = : 1 . Eliminating variable no  1 : D1 
+rels numbers to elim 1 3 
+i = : 2 . Eliminating variable no  2 : D2 
+rels numbers to elim 2 4 
+Peeling ended </code></pre>
+<pre><code>      M T C   mass Belief Plausibility Plty Ratio
+M     1 0 0 0.0000 0.0000         0.99       0.99
+C     0 0 1 0.0000 0.0000         0.99       0.99
+T     0 1 0 0.0001 0.0001         0.02       0.02
+T + C 0 1 1 0.0099 0.0100         1.00       1.01
+M + C 1 0 1 0.9801 0.9801         1.00      50.25
+M + T 1 1 0 0.0099 0.0100         1.00       1.01
+frame 1 1 1 0.0000 1.0000         1.00        Inf</code></pre>
+<p>The plausibility ratio column shows that the odds of <span class="math inline">\(M \vee C\)</span> against T are 50:1. hence, the
+disease of the patient must be M or C. We also see that each single
+hypothesis, M and C, remains highly plausible (0.99). Although there is
+some support for T, its plausibility is very weak at 0.019.</p>
+<p>Finally, we use the plausibility transformation <a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a> to look at the results
+from the point of view of probability distribution. We see again that
+the odds for M against T or for C against T are very similar.</p>
+<pre><code>  M T C  trplau
+M 1 0 0 0.49502
+T 0 1 0 0.00995
+C 0 0 1 0.49502</code></pre>
 </div>
 </div>
-<div class="footnotes">
+<div class="footnotes footnotes-end-of-document">
 <hr />
 <ol>
-<li id="fn1"><p>L. A. Zadeh. A mathematical theory of evidence (book review). AI Magazine, 55(81—83), 1984<a href="#fnref1" class="footnote-back">↩</a></p></li>
-<li id="fn2"><p>R. Haenni. Shedding New Light on Zadeh’s Criticism of Dempster’s Rule of Combination. Conference: Information Fusion, 2005 8th International Conference<a href="#fnref2" class="footnote-back">↩</a></p></li>
-<li id="fn3"><p>P. Smets (1993). Belief Functions: The Disjunctive Rule of Combination and the Generalized Bayesian Theorem. IRIDIA - Université Libre de Bruxelles, Brussels, Belgium<a href="#fnref3" class="footnote-back">↩</a></p></li>
-<li id="fn4"><p><a href="https://cran.r-project.org/package=dst" class="uri">https://cran.r-project.org/package=dst</a><a href="#fnref4" class="footnote-back">↩</a></p></li>
-<li id="fn5"><p>Csardi G, Nepusz T: The igraph software package for complex network research, InterJournal, Complex Systems 1695. 2006. <a href="https://igraph.org" class="uri">https://igraph.org</a><a href="#fnref5" class="footnote-back">↩</a></p></li>
-<li id="fn6"><p>P. P. Shenoy. A Valuation-Based Language for Expert systems. International Journal of Approximate Reasoning 1989, 3 383–411<a href="#fnref6" class="footnote-back">↩</a></p></li>
-<li id="fn7"><p>P. P. Shenoy. Valuation-Based Systems. Third School on Belief Functions and Their Applications, Stella Plage, France. September 30, 2015<a href="#fnref7" class="footnote-back">↩</a></p></li>
-<li id="fn8"><p>Cobb, B. R. and Shenoy, P.P. (2006). On the plausibility transformation method for translating belief function models to probability models. Journal of Approximate Reasoning, 41(3), April 2006, 314–330<a href="#fnref8" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p>Retired Statistician, Stat.ASSQ<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>L. A. Zadeh. A mathematical theory of evidence (book
+review). AI Magazine, 55(81—83), 1984<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>R. Haenni. Shedding New Light on Zadeh’s Criticism of
+Dempster’s Rule of Combination. Conference: Information Fusion, 2005 8th
+International Conference<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>P. Smets (1993). Belief Functions: The Disjunctive Rule
+of Combination and the Generalized Bayesian Theorem. IRIDIA - Université
+Libre de Bruxelles, Brussels, Belgium<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
+<li id="fn5"><p><a href="https://cran.r-project.org/package=dst" class="uri">https://cran.r-project.org/package=dst</a><a href="#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn6"><p>Csardi G, Nepusz T: The igraph software package for
+complex network research, InterJournal, Complex Systems 1695. 2006. <a href="https://igraph.org" class="uri">https://igraph.org</a><a href="#fnref6" class="footnote-back">↩︎</a></p></li>
+<li id="fn7"><p>P. P. Shenoy. A Valuation-Based Language for Expert
+systems. International Journal of Approximate Reasoning 1989, 3
+383–411<a href="#fnref7" class="footnote-back">↩︎</a></p></li>
+<li id="fn8"><p>P. P. Shenoy. Valuation-Based Systems. Third School on
+Belief Functions and Their Applications, Stella Plage, France. September
+30, 2015<a href="#fnref8" class="footnote-back">↩︎</a></p></li>
+<li id="fn9"><p>Cobb, B. R. and Shenoy, P.P. (2006). On the plausibility
+transformation method for translating belief function models to
+probability models. Journal of Approximate Reasoning, 41(3), April 2006,
+314–330<a href="#fnref9" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
 

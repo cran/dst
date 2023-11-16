@@ -2,19 +2,20 @@ Package: dst
 Type: Package
 Title: Using the Theory of Belief Functions
 Encoding: UTF-8
-Version: 1.5.1
-Date: 2021-12-29
-Author: Claude Boivin, Stat.ASSQ <webapp.cb@gmail.com>
+Version: 1.5.2
+Date: 2023-11-15
+Author: Claude Boivin <webapp.cb@gmail.com>
 Maintainer: Claude Boivin <webapp.cb@gmail.com>
 Description: Using the Theory of Belief Functions for evidence calculus. Basic probability assignments, or mass functions, can be defined on the subsets of a set of possible values and combined. A mass function can be extended to a larger frame. Marginalization, i.e. reduction to a smaller frame can also be done. These features can be combined to analyze small belief networks and take into account situations where information cannot be satisfactorily described by probability distributions.
 License: GPL (>= 2)
 LazyData: true
 BugReports: https://github.com/RAPLER/dst-1/issues
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Depends: R (>= 2.10)
-Suggests: testthat, knitr, rmarkdown, igraph
+Imports: parallel
+Suggests: igraph, knitr, rmarkdown, testthat
 VignetteBuilder: knitr
-NeedsCompilation: no
-Packaged: 2022-01-03 15:18:15 UTC; chrono03
+NeedsCompilation: yes
+Packaged: 2023-11-16 12:59:49 UTC; chrono03
 Repository: CRAN
-Date/Publication: 2022-01-03 15:40:02 UTC
+Date/Publication: 2023-11-16 14:50:02 UTC

@@ -4,12 +4,14 @@
 \alias{dsrwon}
 \title{Combination of two mass functions}
 \usage{
-dsrwon(x, y, varnames = NULL, relnb = NULL, infovarnames)
+dsrwon(x, y, mcores = "no", varnames = NULL, relnb = NULL, infovarnames)
 }
 \arguments{
 \item{x}{A basic chance assignment (see \code{\link{bca}}).}
 
-\item{y}{A  A basic chance assignment (see \code{\link{bca}}).}
+\item{y}{A basic chance assignment (see \code{\link{bca}}).}
+
+\item{mcores}{Make use of multiple cores ("yes") or not ("no"). Default = "no".}
 
 \item{varnames}{A character string to name the resulting variable. named "z" if omitted.}
 
@@ -27,17 +29,19 @@ A basic chance assignment with these two components added: \itemize{
 The unnormalized Dempster's rule is used to combine two mass functions \code{mx} and \code{my} defined  on the same frame of discernment and described by their respective basic chance assignments \code{x}  and \code{y}. Dempster's rule of combination is applied. The normalization is not done, leaving the choice  to the user to normalize the results or not (for the normalization operation, see function \code{\link{nzdsr}}).
 }
 \details{
+The calculations make use of multiple cores available.
+
 The two bca's \code{x} and \code{y} must be defined on the same frame of discernment for the combination to take place. The relation number of the x input is given to the output result.
 }
 \examples{
 x1 <- bca(tt = matrix(c(0,1,1,1,1,0,1,1,1),nrow = 3, 
 byrow = TRUE), m = c(0.2,0.5, 0.3), 
 cnames = c("a", "b", "c"),  
-varnames = "x", varnb=1)
+varnames = "x", idvar = 1)
 x2 <- bca(tt = matrix(c(1,0,0,1,1,1),nrow = 2, 
 byrow = TRUE), m = c(0.6, 0.4),  
 cnames = c("a", "b", "c"),  
-varnames = "x", varnb = 1)
+varnames = "x", idvar = 1)
 dsrwon(x1,x2)
 frame <- bca(matrix(c(1,1,1), nrow = 1), m = 1, cnames = c("a","b","c"))
 dsrwon(frame, frame)
@@ -46,5 +50,5 @@ dsrwon(frame, frame)
 Shafer, G., (1976). A Mathematical Theory of Evidence. Princeton University Press, Princeton, New Jersey, pp. 57-61: Dempster's rule of combination.
 }
 \author{
-Claude Boivin, Stat.ASSQ
+Claude Boivin
 }

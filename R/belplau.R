@@ -13,7 +13,7 @@
 #'  \item Column 2: the degree of Plausibility \code{Pl};
 #'  \item Column 3: the Plausibility ratio
 #'    }
-#' @author Claude Boivin, Stat.ASSQ
+#' @author Claude Boivin
 #' @export
 #' @references \itemize{
 #' \item Shafer, G., (1976). A Mathematical Theory of Evidence. Princeton University Press, Princeton, New Jersey, p. 39-43.
@@ -36,7 +36,7 @@
 belplau<-function (x, remove=FALSE) {
   #
   # Local variables:  xtest, row_m_empty, MACC, W2, INUL, MACC1, W2a, IBEL, BEL, IPLAU, PLAU, rplau
-  # Functions calls: dotprod
+  # Functions calls: dotprod, nameRows
   #
   # 1. Checking input data 
   #
@@ -54,7 +54,7 @@ belplau<-function (x, remove=FALSE) {
     row_m_empty <- row_m_empty[1]
     if (!is.na(row_m_empty)) {
       if (x$spec[row_m_empty,2] > 0) {
-    stop("Invalid data: Empty set among the focal elements. Normalization necessary. See nzdsr function.")
+    stop("Invalid data: Empty set among the focal elements. Normalization necessary. Apply function nzdsr to your bca to normalize your result.")
       }
     }
   }

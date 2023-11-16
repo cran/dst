@@ -7,7 +7,7 @@
 #' @param g Any operator: +, -, *, /, &, |, ==, <=, paste etc. 
 #' @param f Any operator: +, -, *, /, &, |, ==, <=, paste etc. 
 #' @return The result of the generalized inner product is returned.
-#' @author Claude Boivin, Stat.ASSQ
+#' @author Claude Boivin
 #' @export
 #' @examples 
 #' print("Standard matrix product")
@@ -34,6 +34,9 @@ dotprod<-function(x,y,g,f){
   # Local variables: ff, gg, i, j, temp, k,  
   # Functions calls: None
   #
+  if ((is.matrix(x) ==FALSE) | (is.matrix(y) ==FALSE)) {
+    stop("Input parameters must be matrices.")
+  }
   if (ncol(x) !=nrow(y)) {
     stop("nb of columns of first matrix not equal to nb rows second matrix.")
   }

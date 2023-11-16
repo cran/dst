@@ -18,7 +18,7 @@
 #' \item valuenames A list of the names of the variables with the name of the elements of their frame of discernment.
 #' \item inforel A two-column matrix containing the relation number and the depth (number of variables) of the relation.
 #' } 
-#' @author Claude Boivin, Stat.ASSQ
+#' @author Claude Boivin
 #' @export
 #' @examples
 #' # A logical implication rule
@@ -46,7 +46,7 @@
   bcaRel <- function(tt, spec, infovar, varnames, valuenames, relnb = NULL, infovarnames, infovaluenames) {
   #
   # Local variables: v, z1, colnz1, 
-  # Functions calls: doubles, productSpace, bca
+  # Functions calls: productSpace, bca
   #
   # 1. Catch old parameters names, if anay and replace by the new ones
   #
@@ -84,7 +84,9 @@
   # 3. Transform mass vector
   # remove duplicates in each specification to test the sum of masses
   #
-  v <- doubles(spec)[,2]
+  # correction 2023-03-19 Changement du 15 dec 22 pas bon
+  v<- spec[!duplicated(spec),2] ## remove duplicates 
+  #      
   if (abs(sum(v)-1)>0.000001)  { 
     stop("Sum of masses not equal to 1 : check your data.") 
   }
