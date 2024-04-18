@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 # Each column of the matrix is a possible value. 
 # Each row is subset of the set of possible values, described by a complete disjunctive coding
 Weather_tt <- matrix(c(1,0,0,1,1,1), ncol=2, byrow=TRUE)
-Weather <-  bca(tt = Weather_tt, m= c(0, 0.45, 0.55), cnames =c("Sun", "NoSun"), varnames = "Weather", varnb = 1)
+Weather <-  bca(tt = Weather_tt, m= c(0, 0.45, 0.55), cnames =c("Sun", "NoSun"), varnames = "Weather", idvar = 1)
 Weather$tt
 # The belief function of Weather
 belplau(Weather)
@@ -26,19 +26,23 @@ plautrans(Weather)
 ## -----------------------------------------------------------------------------
 # Relation between Rain and Roadworks
 # Define variable Rain. Values: Ry for rain = yes, Rn for rain = no
-rain <-  bca(tt = matrix(c(1,0,0,1,1,1), ncol = 2, byrow = TRUE), m=c(0,0, 1), cnames=c("Ry", "Rn"),  varnames = "Rain", varnb = 5)
+rain <-  bca(tt = matrix(c(1,0,0,1,1,1), ncol = 2, byrow = TRUE), m=c(0,0, 1), cnames=c("Ry", "Rn"),  varnames = "Rain", idvar = 5)
 # Define variable Roadworks Values: Wy for rdworks = yes, Wn for rdworks = no
 # Define variable Roadworks
-rdworks <-  bca(f= matrix(c(1,0,0,1,1,1), ncol=2, byrow=TRUE), m= c(0, 0, 1), cnames =c("Wy", "Wn"), varnames = "Roadworks", varnb = 4)
+rdworks <-  bca(tt= matrix(c(1,0,0,1,1,1), ncol=2, byrow=TRUE), m= c(0, 0, 1), cnames =c("Wy", "Wn"), varnames = "RdWorks", idvar = 4)
 # Establish the relation between Rain and Roadworks
 # A simple implication rule
 # the binary matrix
-ttrwt <- matrix(c(0,1,0,1,0,1,1,0,1,0,0,1,1,1,1,1), nrow=4, byrow = TRUE, dimnames = list(NULL, c("Wy", "Wn", "Ry", "Rn")) )
+ttrwt <- matrix(c(0,1,0,1,
+                  0,1,1,0,
+                  1,0,0,1,
+                  1,1,1,1), nrow=4, byrow = TRUE, dimnames = list(NULL, c("Wy", "Wn", "Ry", "Rn")) )
 # I use the function nameRows to name the rows here
 rownames(ttrwt) <- nameRows(ttrwt)
 ttrwt
 inforwt <- matrix(c(4,5,2,2), ncol = 2,  dimnames = list(NULL, c("varnb", "size")) )
-specrwt <-  matrix(c(1,1,1,2,0.9,0.9,0.9,0.1), ncol = 2, dimnames = list(NULL, c("specnb", "mass"))) 
+specrwt <-  matrix(c(1,1,1,2,
+                     0.9,0.9,0.9,0.1), ncol = 2, dimnames = list(NULL, c("specnb", "mass"))) 
 # The relation
 noW_if_R <- bcaRel(tt = ttrwt, spec = specrwt, infovar = inforwt, varnames = c("RdWorks", "Rain"), relnb = 1)
  noW_if_R

@@ -12,7 +12,7 @@
 
 <meta name="author" content="Claude Boivin" />
 
-<meta name="date" content="2023-11-16" />
+<meta name="date" content="2024-04-17" />
 
 <title>Introduction to Belief Functions</title>
 
@@ -340,7 +340,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Introduction to Belief Functions</h1>
 <h4 class="author">Claude Boivin<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></h4>
-<h4 class="date">2023-11-16</h4>
+<h4 class="date">2024-04-17</h4>
 
 
 
@@ -405,29 +405,27 @@ function <em>belplau</em>.</p>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># Each column of the matrix is a possible value. </span></span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co"># Each row is subset of the set of possible values, described by a complete disjunctive coding</span></span>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>Weather_tt <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>Weather <span class="ot">&lt;-</span>  <span class="fu">bca</span>(<span class="at">tt =</span> Weather_tt, <span class="at">m=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.45</span>, <span class="fl">0.55</span>), <span class="at">cnames =</span><span class="fu">c</span>(<span class="st">&quot;Sun&quot;</span>, <span class="st">&quot;NoSun&quot;</span>), <span class="at">varnames =</span> <span class="st">&quot;Weather&quot;</span>, <span class="at">varnb =</span> <span class="dv">1</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt; Warning in bca(tt = Weather_tt, m = c(0, 0.45, 0.55), cnames = c(&quot;Sun&quot;, :</span></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt; Parameter name &#39;varnb&#39; is deprecated. Use &#39;idvar&#39; instead.</span></span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>Weather<span class="sc">$</span>tt</span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt;       Sun NoSun</span></span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt; Sun     1     0</span></span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#&gt; NoSun   0     1</span></span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">#&gt; frame   1     1</span></span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co"># The belief function of Weather</span></span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="fu">belplau</span>(Weather)</span>
-<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co">#&gt;       Belief Plausibility Plty Ratio</span></span>
-<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">#&gt; Sun     0.00         0.55   0.550000</span></span>
-<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co">#&gt; NoSun   0.45         1.00   1.818182</span></span>
-<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co">#&gt; frame   1.00         1.00        Inf</span></span>
-<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="fu">tabresul</span>(Weather)</span>
-<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="co">#&gt; $mbp</span></span>
-<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="co">#&gt;       Sun NoSun mass Belief Plausibility Plty Ratio</span></span>
-<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="co">#&gt; Sun     1     0 0.00   0.00         0.55   0.550000</span></span>
-<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co">#&gt; NoSun   0     1 0.45   0.45         1.00   1.818182</span></span>
-<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="co">#&gt; frame   1     1 0.55   1.00         1.00        Inf</span></span>
-<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="co">#&gt; $Conflict</span></span>
-<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span></code></pre></div>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>Weather <span class="ot">&lt;-</span>  <span class="fu">bca</span>(<span class="at">tt =</span> Weather_tt, <span class="at">m=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.45</span>, <span class="fl">0.55</span>), <span class="at">cnames =</span><span class="fu">c</span>(<span class="st">&quot;Sun&quot;</span>, <span class="st">&quot;NoSun&quot;</span>), <span class="at">varnames =</span> <span class="st">&quot;Weather&quot;</span>, <span class="at">idvar =</span> <span class="dv">1</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>Weather<span class="sc">$</span>tt</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt;       Sun NoSun</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt; Sun     1     0</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt; NoSun   0     1</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt; frame   1     1</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co"># The belief function of Weather</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="fu">belplau</span>(Weather)</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">#&gt;        bel disbel  unc plau    rplau</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">#&gt; Sun   0.00   0.45 0.55 0.55 0.550000</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co">#&gt; NoSun 0.45   0.00 0.55 1.00 1.818182</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">#&gt; frame 1.00   0.00 0.00 1.00      Inf</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="fu">tabresul</span>(Weather)</span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co">#&gt; $mbp</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co">#&gt;       Sun NoSun mass  bel disbel  unc plau    rplau</span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="co">#&gt; Sun     1     0 0.00 0.00   0.45 0.55 0.55 0.550000</span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="co">#&gt; NoSun   0     1 0.45 0.45   0.00 0.55 1.00 1.818182</span></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="co">#&gt; frame   1     1 0.55 1.00   0.00 0.00 1.00      Inf</span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="co">#&gt; $Conflict</span></span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span></code></pre></div>
 <p>We don’t have a probability distribution here; only one of the two
 elementary events has received a mass value; The elementary event “no
 sun” has a degree of support (belief) of 0.45 and the elementary event
@@ -443,11 +441,9 @@ apply a transformation to the plausibility distribution of the
 elementary events to obtain a probability distribution. This is called
 the plausibility transformation <a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">plautrans</span>(Weather)</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt; Warning in addTobca(x = x, f = diag(1, nc)): Parameter name &#39;f&#39; is deprecated.</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; Use &#39;tt&#39; instead.</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt;       Sun NoSun    trplau</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; Sun     1     0 0.3548387</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; NoSun   0     1 0.6451613</span></span></code></pre></div>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt;       Sun NoSun    trplau</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; Sun     1     0 0.3548387</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; NoSun   0     1 0.6451613</span></span></code></pre></div>
 <p>The plausibility transformation gives a probability of sun 0f
 0.35.</p>
 <p>On my trip to Forillon National Park, there will be roadworks
@@ -461,71 +457,77 @@ the function <em>bcaRel</em>. This encoding is a simple implication rule
 for <em>rdworks = no</em>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Relation between Rain and Roadworks</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># Define variable Rain. Values: Ry for rain = yes, Rn for rain = no</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>rain <span class="ot">&lt;-</span>  <span class="fu">bca</span>(<span class="at">tt =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>), <span class="at">m=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">cnames=</span><span class="fu">c</span>(<span class="st">&quot;Ry&quot;</span>, <span class="st">&quot;Rn&quot;</span>),  <span class="at">varnames =</span> <span class="st">&quot;Rain&quot;</span>, <span class="at">varnb =</span> <span class="dv">5</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; Warning in bca(tt = matrix(c(1, 0, 0, 1, 1, 1), ncol = 2, byrow = TRUE), :</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; Parameter name &#39;varnb&#39; is deprecated. Use &#39;idvar&#39; instead.</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co"># Define variable Roadworks Values: Wy for rdworks = yes, Wn for rdworks = no</span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co"># Define variable Roadworks</span></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>rdworks <span class="ot">&lt;-</span>  <span class="fu">bca</span>(<span class="at">f=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>), <span class="at">m=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">cnames =</span><span class="fu">c</span>(<span class="st">&quot;Wy&quot;</span>, <span class="st">&quot;Wn&quot;</span>), <span class="at">varnames =</span> <span class="st">&quot;Roadworks&quot;</span>, <span class="at">varnb =</span> <span class="dv">4</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; Warning in bca(f = matrix(c(1, 0, 0, 1, 1, 1), ncol = 2, byrow = TRUE), :</span></span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; Parameter name &#39;f&#39; is deprecated. Use &#39;tt&#39; instead.</span></span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; Warning in bca(f = matrix(c(1, 0, 0, 1, 1, 1), ncol = 2, byrow = TRUE), :</span></span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; Parameter name &#39;varnb&#39; is deprecated. Use &#39;idvar&#39; instead.</span></span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co"># Establish the relation between Rain and Roadworks</span></span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co"># A simple implication rule</span></span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co"># the binary matrix</span></span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>ttrwt <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow=</span><span class="dv">4</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;Wy&quot;</span>, <span class="st">&quot;Wn&quot;</span>, <span class="st">&quot;Ry&quot;</span>, <span class="st">&quot;Rn&quot;</span>)) )</span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co"># I use the function nameRows to name the rows here</span></span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="fu">rownames</span>(ttrwt) <span class="ot">&lt;-</span> <span class="fu">nameRows</span>(ttrwt)</span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a>ttrwt</span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt;         Wy Wn Ry Rn</span></span>
-<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt; Wn + Rn  0  1  0  1</span></span>
-<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt; Wn + Ry  0  1  1  0</span></span>
-<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="co">#&gt; Wy + Rn  1  0  0  1</span></span>
-<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co">#&gt; frame    1  1  1  1</span></span>
-<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a>inforwt <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">ncol =</span> <span class="dv">2</span>,  <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )</span>
-<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a>specrwt <span class="ot">&lt;-</span>  <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="fl">0.9</span>,<span class="fl">0.9</span>,<span class="fl">0.9</span>,<span class="fl">0.1</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>))) </span>
-<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co"># The relation</span></span>
-<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a>noW_if_R <span class="ot">&lt;-</span> <span class="fu">bcaRel</span>(<span class="at">tt =</span> ttrwt, <span class="at">spec =</span> specrwt, <span class="at">infovar =</span> inforwt, <span class="at">varnames =</span> <span class="fu">c</span>(<span class="st">&quot;RdWorks&quot;</span>, <span class="st">&quot;Rain&quot;</span>), <span class="at">relnb =</span> <span class="dv">1</span>)</span>
-<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a> noW_if_R</span>
-<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a><span class="co">#&gt; $con</span></span>
-<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span>
-<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a><span class="co">#&gt; $tt</span></span>
-<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a><span class="co">#&gt;                       Wy Ry Wy Rn Wn Ry Wn Rn</span></span>
-<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a><span class="co">#&gt; Wy Rn + Wn Ry + Wn Rn FALSE  TRUE  TRUE  TRUE</span></span>
-<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a><span class="co">#&gt; frame                  TRUE  TRUE  TRUE  TRUE</span></span>
-<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a><span class="co">#&gt; $spec</span></span>
-<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a><span class="co">#&gt;      specnb mass</span></span>
-<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a><span class="co">#&gt; [1,]      1  0.9</span></span>
-<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a><span class="co">#&gt; [2,]      2  0.1</span></span>
-<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a><span class="co">#&gt; $infovar</span></span>
-<span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a><span class="co">#&gt;      varnb size</span></span>
-<span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a><span class="co">#&gt; [1,]     4    2</span></span>
-<span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a><span class="co">#&gt; [2,]     5    2</span></span>
-<span id="cb3-47"><a href="#cb3-47" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-48"><a href="#cb3-48" tabindex="-1"></a><span class="co">#&gt; $varnames</span></span>
-<span id="cb3-49"><a href="#cb3-49" tabindex="-1"></a><span class="co">#&gt; [1] &quot;RdWorks&quot; &quot;Rain&quot;   </span></span>
-<span id="cb3-50"><a href="#cb3-50" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-51"><a href="#cb3-51" tabindex="-1"></a><span class="co">#&gt; $valuenames</span></span>
-<span id="cb3-52"><a href="#cb3-52" tabindex="-1"></a><span class="co">#&gt; $valuenames$RdWorks</span></span>
-<span id="cb3-53"><a href="#cb3-53" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Wy&quot; &quot;Wn&quot;</span></span>
-<span id="cb3-54"><a href="#cb3-54" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-55"><a href="#cb3-55" tabindex="-1"></a><span class="co">#&gt; $valuenames$Rain</span></span>
-<span id="cb3-56"><a href="#cb3-56" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Ry&quot; &quot;Rn&quot;</span></span>
-<span id="cb3-57"><a href="#cb3-57" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-58"><a href="#cb3-58" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-59"><a href="#cb3-59" tabindex="-1"></a><span class="co">#&gt; $inforel</span></span>
-<span id="cb3-60"><a href="#cb3-60" tabindex="-1"></a><span class="co">#&gt;      relnb depth</span></span>
-<span id="cb3-61"><a href="#cb3-61" tabindex="-1"></a><span class="co">#&gt; [1,]     1     2</span></span>
-<span id="cb3-62"><a href="#cb3-62" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-63"><a href="#cb3-63" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;class&quot;)</span></span>
-<span id="cb3-64"><a href="#cb3-64" tabindex="-1"></a><span class="co">#&gt; [1] &quot;list&quot;    &quot;bcaspec&quot;</span></span></code></pre></div>
-<p>It is cloudy on my day of departure.Forecast are 60 % chances of rain
-today. We now change the distribution of the bcaspec <em>rain</em> in
-order to reflect this condition.</p>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>rain <span class="ot">&lt;-</span>  <span class="fu">bca</span>(<span class="at">tt =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>), <span class="at">m=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">cnames=</span><span class="fu">c</span>(<span class="st">&quot;Ry&quot;</span>, <span class="st">&quot;Rn&quot;</span>),  <span class="at">varnames =</span> <span class="st">&quot;Rain&quot;</span>, <span class="at">idvar =</span> <span class="dv">5</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co"># Define variable Roadworks Values: Wy for rdworks = yes, Wn for rdworks = no</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># Define variable Roadworks</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>rdworks <span class="ot">&lt;-</span>  <span class="fu">bca</span>(<span class="at">tt=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">ncol=</span><span class="dv">2</span>, <span class="at">byrow=</span><span class="cn">TRUE</span>), <span class="at">m=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">cnames =</span><span class="fu">c</span>(<span class="st">&quot;Wy&quot;</span>, <span class="st">&quot;Wn&quot;</span>), <span class="at">varnames =</span> <span class="st">&quot;RdWorks&quot;</span>, <span class="at">idvar =</span> <span class="dv">4</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co"># Establish the relation between Rain and Roadworks</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co"># A simple implication rule</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co"># the binary matrix</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>ttrwt <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>                  <span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>                  <span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>                  <span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow=</span><span class="dv">4</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;Wy&quot;</span>, <span class="st">&quot;Wn&quot;</span>, <span class="st">&quot;Ry&quot;</span>, <span class="st">&quot;Rn&quot;</span>)) )</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co"># I use the function nameRows to name the rows here</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="fu">rownames</span>(ttrwt) <span class="ot">&lt;-</span> <span class="fu">nameRows</span>(ttrwt)</span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>ttrwt</span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt;         Wy Wn Ry Rn</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt; Wn + Rn  0  1  0  1</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; Wn + Ry  0  1  1  0</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt; Wy + Rn  1  0  0  1</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt; frame    1  1  1  1</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a>inforwt <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">ncol =</span> <span class="dv">2</span>,  <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )</span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a>specrwt <span class="ot">&lt;-</span>  <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,</span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a>                     <span class="fl">0.9</span>,<span class="fl">0.9</span>,<span class="fl">0.9</span>,<span class="fl">0.1</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>))) </span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co"># The relation</span></span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a>noW_if_R <span class="ot">&lt;-</span> <span class="fu">bcaRel</span>(<span class="at">tt =</span> ttrwt, <span class="at">spec =</span> specrwt, <span class="at">infovar =</span> inforwt, <span class="at">varnames =</span> <span class="fu">c</span>(<span class="st">&quot;RdWorks&quot;</span>, <span class="st">&quot;Rain&quot;</span>), <span class="at">relnb =</span> <span class="dv">1</span>)</span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a> noW_if_R</span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="co">#&gt; $con</span></span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a><span class="co">#&gt; $tt</span></span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a><span class="co">#&gt;                       Wy Ry Wy Rn Wn Ry Wn Rn</span></span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a><span class="co">#&gt; Wy Rn + Wn Ry + Wn Rn FALSE  TRUE  TRUE  TRUE</span></span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a><span class="co">#&gt; frame                  TRUE  TRUE  TRUE  TRUE</span></span>
+<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a><span class="co">#&gt; $spec</span></span>
+<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a><span class="co">#&gt;      specnb mass</span></span>
+<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a><span class="co">#&gt; [1,]      1  0.9</span></span>
+<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a><span class="co">#&gt; [2,]      2  0.1</span></span>
+<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a><span class="co">#&gt; $infovar</span></span>
+<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a><span class="co">#&gt;      varnb size</span></span>
+<span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a><span class="co">#&gt; [1,]     4    2</span></span>
+<span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a><span class="co">#&gt; [2,]     5    2</span></span>
+<span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a><span class="co">#&gt; $varnames</span></span>
+<span id="cb3-47"><a href="#cb3-47" tabindex="-1"></a><span class="co">#&gt; [1] &quot;RdWorks&quot; &quot;Rain&quot;   </span></span>
+<span id="cb3-48"><a href="#cb3-48" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-49"><a href="#cb3-49" tabindex="-1"></a><span class="co">#&gt; $valuenames</span></span>
+<span id="cb3-50"><a href="#cb3-50" tabindex="-1"></a><span class="co">#&gt; $valuenames$RdWorks</span></span>
+<span id="cb3-51"><a href="#cb3-51" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Wy&quot; &quot;Wn&quot;</span></span>
+<span id="cb3-52"><a href="#cb3-52" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-53"><a href="#cb3-53" tabindex="-1"></a><span class="co">#&gt; $valuenames$Rain</span></span>
+<span id="cb3-54"><a href="#cb3-54" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Ry&quot; &quot;Rn&quot;</span></span>
+<span id="cb3-55"><a href="#cb3-55" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-56"><a href="#cb3-56" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-57"><a href="#cb3-57" tabindex="-1"></a><span class="co">#&gt; $ssnames</span></span>
+<span id="cb3-58"><a href="#cb3-58" tabindex="-1"></a><span class="co">#&gt; $ssnames[[1]]</span></span>
+<span id="cb3-59"><a href="#cb3-59" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Wy Rn&quot; &quot;Wn Ry&quot; &quot;Wn Rn&quot;</span></span>
+<span id="cb3-60"><a href="#cb3-60" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-61"><a href="#cb3-61" tabindex="-1"></a><span class="co">#&gt; $ssnames[[2]]</span></span>
+<span id="cb3-62"><a href="#cb3-62" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Wy Ry&quot; &quot;Wy Rn&quot; &quot;Wn Ry&quot; &quot;Wn Rn&quot;</span></span>
+<span id="cb3-63"><a href="#cb3-63" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-64"><a href="#cb3-64" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-65"><a href="#cb3-65" tabindex="-1"></a><span class="co">#&gt; $inforel</span></span>
+<span id="cb3-66"><a href="#cb3-66" tabindex="-1"></a><span class="co">#&gt;      relnb depth</span></span>
+<span id="cb3-67"><a href="#cb3-67" tabindex="-1"></a><span class="co">#&gt; [1,]     1     2</span></span>
+<span id="cb3-68"><a href="#cb3-68" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-69"><a href="#cb3-69" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;class&quot;)</span></span>
+<span id="cb3-70"><a href="#cb3-70" tabindex="-1"></a><span class="co">#&gt; [1] &quot;list&quot;    &quot;bcaspec&quot;</span></span></code></pre></div>
+<p>It is cloudy on my day of departure. Forecast are 60 % chances of
+rain today. We now change the distribution of the bcaspec
+<em>rdworks</em> in order to reflect this condition.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Evidence of rain on the day of departure</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>rain<span class="sc">$</span>spec[,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="dv">0</span>, <span class="fl">0.4</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">bcaPrint</span>(rain)</span>
@@ -554,34 +556,32 @@ marginalize to the variable Roadworks.</p>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">bcaPrint</span>(comb_rel)</span>
 <span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt;                comb_rel specnb mass</span></span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; 1                 Wn Ry      1 0.54</span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; 2         Wy Ry + Wn Ry      2 0.06</span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; 3         Wy Rn + Wn Rn      3    0</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; 2         Wy Rn + Wn Rn      2    0</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; 3         Wy Ry + Wn Ry      3 0.06</span></span>
 <span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; 4 Wy Rn + Wn Ry + Wn Rn      4 0.36</span></span>
 <span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; 5                 frame      5 0.04</span></span></code></pre></div>
 <p>Third step: Marginalization is done using function <em>elim</em>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># marginalize to variable roadworks by eliminating variable rain (variable nb = 5)</span></span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>roadworks_ev <span class="ot">&lt;-</span> <span class="fu">elim</span>(comb_rel, <span class="at">xnb =</span> <span class="dv">5</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">belplau</span>(roadworks_ev)</span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt;       Belief Plausibility Plty Ratio</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; Wn      0.54            1   2.173913</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; frame   1.00            1        Inf</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt;        bel disbel  unc plau    rplau</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; Wn    0.54      0 0.46    1 2.173913</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; frame 1.00      0 0.00    1      Inf</span></span>
 <span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co"># use function addTobca to show all the singletons</span></span>
 <span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>roadworks_ev_plus_sing <span class="ot">&lt;-</span> <span class="fu">addTobca</span>(roadworks_ev, <span class="at">tt =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">ncol =</span> <span class="dv">2</span>))</span>
 <span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="fu">tabresul</span>(roadworks_ev_plus_sing)</span>
 <span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; $mbp</span></span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt;       Wy Wn mass Belief Plausibility Plty Ratio</span></span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; Wy     1  0 0.00   0.00         0.46   0.460000</span></span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; Wn     0  1 0.54   0.54         1.00   2.173913</span></span>
-<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt; frame  1  1 0.46   1.00         1.00        Inf</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt;       Wy Wn mass  bel disbel  unc plau    rplau</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; Wn     0  1 0.54 0.54   0.00 0.46 1.00 2.173913</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; Wy     1  0 0.00 0.00   0.54 0.46 0.46 0.460000</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt; frame  1  1 0.46 1.00   0.00 0.00 1.00      Inf</span></span>
 <span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt; $Conflict</span></span>
 <span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span>
 <span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="fu">plautrans</span>(roadworks_ev_plus_sing)</span>
-<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt; Warning in addTobca(x = x, f = diag(1, nc)): Parameter name &#39;f&#39; is deprecated.</span></span>
-<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt; Use &#39;tt&#39; instead.</span></span>
-<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co">#&gt;    Wy Wn    trplau</span></span>
-<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co">#&gt; Wy  1  0 0.3150685</span></span>
-<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="co">#&gt; Wn  0  1 0.6849315</span></span></code></pre></div>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt;    Wy Wn    trplau</span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt; Wy  1  0 0.3150685</span></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co">#&gt; Wn  0  1 0.6849315</span></span></code></pre></div>
 <p>Finally the results. Function <em>belplau</em> shows that the odds of
 “No roadworks” vs Roadworks are 2.17. Using the plausibility
 transformation, I obtain a probability of “No Roadworks” of 0.68.</p>

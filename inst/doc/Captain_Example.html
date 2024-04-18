@@ -411,7 +411,7 @@ foul) or M (M = true). <span class="math inline">\(Ω_D\)</span> =
 <div id="r3-swr" class="section level3">
 <h3>R3: SWR</h3>
 <p>R3 : S = sum of delays of 1 day for each condition in W (W = foul) or
-R (R = true) or both, true 90 % of the time. <span class="math inline">\(Ω_A\)</span> = {0,1,2,3,4,5,6}; <span class="math inline">\(Ω_W\)</span>= {foul, fair}; <span class="math inline">\(Ω_R\)</span> = {true, false}.</p>
+R (R = true) or both, true 90 % of the time. <span class="math inline">\(Ω_S\)</span> = {0,1,2,3}; <span class="math inline">\(Ω_W\)</span>= {foul, fair}; <span class="math inline">\(Ω_R\)</span> = {true, false}.</p>
 <p>m({0 fair false}, {1 foul false}, {1 fair true}, {2 foul true}) =
 0.9; m(<span class="math inline">\(Ω_S\)</span> x <span class="math inline">\(Ω_W\)</span> x <span class="math inline">\(Ω_R\)</span>) = 0.1.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/swr.rda&quot;</span>)</span>
@@ -491,13 +491,13 @@ combination.</p>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">bcaPrint</span>(mr_rel)</span></code></pre></div>
 <pre><code>##                                  mr_rel specnb mass
 ## 1                true true + false true      1 0.02
-## 2               true false + false true      2 0.14
-## 3               true true + false false      3 0.02
+## 2               true true + false false      2 0.02
+## 3               true false + false true      3 0.14
 ## 4              true false + false false      4 0.14
-## 5   true true + true false + false true      5 0.04
-## 6  true true + true false + false false      6 0.04
-## 7  true true + false true + false false      7 0.06
-## 8 true false + false true + false false      8 0.42
+## 5  true true + false true + false false      5 0.06
+## 6 true false + false true + false false      6 0.42
+## 7   true true + true false + false true      7 0.04
+## 8  true true + true false + false false      8 0.04
 ## 9                                 frame      9 0.12</code></pre>
 </div>
 </div>
@@ -507,12 +507,8 @@ combination.</p>
 <h3>1: Loading delay</h3>
 <p><span class="math inline">\(Ω_L\)</span> = {true, false}. m({true}) =
 0.5 ; m({false})= 0.3 ; m({true}, {false}) = 0.2</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>l_rel <span class="ot">&lt;-</span> <span class="fu">bca</span>(<span class="at">f =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>), <span class="at">m =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.2</span>), <span class="at">cnames =</span> <span class="fu">c</span>(<span class="st">&quot;true&quot;</span>, <span class="st">&quot;false&quot;</span>), <span class="at">varnb =</span> <span class="dv">4</span>, <span class="at">varnames =</span> <span class="st">&quot;Loading&quot;</span>)</span></code></pre></div>
-<pre><code>## Warning in bca(f = matrix(c(1, 0, 0, 1, 1, 1), ncol = 2, byrow = TRUE), :
-## Parameter name &#39;f&#39; is deprecated. Use &#39;tt&#39; instead.</code></pre>
-<pre><code>## Warning in bca(f = matrix(c(1, 0, 0, 1, 1, 1), ncol = 2, byrow = TRUE), :
-## Parameter name &#39;varnb&#39; is deprecated. Use &#39;idvar&#39; instead.</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">bcaPrint</span>(l_rel)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>l_rel <span class="ot">&lt;-</span> <span class="fu">bca</span>(<span class="at">tt =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>), <span class="at">m =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.2</span>), <span class="at">cnames =</span> <span class="fu">c</span>(<span class="st">&quot;true&quot;</span>, <span class="st">&quot;false&quot;</span>), <span class="at">idvar =</span> <span class="dv">4</span>, <span class="at">varnames =</span> <span class="st">&quot;Loading&quot;</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">bcaPrint</span>(l_rel)</span></code></pre></div>
 <pre><code>##   l_rel specnb mass
 ## 1  true      1  0.3
 ## 2 false      2  0.5
@@ -522,12 +518,8 @@ combination.</p>
 <h3>Evidence 2: Forecast of Weather</h3>
 <p><span class="math inline">\(Ω_W\)</span>= {foul, fair}. m({foul}) =
 0.2 ; m({fair})= 0.6 ; m({foul}, {fair}) = 0.2</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>f_rel <span class="ot">&lt;-</span> <span class="fu">bca</span>(<span class="at">f =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>), <span class="at">m =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.6</span>, <span class="fl">0.2</span>), <span class="at">cnames =</span> <span class="fu">c</span>(<span class="st">&quot;foul&quot;</span>, <span class="st">&quot;fair&quot;</span>), <span class="at">varnb =</span> <span class="dv">5</span>, <span class="at">varnames =</span> <span class="st">&quot;Forecast&quot;</span>)</span></code></pre></div>
-<pre><code>## Warning in bca(f = matrix(c(1, 0, 0, 1, 1, 1), ncol = 2, byrow = TRUE), :
-## Parameter name &#39;f&#39; is deprecated. Use &#39;tt&#39; instead.</code></pre>
-<pre><code>## Warning in bca(f = matrix(c(1, 0, 0, 1, 1, 1), ncol = 2, byrow = TRUE), :
-## Parameter name &#39;varnb&#39; is deprecated. Use &#39;idvar&#39; instead.</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">bcaPrint</span>(f_rel)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>f_rel <span class="ot">&lt;-</span> <span class="fu">bca</span>(<span class="at">tt =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>), <span class="at">m =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.6</span>, <span class="fl">0.2</span>), <span class="at">cnames =</span> <span class="fu">c</span>(<span class="st">&quot;foul&quot;</span>, <span class="st">&quot;fair&quot;</span>), <span class="at">idvar =</span> <span class="dv">5</span>, <span class="at">varnames =</span> <span class="st">&quot;Forecast&quot;</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="fu">bcaPrint</span>(f_rel)</span></code></pre></div>
 <pre><code>##   f_rel specnb mass
 ## 1  foul      1  0.2
 ## 2  fair      2  0.6
@@ -537,12 +529,8 @@ combination.</p>
 <h3>Evidence 3: Maintenance before sailing</h3>
 <p><span class="math inline">\(Ω_M\)</span> = {true, false}, m({true}) =
 0 ; m({false})= 1 .</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>m_rel <span class="ot">&lt;-</span> <span class="fu">bca</span>(<span class="at">f =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>), <span class="at">m =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">cnames =</span> <span class="fu">c</span>(<span class="st">&quot;true&quot;</span>, <span class="st">&quot;false&quot;</span>), <span class="at">varnb =</span> <span class="dv">6</span>, <span class="at">varnames =</span> <span class="st">&quot;Maintenance&quot;</span>)</span></code></pre></div>
-<pre><code>## Warning in bca(f = matrix(c(1, 0, 0, 1), ncol = 2, byrow = TRUE), m = c(0, :
-## Parameter name &#39;f&#39; is deprecated. Use &#39;tt&#39; instead.</code></pre>
-<pre><code>## Warning in bca(f = matrix(c(1, 0, 0, 1), ncol = 2, byrow = TRUE), m = c(0, :
-## Parameter name &#39;varnb&#39; is deprecated. Use &#39;idvar&#39; instead.</code></pre>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">bcaPrint</span>(m_rel)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>m_rel <span class="ot">&lt;-</span> <span class="fu">bca</span>(<span class="at">tt =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>), <span class="at">m =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">cnames =</span> <span class="fu">c</span>(<span class="st">&quot;true&quot;</span>, <span class="st">&quot;false&quot;</span>), <span class="at">idvar =</span> <span class="dv">6</span>, <span class="at">varnames =</span> <span class="st">&quot;Maintenance&quot;</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="fu">bcaPrint</span>(m_rel)</span></code></pre></div>
 <pre><code>##   m_rel specnb mass
 ## 1  true      1    0
 ## 2 false      2    1</code></pre>
@@ -557,41 +545,41 @@ Sailing, Loading, Forecast, Maintenance, Weather, Repairs. The edges
 inputs of evidence (L, F, M).</p>
 <p>We use the package igraph <a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> to produce a bipartite graph corresponding
 to the desired hypergraph.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="co"># The network</span></span>
-<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">requireNamespace</span>(<span class="st">&quot;igraph&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>) ) {</span>
-<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
-<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a><span class="co"># Encode pieces of evidence and relations with an incidence matrix</span></span>
-<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a>R1 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span> <span class="sc">%in%</span> ads_rel<span class="sc">$</span>infovar[,<span class="dv">1</span>]</span>
-<span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a>R2 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span> <span class="sc">%in%</span> dlfm_rel<span class="sc">$</span>infovar[,<span class="dv">1</span>]</span>
-<span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a>R3 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span> <span class="sc">%in%</span> swr_rel<span class="sc">$</span>infovar[,<span class="dv">1</span>]</span>
-<span id="cb30-8"><a href="#cb30-8" tabindex="-1"></a>R4 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span> <span class="sc">%in%</span> fw_rel<span class="sc">$</span>infovar[,<span class="dv">1</span>]</span>
-<span id="cb30-9"><a href="#cb30-9" tabindex="-1"></a>R5 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span> <span class="sc">%in%</span> mr_rel<span class="sc">$</span>infovar[,<span class="dv">1</span>]</span>
-<span id="cb30-10"><a href="#cb30-10" tabindex="-1"></a>E1 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span> <span class="sc">%in%</span> l_rel<span class="sc">$</span>infovar[,<span class="dv">1</span>]</span>
-<span id="cb30-11"><a href="#cb30-11" tabindex="-1"></a>E2 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span> <span class="sc">%in%</span> f_rel<span class="sc">$</span>infovar[,<span class="dv">1</span>]</span>
-<span id="cb30-12"><a href="#cb30-12" tabindex="-1"></a>E3 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span> <span class="sc">%in%</span> m_rel<span class="sc">$</span>infovar[,<span class="dv">1</span>]</span>
-<span id="cb30-13"><a href="#cb30-13" tabindex="-1"></a></span>
-<span id="cb30-14"><a href="#cb30-14" tabindex="-1"></a><span class="co"># information on variables</span></span>
-<span id="cb30-15"><a href="#cb30-15" tabindex="-1"></a>captain_vars1 <span class="ot">&lt;-</span> <span class="fu">c</span>( ads_rel<span class="sc">$</span>valuenames,  dlfm_rel<span class="sc">$</span>valuenames[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>],  swr_rel<span class="sc">$</span>valuenames[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>])</span>
-<span id="cb30-16"><a href="#cb30-16" tabindex="-1"></a>captain_vars <span class="ot">&lt;-</span> <span class="fu">rbind</span>( ads_rel<span class="sc">$</span>infovar,  dlfm_rel<span class="sc">$</span>infovar[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>,],  swr_rel<span class="sc">$</span>infovar[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>,])</span>
-<span id="cb30-17"><a href="#cb30-17" tabindex="-1"></a>captain_var_names <span class="ot">&lt;-</span><span class="fu">names</span>(captain_vars1)</span>
-<span id="cb30-18"><a href="#cb30-18" tabindex="-1"></a><span class="fu">rownames</span>(captain_vars) <span class="ot">&lt;-</span> captain_var_names</span>
-<span id="cb30-19"><a href="#cb30-19" tabindex="-1"></a><span class="co"># infos on relations</span></span>
-<span id="cb30-20"><a href="#cb30-20" tabindex="-1"></a>captain_rel_names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ads_rel&quot;</span>, <span class="st">&quot;dlfm_rel&quot;</span>, <span class="st">&quot;swr_rel&quot;</span>, <span class="st">&quot;fw_rel&quot;</span>, <span class="st">&quot;mr_rel&quot;</span>, <span class="st">&quot;l_rel&quot;</span>, <span class="st">&quot;f_rel&quot;</span>, <span class="st">&quot;m_rel&quot;</span>)</span>
-<span id="cb30-21"><a href="#cb30-21" tabindex="-1"></a><span class="co"># the incidence matrix</span></span>
-<span id="cb30-22"><a href="#cb30-22" tabindex="-1"></a>captain_hgm <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(R1,R2,R3,R4,R5,E1,E2,E3), <span class="at">ncol=</span><span class="dv">8</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&quot;Arrival&quot;</span>, <span class="st">&quot;Departure&quot;</span>, <span class="st">&quot;Sailing&quot;</span>, <span class="st">&quot;Loading&quot;</span>, <span class="st">&quot;Forecast&quot;</span>, <span class="st">&quot;Maintenance&quot;</span>, <span class="st">&quot;Weather&quot;</span>, <span class="st">&quot;Repairs&quot;</span>), <span class="fu">c</span>(<span class="st">&quot;R1&quot;</span>, <span class="st">&quot;R2&quot;</span>, <span class="st">&quot;R3&quot;</span>, <span class="st">&quot;R4&quot;</span>,<span class="st">&quot;R5&quot;</span>,<span class="st">&quot;E1&quot;</span>,<span class="st">&quot;E2&quot;</span>,<span class="st">&quot;E3&quot;</span>)))</span>
-<span id="cb30-23"><a href="#cb30-23" tabindex="-1"></a>captain <span class="ot">&lt;-</span> <span class="fu">list</span>(captain_hgm, captain_var_names, captain_rel_names)</span>
-<span id="cb30-24"><a href="#cb30-24" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb30-25"><a href="#cb30-25" tabindex="-1"></a><span class="do">## The graph structure of the problem</span></span>
-<span id="cb30-26"><a href="#cb30-26" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb30-27"><a href="#cb30-27" tabindex="-1"></a>captain_hg <span class="ot">&lt;-</span> <span class="fu">graph_from_incidence_matrix</span>(<span class="at">incidence =</span> captain_hgm, <span class="at">directed =</span> <span class="cn">FALSE</span>, <span class="at">multiple =</span> <span class="cn">FALSE</span>, <span class="at">weighted =</span> <span class="cn">NULL</span>,<span class="at">add.names =</span> <span class="cn">NULL</span>)</span>
-<span id="cb30-28"><a href="#cb30-28" tabindex="-1"></a><span class="fu">V</span>(captain_hg)</span>
-<span id="cb30-29"><a href="#cb30-29" tabindex="-1"></a><span class="co"># Show variables as circles, relations and evidence as rectangles</span></span>
-<span id="cb30-30"><a href="#cb30-30" tabindex="-1"></a><span class="fu">V</span>(captain_hg)<span class="sc">$</span>shape <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;circle&quot;</span>, <span class="st">&quot;crectangle&quot;</span>)[<span class="fu">V</span>(captain_hg)<span class="sc">$</span>type<span class="sc">+</span><span class="dv">1</span>]</span>
-<span id="cb30-31"><a href="#cb30-31" tabindex="-1"></a><span class="fu">V</span>(captain_hg)<span class="sc">$</span>label.cex <span class="ot">&lt;-</span> <span class="fl">0.6</span></span>
-<span id="cb30-32"><a href="#cb30-32" tabindex="-1"></a><span class="fu">V</span>(captain_hg)<span class="sc">$</span>label.font <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb30-33"><a href="#cb30-33" tabindex="-1"></a><span class="co"># render graph</span></span>
-<span id="cb30-34"><a href="#cb30-34" tabindex="-1"></a><span class="fu">plot</span>(captain_hg, <span class="at">vertex.label =</span> <span class="fu">V</span>(captain_hg)<span class="sc">$</span>name, <span class="at">vertex.size=</span>(<span class="dv">3</span><span class="sc">+</span><span class="dv">6</span><span class="sc">*</span><span class="fu">V</span>(captain_hg)<span class="sc">$</span>type)<span class="sc">*</span><span class="dv">6</span>)</span>
-<span id="cb30-35"><a href="#cb30-35" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="co"># The network</span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">requireNamespace</span>(<span class="st">&quot;igraph&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>) ) {</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="co"># Encode pieces of evidence and relations with an incidence matrix</span></span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>R1 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span> <span class="sc">%in%</span> ads_rel<span class="sc">$</span>infovar[,<span class="dv">1</span>]</span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>R2 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span> <span class="sc">%in%</span> dlfm_rel<span class="sc">$</span>infovar[,<span class="dv">1</span>]</span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>R3 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span> <span class="sc">%in%</span> swr_rel<span class="sc">$</span>infovar[,<span class="dv">1</span>]</span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>R4 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span> <span class="sc">%in%</span> fw_rel<span class="sc">$</span>infovar[,<span class="dv">1</span>]</span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>R5 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span> <span class="sc">%in%</span> mr_rel<span class="sc">$</span>infovar[,<span class="dv">1</span>]</span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>E1 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span> <span class="sc">%in%</span> l_rel<span class="sc">$</span>infovar[,<span class="dv">1</span>]</span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>E2 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span> <span class="sc">%in%</span> f_rel<span class="sc">$</span>infovar[,<span class="dv">1</span>]</span>
+<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a>E3 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span> <span class="sc">%in%</span> m_rel<span class="sc">$</span>infovar[,<span class="dv">1</span>]</span>
+<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a></span>
+<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a><span class="co"># information on variables</span></span>
+<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a>captain_vars1 <span class="ot">&lt;-</span> <span class="fu">c</span>( ads_rel<span class="sc">$</span>valuenames,  dlfm_rel<span class="sc">$</span>valuenames[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>],  swr_rel<span class="sc">$</span>valuenames[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>])</span>
+<span id="cb21-16"><a href="#cb21-16" tabindex="-1"></a>captain_vars <span class="ot">&lt;-</span> <span class="fu">rbind</span>( ads_rel<span class="sc">$</span>infovar,  dlfm_rel<span class="sc">$</span>infovar[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>,],  swr_rel<span class="sc">$</span>infovar[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>,])</span>
+<span id="cb21-17"><a href="#cb21-17" tabindex="-1"></a>captain_var_names <span class="ot">&lt;-</span><span class="fu">names</span>(captain_vars1)</span>
+<span id="cb21-18"><a href="#cb21-18" tabindex="-1"></a><span class="fu">rownames</span>(captain_vars) <span class="ot">&lt;-</span> captain_var_names</span>
+<span id="cb21-19"><a href="#cb21-19" tabindex="-1"></a><span class="co"># infos on relations</span></span>
+<span id="cb21-20"><a href="#cb21-20" tabindex="-1"></a>captain_rel_names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ads_rel&quot;</span>, <span class="st">&quot;dlfm_rel&quot;</span>, <span class="st">&quot;swr_rel&quot;</span>, <span class="st">&quot;fw_rel&quot;</span>, <span class="st">&quot;mr_rel&quot;</span>, <span class="st">&quot;l_rel&quot;</span>, <span class="st">&quot;f_rel&quot;</span>, <span class="st">&quot;m_rel&quot;</span>)</span>
+<span id="cb21-21"><a href="#cb21-21" tabindex="-1"></a><span class="co"># the incidence matrix</span></span>
+<span id="cb21-22"><a href="#cb21-22" tabindex="-1"></a>captain_hgm <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(R1,R2,R3,R4,R5,E1,E2,E3), <span class="at">ncol=</span><span class="dv">8</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&quot;Arrival&quot;</span>, <span class="st">&quot;Departure&quot;</span>, <span class="st">&quot;Sailing&quot;</span>, <span class="st">&quot;Loading&quot;</span>, <span class="st">&quot;Forecast&quot;</span>, <span class="st">&quot;Maintenance&quot;</span>, <span class="st">&quot;Weather&quot;</span>, <span class="st">&quot;Repairs&quot;</span>), <span class="fu">c</span>(<span class="st">&quot;R1&quot;</span>, <span class="st">&quot;R2&quot;</span>, <span class="st">&quot;R3&quot;</span>, <span class="st">&quot;R4&quot;</span>,<span class="st">&quot;R5&quot;</span>,<span class="st">&quot;E1&quot;</span>,<span class="st">&quot;E2&quot;</span>,<span class="st">&quot;E3&quot;</span>)))</span>
+<span id="cb21-23"><a href="#cb21-23" tabindex="-1"></a>captain <span class="ot">&lt;-</span> <span class="fu">list</span>(captain_hgm, captain_var_names, captain_rel_names)</span>
+<span id="cb21-24"><a href="#cb21-24" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb21-25"><a href="#cb21-25" tabindex="-1"></a><span class="do">## The graph structure of the problem</span></span>
+<span id="cb21-26"><a href="#cb21-26" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb21-27"><a href="#cb21-27" tabindex="-1"></a>captain_hg <span class="ot">&lt;-</span> <span class="fu">graph_from_biadjacency_matrix</span>(<span class="at">incidence =</span> captain_hgm, <span class="at">directed =</span> <span class="cn">FALSE</span>, <span class="at">multiple =</span> <span class="cn">FALSE</span>, <span class="at">weighted =</span> <span class="cn">NULL</span>,<span class="at">add.names =</span> <span class="cn">NULL</span>)</span>
+<span id="cb21-28"><a href="#cb21-28" tabindex="-1"></a><span class="fu">V</span>(captain_hg)</span>
+<span id="cb21-29"><a href="#cb21-29" tabindex="-1"></a><span class="co"># Show variables as circles, relations and evidence as rectangles</span></span>
+<span id="cb21-30"><a href="#cb21-30" tabindex="-1"></a><span class="fu">V</span>(captain_hg)<span class="sc">$</span>shape <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;circle&quot;</span>, <span class="st">&quot;crectangle&quot;</span>)[<span class="fu">V</span>(captain_hg)<span class="sc">$</span>type<span class="sc">+</span><span class="dv">1</span>]</span>
+<span id="cb21-31"><a href="#cb21-31" tabindex="-1"></a><span class="fu">V</span>(captain_hg)<span class="sc">$</span>label.cex <span class="ot">&lt;-</span> <span class="fl">0.6</span></span>
+<span id="cb21-32"><a href="#cb21-32" tabindex="-1"></a><span class="fu">V</span>(captain_hg)<span class="sc">$</span>label.font <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb21-33"><a href="#cb21-33" tabindex="-1"></a><span class="co"># render graph</span></span>
+<span id="cb21-34"><a href="#cb21-34" tabindex="-1"></a><span class="fu">plot</span>(captain_hg, <span class="at">vertex.label =</span> <span class="fu">V</span>(captain_hg)<span class="sc">$</span>name, <span class="at">vertex.size=</span>(<span class="dv">3</span><span class="sc">+</span><span class="dv">6</span><span class="sc">*</span><span class="fu">V</span>(captain_hg)<span class="sc">$</span>type)<span class="sc">*</span><span class="dv">6</span>)</span>
+<span id="cb21-35"><a href="#cb21-35" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## 
 ## Attaching package: &#39;igraph&#39;</code></pre>
 <pre><code>## The following objects are masked from &#39;package:stats&#39;:
@@ -600,430 +588,226 @@ to the desired hypergraph.</p>
 <pre><code>## The following object is masked from &#39;package:base&#39;:
 ## 
 ##     union</code></pre>
-<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p><img src="data:image/png;base64,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JEACBgIUIAMOFkiABMwkQAEykzZtkQAJGAhQgAw4WCABEjCTAAXITNq0RQIkYCBAATLgYIEESMBMAhQgM2nTFgmQgIEABciAgwUSIAEzCVCAzKRNWyRAAgYCFCADDhZIgATMJEABMpM2bZEACRgIUIAMOFggARIwkwAFyEzatEUCJGAgQAEy4GCBBEjATAIUIDNp0xYJkICBAAXIgIMFEiABMwlQgMykTVskQAIGAhQgAw4WSIAEzCRAATKTNm2RAAkYCFCADDhYIAESMJMABchM2rRFAiRgIEABMuBggQRIwEwCFCAzadMWCZCAgQAFyICDBRIgATMJUIDMpE1bJEACBgIUIAMOFkiABMwkQAEykzZtkQAJGAhQgAw4WCABEjCTAAXITNq0RQIkYCBAATLgYIEESMBMAhQgM2nTFgmQgIEABciAgwUSIAEzCVCAzKRNWyRAAgYCFCADDhZIgATMJEABMpM2bZEACRgIUIAMOFggARIwkwAFyEzatEUCJGAgQAEy4GCBBEjATAIUIDNp0xYJkICBAAXIgIMFEiABMwlQgMykTVskQAIGAhQgAw4WSIAEzCRAATKTNm2RAAkYCFCADDhYIAESMJMABchM2rRFAiRgIEABMuBggQRIwEwCFCAzadMWCZCAgQAFyICDBRIgATMJUIDMpE1bJEACBgIUIAMOFkiABMwkQAEykzZtkQAJGAhQgAw4WCABEjCTAAXITNq0RQIkYCBAATLgYIEESMBMAv8PAhEv9l69NnYAAAAASUVORK5CYII=" /><!-- --></p>
 </div>
-<div id="calculations-to-obtain-the-belief-function-of-the-arrival-delay" class="section level2">
-<h2>Calculations to obtain the belief function of the Arrival delay</h2>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="co"># variables numbers</span></span>
-<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span></span>
-<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a><span class="co"># Elimination order of variables. The goal: Arrival</span></span>
-<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a>elim_order <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">8</span>,<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">2</span>)</span>
-<span id="cb34-5"><a href="#cb34-5" tabindex="-1"></a>var_to_elim <span class="ot">&lt;-</span> <span class="fu">rownames</span>(captain_hgm)[<span class="fu">order</span>(elim_order)]</span>
-<span id="cb34-6"><a href="#cb34-6" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb34-7"><a href="#cb34-7" tabindex="-1"></a><span class="co"># 1: first step</span></span>
-<span id="cb34-8"><a href="#cb34-8" tabindex="-1"></a><span class="co"># first var to eliminate</span></span>
-<span id="cb34-9"><a href="#cb34-9" tabindex="-1"></a>var_to_elim[<span class="dv">1</span>] <span class="co"># Loading (4)</span></span></code></pre></div>
-<pre><code>## [1] &quot;Loading&quot;</code></pre>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a>irel_to_elim<span class="ot">&lt;-</span> captain_hgm[<span class="st">&quot;Loading&quot;</span>,]<span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(captain_hgm)</span>
-<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a>rels_nb <span class="ot">&lt;-</span> irel_to_elim[irel_to_elim<span class="sc">&gt;</span><span class="dv">0</span>]</span>
-<span id="cb36-3"><a href="#cb36-3" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb36-4"><a href="#cb36-4" tabindex="-1"></a><span class="do">## To do: find which rel to extend (here, it is E1)</span></span>
-<span id="cb36-5"><a href="#cb36-5" tabindex="-1"></a><span class="co"># extend R6 (Z7_T EN APL)</span></span>
-<span id="cb36-6"><a href="#cb36-6" tabindex="-1"></a>l_ext <span class="ot">&lt;-</span> <span class="fu">extmin</span>(<span class="fu">get</span>(captain_rel_names[<span class="dv">6</span>]), <span class="fu">get</span>(captain_rel_names[<span class="dv">2</span>])) </span>
-<span id="cb36-7"><a href="#cb36-7" tabindex="-1"></a><span class="co"># combine E1, R2</span></span>
-<span id="cb36-8"><a href="#cb36-8" tabindex="-1"></a><span class="co"># use length(captain_rel_names) to assign the next relation nb</span></span>
-<span id="cb36-9"><a href="#cb36-9" tabindex="-1"></a>rel_2_6 <span class="ot">&lt;-</span> <span class="fu">nzdsr</span>(<span class="fu">dsrwon</span>(l_ext, <span class="fu">get</span>(captain_rel_names[<span class="dv">2</span>]), <span class="at">relnb =</span> <span class="dv">1</span><span class="sc">+</span><span class="fu">length</span>(captain_rel_names)) )</span>
-<span id="cb36-10"><a href="#cb36-10" tabindex="-1"></a><span class="co"># eliminate the variable &quot;Loading&quot; (4)</span></span>
-<span id="cb36-11"><a href="#cb36-11" tabindex="-1"></a>rel_9 <span class="ot">&lt;-</span> <span class="fu">elim</span>(rel_2_6, <span class="at">xnb =</span> <span class="fu">order</span>(elim_order)[<span class="dv">1</span>])</span>
-<span id="cb36-12"><a href="#cb36-12" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb36-13"><a href="#cb36-13" tabindex="-1"></a><span class="co"># update hg and relations names</span></span>
-<span id="cb36-14"><a href="#cb36-14" tabindex="-1"></a><span class="co"># remove R2 and E7, add R9</span></span>
-<span id="cb36-15"><a href="#cb36-15" tabindex="-1"></a>R9 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span> <span class="sc">%in%</span> rel_9<span class="sc">$</span>infovar[,<span class="dv">1</span>]</span>
-<span id="cb36-16"><a href="#cb36-16" tabindex="-1"></a>captain_hgm1 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(captain_hgm[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">6</span>)], R9)</span>
-<span id="cb36-17"><a href="#cb36-17" tabindex="-1"></a>captain_rel_names1 <span class="ot">&lt;-</span> <span class="fu">c</span>(captain_rel_names[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">6</span>)], <span class="st">&quot;rel_9&quot;</span>)</span>
-<span id="cb36-18"><a href="#cb36-18" tabindex="-1"></a>captain_var_names1 <span class="ot">&lt;-</span> captain_var_names[<span class="sc">-</span><span class="fu">order</span>(elim_order)[<span class="dv">1</span>]]</span>
-<span id="cb36-19"><a href="#cb36-19" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb36-20"><a href="#cb36-20" tabindex="-1"></a><span class="do">## second step eliminate var &quot;Repairs&quot; (8)</span></span>
-<span id="cb36-21"><a href="#cb36-21" tabindex="-1"></a>var_to_elim[<span class="dv">2</span>] </span></code></pre></div>
-<pre><code>## [1] &quot;Repairs&quot;</code></pre>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a><span class="fu">order</span>(elim_order)[<span class="dv">2</span>] <span class="co"># Repairs (8)</span></span></code></pre></div>
-<pre><code>## [1] 8</code></pre>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a>irel_to_elim<span class="ot">&lt;-</span> captain_hgm1[var_to_elim[<span class="dv">2</span>],]<span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(captain_hgm1)</span>
-<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a>rels_nb <span class="ot">&lt;-</span> irel_to_elim[irel_to_elim<span class="sc">&gt;</span><span class="dv">0</span>]</span>
-<span id="cb40-3"><a href="#cb40-3" tabindex="-1"></a><span class="co"># find variables numbers of each relation to obtain the space to construct</span></span>
-<span id="cb40-4"><a href="#cb40-4" tabindex="-1"></a>rels_names <span class="ot">=</span> captain_rel_names1[rels_nb]</span>
-<span id="cb40-5"><a href="#cb40-5" tabindex="-1"></a>yv1 <span class="ot">=</span> <span class="fu">get</span>(rels_names[<span class="dv">1</span>])<span class="sc">$</span>infovar</span>
-<span id="cb40-6"><a href="#cb40-6" tabindex="-1"></a>yv2 <span class="ot">=</span> <span class="fu">get</span>(rels_names[<span class="dv">2</span>])<span class="sc">$</span>infovar</span>
-<span id="cb40-7"><a href="#cb40-7" tabindex="-1"></a>yv<span class="ot">=</span><span class="fu">rbind</span>(yv1,yv2)</span>
-<span id="cb40-8"><a href="#cb40-8" tabindex="-1"></a>yinfov <span class="ot">=</span> <span class="fu">doubles</span>(yv)</span>
-<span id="cb40-9"><a href="#cb40-9" tabindex="-1"></a>infovar <span class="ot">&lt;-</span> yinfov[<span class="fu">order</span>(yinfov[,<span class="dv">1</span>]),]</span>
-<span id="cb40-10"><a href="#cb40-10" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb40-11"><a href="#cb40-11" tabindex="-1"></a><span class="co"># extract valuenames</span></span>
-<span id="cb40-12"><a href="#cb40-12" tabindex="-1"></a>infovalues <span class="ot">&lt;-</span> captain_vars1[infovar[,<span class="dv">1</span>]]</span>
-<span id="cb40-13"><a href="#cb40-13" tabindex="-1"></a></span>
-<span id="cb40-14"><a href="#cb40-14" tabindex="-1"></a><span class="co"># extend the two relations before combining them</span></span>
-<span id="cb40-15"><a href="#cb40-15" tabindex="-1"></a><span class="co"># 1. making an empty reference relation with mass(frame) = 1 and</span></span>
-<span id="cb40-16"><a href="#cb40-16" tabindex="-1"></a><span class="co"># extending a bca to it.</span></span>
-<span id="cb40-17"><a href="#cb40-17" tabindex="-1"></a><span class="co"># 1: construct the tt matrix</span></span>
-<span id="cb40-18"><a href="#cb40-18" tabindex="-1"></a>init_tt<span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">10</span>),<span class="at">nrow=</span><span class="dv">1</span>, </span>
-<span id="cb40-19"><a href="#cb40-19" tabindex="-1"></a><span class="at">dimnames =</span><span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;3&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;0&quot;</span>, </span>
-<span id="cb40-20"><a href="#cb40-20" tabindex="-1"></a><span class="st">&quot;false&quot;</span>, <span class="st">&quot;true&quot;</span>,  <span class="st">&quot;fair&quot;</span>,<span class="st">&quot;foul&quot;</span>,  <span class="st">&quot;false&quot;</span>, <span class="st">&quot;true&quot;</span>)) )</span>
-<span id="cb40-21"><a href="#cb40-21" tabindex="-1"></a><span class="co"># 2: mass values</span></span>
-<span id="cb40-22"><a href="#cb40-22" tabindex="-1"></a>init_spec <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>, </span>
-<span id="cb40-23"><a href="#cb40-23" tabindex="-1"></a><span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>)))</span>
-<span id="cb40-24"><a href="#cb40-24" tabindex="-1"></a><span class="co"># 3: info on variables</span></span>
-<span id="cb40-25"><a href="#cb40-25" tabindex="-1"></a>init_info <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">ncol =</span> <span class="dv">2</span>,</span>
-<span id="cb40-26"><a href="#cb40-26" tabindex="-1"></a><span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )</span>
-<span id="cb40-27"><a href="#cb40-27" tabindex="-1"></a><span class="co"># 4: the relation</span></span>
-<span id="cb40-28"><a href="#cb40-28" tabindex="-1"></a>relRef <span class="ot">&lt;-</span> <span class="fu">bcaRel</span>(<span class="at">tt =</span> init_tt, <span class="at">spec =</span> init_spec,</span>
-<span id="cb40-29"><a href="#cb40-29" tabindex="-1"></a><span class="at">infovar =</span> init_info, </span>
-<span id="cb40-30"><a href="#cb40-30" tabindex="-1"></a><span class="at">varnames =</span> <span class="fu">c</span>(<span class="st">&quot;Sail&quot;</span>, <span class="st">&quot;Maintenance&quot;</span>, <span class="st">&quot;Weather&quot;</span>, <span class="st">&quot;Repairs&quot;</span>),</span>
-<span id="cb40-31"><a href="#cb40-31" tabindex="-1"></a> <span class="at">relnb =</span> <span class="dv">10</span>)</span>
-<span id="cb40-32"><a href="#cb40-32" tabindex="-1"></a><span class="co"># extend the relations</span></span>
-<span id="cb40-33"><a href="#cb40-33" tabindex="-1"></a>mr_ext <span class="ot">&lt;-</span> <span class="fu">extmin</span>(<span class="fu">get</span>(captain_rel_names1[<span class="dv">4</span>]), relRef)</span>
-<span id="cb40-34"><a href="#cb40-34" tabindex="-1"></a>swr_ext <span class="ot">&lt;-</span> <span class="fu">extmin</span>(<span class="fu">get</span>(captain_rel_names1[<span class="dv">2</span>]), relRef)</span>
-<span id="cb40-35"><a href="#cb40-35" tabindex="-1"></a><span class="co"># 3: combine the two relations</span></span>
-<span id="cb40-36"><a href="#cb40-36" tabindex="-1"></a><span class="co"># combine extended relations</span></span>
-<span id="cb40-37"><a href="#cb40-37" tabindex="-1"></a>rel_3_5 <span class="ot">&lt;-</span> <span class="fu">nzdsr</span>(<span class="fu">dsrwon</span>(mr_ext,swr_ext, <span class="at">relnb =</span> <span class="dv">10</span>) ) </span>
-<span id="cb40-38"><a href="#cb40-38" tabindex="-1"></a><span class="co">#4 eliminate the variable &quot;Maintenance&quot; (8)</span></span>
-<span id="cb40-39"><a href="#cb40-39" tabindex="-1"></a>rel_10 <span class="ot">&lt;-</span> <span class="fu">elim</span>(rel_3_5, <span class="at">xnb =</span> <span class="fu">order</span>(elim_order)[<span class="dv">2</span>])</span>
-<span id="cb40-40"><a href="#cb40-40" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb40-41"><a href="#cb40-41" tabindex="-1"></a><span class="co"># update hg and relations names</span></span>
-<span id="cb40-42"><a href="#cb40-42" tabindex="-1"></a><span class="co"># remove R3 and R5, add R10</span></span>
-<span id="cb40-43"><a href="#cb40-43" tabindex="-1"></a>R10 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span> <span class="sc">%in%</span> rel_10<span class="sc">$</span>infovar[,<span class="dv">1</span>]</span>
-<span id="cb40-44"><a href="#cb40-44" tabindex="-1"></a>captain_hgm2 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(captain_hgm1[,<span class="sc">-</span>rels_nb], R10)</span>
-<span id="cb40-45"><a href="#cb40-45" tabindex="-1"></a>captain_rel_names2 <span class="ot">&lt;-</span> <span class="fu">c</span>(captain_rel_names1[<span class="sc">-</span>rels_nb], <span class="st">&quot;rel_10&quot;</span>)</span>
-<span id="cb40-46"><a href="#cb40-46" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb40-47"><a href="#cb40-47" tabindex="-1"></a><span class="do">## Third step eliminate var &quot;Weather&quot; (7)</span></span>
-<span id="cb40-48"><a href="#cb40-48" tabindex="-1"></a>var_to_elim[<span class="dv">3</span>] </span></code></pre></div>
-<pre><code>## [1] &quot;Weather&quot;</code></pre>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="fu">order</span>(elim_order)[<span class="dv">3</span>] <span class="co"># Weather (7)</span></span></code></pre></div>
-<pre><code>## [1] 7</code></pre>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a>irel_to_elim<span class="ot">&lt;-</span> captain_hgm2[var_to_elim[<span class="dv">3</span>],]<span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(captain_hgm2)</span>
-<span id="cb44-2"><a href="#cb44-2" tabindex="-1"></a>rels_nb <span class="ot">&lt;-</span> irel_to_elim[irel_to_elim<span class="sc">&gt;</span><span class="dv">0</span>]</span>
-<span id="cb44-3"><a href="#cb44-3" tabindex="-1"></a><span class="co"># find variables numbers of each relation to obtain the space to construct</span></span>
-<span id="cb44-4"><a href="#cb44-4" tabindex="-1"></a>rels_names <span class="ot">=</span> captain_rel_names2[rels_nb]</span>
-<span id="cb44-5"><a href="#cb44-5" tabindex="-1"></a>yv1 <span class="ot">=</span> <span class="fu">get</span>(rels_names[<span class="dv">1</span>])<span class="sc">$</span>infovar</span>
-<span id="cb44-6"><a href="#cb44-6" tabindex="-1"></a>yv2 <span class="ot">=</span> <span class="fu">get</span>(rels_names[<span class="dv">2</span>])<span class="sc">$</span>infovar</span>
-<span id="cb44-7"><a href="#cb44-7" tabindex="-1"></a>yv<span class="ot">=</span><span class="fu">rbind</span>(yv1,yv2)</span>
-<span id="cb44-8"><a href="#cb44-8" tabindex="-1"></a>yinfov <span class="ot">=</span> <span class="fu">doubles</span>(yv)</span>
-<span id="cb44-9"><a href="#cb44-9" tabindex="-1"></a>infovar <span class="ot">&lt;-</span> yinfov[<span class="fu">order</span>(yinfov[,<span class="dv">1</span>]),]</span>
-<span id="cb44-10"><a href="#cb44-10" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb44-11"><a href="#cb44-11" tabindex="-1"></a><span class="co"># extract valuenames</span></span>
-<span id="cb44-12"><a href="#cb44-12" tabindex="-1"></a>infovalues <span class="ot">&lt;-</span> captain_vars1[infovar[,<span class="dv">1</span>]]</span>
-<span id="cb44-13"><a href="#cb44-13" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb44-14"><a href="#cb44-14" tabindex="-1"></a><span class="co"># extend the two relations before combining them</span></span>
-<span id="cb44-15"><a href="#cb44-15" tabindex="-1"></a><span class="co"># 1. making an empty reference relation with mass(frame) = 1 and</span></span>
-<span id="cb44-16"><a href="#cb44-16" tabindex="-1"></a><span class="co"># extending a bca to it.</span></span>
-<span id="cb44-17"><a href="#cb44-17" tabindex="-1"></a><span class="co"># 1: construct the tt matrix</span></span>
-<span id="cb44-18"><a href="#cb44-18" tabindex="-1"></a>init_tt<span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">10</span>),<span class="at">nrow=</span><span class="dv">1</span>, </span>
-<span id="cb44-19"><a href="#cb44-19" tabindex="-1"></a><span class="at">dimnames =</span><span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;3&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;0&quot;</span>,<span class="st">&quot;foul&quot;</span>, <span class="st">&quot;fair&quot;</span>,</span>
-<span id="cb44-20"><a href="#cb44-20" tabindex="-1"></a><span class="st">&quot;true&quot;</span>, <span class="st">&quot;false&quot;</span>,  <span class="st">&quot;foul&quot;</span>, <span class="st">&quot;fair&quot;</span>)) )</span>
-<span id="cb44-21"><a href="#cb44-21" tabindex="-1"></a><span class="co"># 2: mass values</span></span>
-<span id="cb44-22"><a href="#cb44-22" tabindex="-1"></a>init_spec <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>, </span>
-<span id="cb44-23"><a href="#cb44-23" tabindex="-1"></a><span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>)))</span>
-<span id="cb44-24"><a href="#cb44-24" tabindex="-1"></a><span class="co"># 3: info on variables</span></span>
-<span id="cb44-25"><a href="#cb44-25" tabindex="-1"></a>init_info <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">as.vector</span>(infovar), <span class="at">ncol =</span> <span class="dv">2</span>,</span>
-<span id="cb44-26"><a href="#cb44-26" tabindex="-1"></a><span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )</span>
-<span id="cb44-27"><a href="#cb44-27" tabindex="-1"></a><span class="co"># 4: the relation</span></span>
-<span id="cb44-28"><a href="#cb44-28" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb44-29"><a href="#cb44-29" tabindex="-1"></a>relRef <span class="ot">&lt;-</span> <span class="fu">bcaRel</span>(<span class="at">tt =</span> init_tt, <span class="at">spec =</span> init_spec,</span>
-<span id="cb44-30"><a href="#cb44-30" tabindex="-1"></a><span class="at">infovar =</span> init_info, <span class="at">varnames =</span> <span class="fu">names</span>(infovalues), <span class="at">relnb =</span> <span class="dv">11</span>)</span>
-<span id="cb44-31"><a href="#cb44-31" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb44-32"><a href="#cb44-32" tabindex="-1"></a><span class="co"># extend the relations</span></span>
-<span id="cb44-33"><a href="#cb44-33" tabindex="-1"></a>fw_ext <span class="ot">&lt;-</span> <span class="fu">extmin</span>(<span class="fu">get</span>(captain_rel_names2[rels_nb[<span class="dv">1</span>]]), relRef)</span>
-<span id="cb44-34"><a href="#cb44-34" tabindex="-1"></a>rel_10_ext <span class="ot">&lt;-</span> <span class="fu">extmin</span>(<span class="fu">get</span>(captain_rel_names2[rels_nb[<span class="dv">2</span>]]), relRef)</span>
-<span id="cb44-35"><a href="#cb44-35" tabindex="-1"></a><span class="co"># 3: combine the two relations</span></span>
-<span id="cb44-36"><a href="#cb44-36" tabindex="-1"></a><span class="co"># combine extended relations</span></span>
-<span id="cb44-37"><a href="#cb44-37" tabindex="-1"></a>rel_4_10 <span class="ot">&lt;-</span> <span class="fu">nzdsr</span>(<span class="fu">dsrwon</span>(fw_ext,rel_10_ext, <span class="at">relnb =</span> <span class="dv">11</span>) ) </span>
-<span id="cb44-38"><a href="#cb44-38" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb44-39"><a href="#cb44-39" tabindex="-1"></a><span class="co"># 4 eliminate the variable &quot;Weather&quot; (7)</span></span>
-<span id="cb44-40"><a href="#cb44-40" tabindex="-1"></a>rel_11 <span class="ot">&lt;-</span> <span class="fu">elim</span>(rel_4_10, <span class="at">xnb =</span> <span class="fu">order</span>(elim_order)[<span class="dv">3</span>])</span>
-<span id="cb44-41"><a href="#cb44-41" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb44-42"><a href="#cb44-42" tabindex="-1"></a><span class="do">## Fourth step </span></span>
-<span id="cb44-43"><a href="#cb44-43" tabindex="-1"></a>var_to_elim[<span class="dv">4</span>] </span></code></pre></div>
-<pre><code>## [1] &quot;Maintenance&quot;</code></pre>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a><span class="fu">order</span>(elim_order)[<span class="dv">4</span>] <span class="co"># Maintenance (6)</span></span></code></pre></div>
-<pre><code>## [1] 6</code></pre>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a><span class="co">#eliminate var &quot;Maintenance&quot; (6)</span></span>
-<span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a><span class="co"># update hg and relations names</span></span>
-<span id="cb48-3"><a href="#cb48-3" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb48-4"><a href="#cb48-4" tabindex="-1"></a><span class="co"># remove rels_nb R4 and R10, add R11</span></span>
-<span id="cb48-5"><a href="#cb48-5" tabindex="-1"></a>R11 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span> <span class="sc">%in%</span> rel_11<span class="sc">$</span>infovar[,<span class="dv">1</span>]</span>
-<span id="cb48-6"><a href="#cb48-6" tabindex="-1"></a>captain_hgm3 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(captain_hgm2[,<span class="sc">-</span>rels_nb], R11)</span>
-<span id="cb48-7"><a href="#cb48-7" tabindex="-1"></a>captain_rel_names3 <span class="ot">&lt;-</span> <span class="fu">c</span>(captain_rel_names2[<span class="sc">-</span>rels_nb], <span class="st">&quot;rel_11&quot;</span>)</span>
-<span id="cb48-8"><a href="#cb48-8" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb48-9"><a href="#cb48-9" tabindex="-1"></a>irel_to_elim<span class="ot">&lt;-</span> captain_hgm3[var_to_elim[<span class="dv">4</span>],]<span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(captain_hgm3)</span>
-<span id="cb48-10"><a href="#cb48-10" tabindex="-1"></a>rels_nb <span class="ot">&lt;-</span> irel_to_elim[irel_to_elim<span class="sc">&gt;</span><span class="dv">0</span>]</span>
-<span id="cb48-11"><a href="#cb48-11" tabindex="-1"></a><span class="co"># find variables numbers of each relation to obtain the space to construct</span></span>
-<span id="cb48-12"><a href="#cb48-12" tabindex="-1"></a>rels_names <span class="ot">=</span> captain_rel_names3[rels_nb]</span>
-<span id="cb48-13"><a href="#cb48-13" tabindex="-1"></a>yv1 <span class="ot">=</span> <span class="fu">get</span>(rels_names[<span class="dv">1</span>])<span class="sc">$</span>infovar</span>
-<span id="cb48-14"><a href="#cb48-14" tabindex="-1"></a>yv2 <span class="ot">=</span> <span class="fu">get</span>(rels_names[<span class="dv">2</span>])<span class="sc">$</span>infovar</span>
-<span id="cb48-15"><a href="#cb48-15" tabindex="-1"></a>yv3 <span class="ot">=</span> <span class="fu">get</span>(rels_names[<span class="dv">3</span>])<span class="sc">$</span>infovar</span>
-<span id="cb48-16"><a href="#cb48-16" tabindex="-1"></a>yv<span class="ot">=</span><span class="fu">rbind</span>(yv1,yv2, yv3)</span>
-<span id="cb48-17"><a href="#cb48-17" tabindex="-1"></a>yinfov <span class="ot">=</span> <span class="fu">doubles</span>(yv)</span>
-<span id="cb48-18"><a href="#cb48-18" tabindex="-1"></a>infovar <span class="ot">&lt;-</span> yinfov[<span class="fu">order</span>(yinfov[,<span class="dv">1</span>]),]</span>
-<span id="cb48-19"><a href="#cb48-19" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb48-20"><a href="#cb48-20" tabindex="-1"></a><span class="co"># extract valuenames</span></span>
-<span id="cb48-21"><a href="#cb48-21" tabindex="-1"></a><span class="do">## test</span></span>
-<span id="cb48-22"><a href="#cb48-22" tabindex="-1"></a>infovalues <span class="ot">=</span> captain_vars1[infovar[,<span class="dv">1</span>]]</span>
-<span id="cb48-23"><a href="#cb48-23" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb48-24"><a href="#cb48-24" tabindex="-1"></a><span class="co"># extend the relations before combining them</span></span>
-<span id="cb48-25"><a href="#cb48-25" tabindex="-1"></a><span class="co"># 1. making an empty reference relation with mass(frame) = 1 and</span></span>
-<span id="cb48-26"><a href="#cb48-26" tabindex="-1"></a><span class="co"># extending a bca to it.</span></span>
-<span id="cb48-27"><a href="#cb48-27" tabindex="-1"></a><span class="co"># 1: construct the tt matrix</span></span>
-<span id="cb48-28"><a href="#cb48-28" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb48-29"><a href="#cb48-29" tabindex="-1"></a>init_tt <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(<span class="dv">1</span>,<span class="fu">sum</span>(infovar[,<span class="dv">2</span>])),<span class="at">nrow=</span><span class="dv">1</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">unlist</span>(infovalues) ) )</span>
-<span id="cb48-30"><a href="#cb48-30" tabindex="-1"></a><span class="co"># 2: mass values</span></span>
-<span id="cb48-31"><a href="#cb48-31" tabindex="-1"></a>init_spec <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>, </span>
-<span id="cb48-32"><a href="#cb48-32" tabindex="-1"></a><span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>)))</span>
-<span id="cb48-33"><a href="#cb48-33" tabindex="-1"></a><span class="co"># 3: info on variables</span></span>
-<span id="cb48-34"><a href="#cb48-34" tabindex="-1"></a>init_info <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">as.vector</span>(infovar), <span class="at">ncol =</span> <span class="dv">2</span>,</span>
-<span id="cb48-35"><a href="#cb48-35" tabindex="-1"></a><span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )</span>
-<span id="cb48-36"><a href="#cb48-36" tabindex="-1"></a><span class="co"># 4: the relation</span></span>
-<span id="cb48-37"><a href="#cb48-37" tabindex="-1"></a>relRef <span class="ot">&lt;-</span> <span class="fu">bcaRel</span>(<span class="at">tt =</span> init_tt, <span class="at">spec =</span> init_spec,</span>
-<span id="cb48-38"><a href="#cb48-38" tabindex="-1"></a><span class="at">infovar =</span> init_info, <span class="at">varnames =</span> <span class="fu">names</span>(infovalues), <span class="at">relnb =</span> <span class="dv">12</span>)</span>
-<span id="cb48-39"><a href="#cb48-39" tabindex="-1"></a><span class="co"># extend the relations (3 relations)</span></span>
-<span id="cb48-40"><a href="#cb48-40" tabindex="-1"></a>m_ext <span class="ot">&lt;-</span> <span class="fu">extmin</span>(<span class="fu">get</span>(captain_rel_names3[rels_nb[<span class="dv">1</span>]]), relRef)</span>
-<span id="cb48-41"><a href="#cb48-41" tabindex="-1"></a>rel_9_ext <span class="ot">&lt;-</span> <span class="fu">extmin</span>(<span class="fu">get</span>(captain_rel_names3[rels_nb[<span class="dv">2</span>]]), relRef)</span>
-<span id="cb48-42"><a href="#cb48-42" tabindex="-1"></a>rel_11_ext <span class="ot">&lt;-</span> <span class="fu">extmin</span>(<span class="fu">get</span>(captain_rel_names3[rels_nb[<span class="dv">3</span>]]), relRef)</span>
-<span id="cb48-43"><a href="#cb48-43" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb48-44"><a href="#cb48-44" tabindex="-1"></a><span class="co"># 3: combine the relations</span></span>
-<span id="cb48-45"><a href="#cb48-45" tabindex="-1"></a><span class="co"># combine extended relations</span></span>
-<span id="cb48-46"><a href="#cb48-46" tabindex="-1"></a>rel_3_9 <span class="ot">&lt;-</span> <span class="fu">nzdsr</span>(<span class="fu">dsrwon</span>(m_ext,rel_9_ext, <span class="at">relnb =</span> <span class="dv">12</span>) ) </span>
-<span id="cb48-47"><a href="#cb48-47" tabindex="-1"></a>rel_3_9_11 <span class="ot">&lt;-</span> <span class="fu">nzdsr</span>(<span class="fu">dsrwon</span>(rel_3_9,rel_11_ext, <span class="at">relnb =</span> <span class="dv">12</span>) ) </span>
-<span id="cb48-48"><a href="#cb48-48" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb48-49"><a href="#cb48-49" tabindex="-1"></a><span class="co"># 4 eliminate the variable &quot;Maintenance&quot; (6)</span></span>
-<span id="cb48-50"><a href="#cb48-50" tabindex="-1"></a>rel_12 <span class="ot">&lt;-</span> <span class="fu">elim</span>(rel_3_9_11, <span class="at">xnb =</span> <span class="fu">order</span>(elim_order)[<span class="dv">4</span>])</span>
-<span id="cb48-51"><a href="#cb48-51" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb48-52"><a href="#cb48-52" tabindex="-1"></a><span class="do">## Fifth step </span></span>
-<span id="cb48-53"><a href="#cb48-53" tabindex="-1"></a>var_to_elim[<span class="dv">5</span>] </span></code></pre></div>
-<pre><code>## [1] &quot;Forecast&quot;</code></pre>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a><span class="fu">order</span>(elim_order)[<span class="dv">5</span>] <span class="co"># Forecast (5)</span></span></code></pre></div>
-<pre><code>## [1] 5</code></pre>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="co">#eliminate var &quot;Forecast&quot; (5)</span></span>
-<span id="cb52-2"><a href="#cb52-2" tabindex="-1"></a><span class="co"># update hg and relations names</span></span>
-<span id="cb52-3"><a href="#cb52-3" tabindex="-1"></a><span class="co"># rels_nb to remove</span></span>
-<span id="cb52-4"><a href="#cb52-4" tabindex="-1"></a><span class="fu">print</span>(rels_nb) <span class="co"># 3, 4, 5</span></span></code></pre></div>
-<pre><code>##  E3  R9 R11 
-##   3   4   5</code></pre>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a><span class="co"># add R12</span></span>
-<span id="cb54-2"><a href="#cb54-2" tabindex="-1"></a>R12 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span> <span class="sc">%in%</span> rel_12<span class="sc">$</span>infovar[,<span class="dv">1</span>]</span>
-<span id="cb54-3"><a href="#cb54-3" tabindex="-1"></a><span class="co"># remove rels_nb E3 and R9, add R11, add R12</span></span>
-<span id="cb54-4"><a href="#cb54-4" tabindex="-1"></a>captain_hgm4 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(captain_hgm3[,<span class="sc">-</span>rels_nb], R12)</span>
-<span id="cb54-5"><a href="#cb54-5" tabindex="-1"></a>captain_rel_names4 <span class="ot">&lt;-</span> <span class="fu">c</span>(captain_rel_names3[<span class="sc">-</span>rels_nb], <span class="st">&quot;rel_12&quot;</span>)</span>
-<span id="cb54-6"><a href="#cb54-6" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb54-7"><a href="#cb54-7" tabindex="-1"></a>irel_to_elim<span class="ot">&lt;-</span> captain_hgm4[var_to_elim[<span class="dv">5</span>],]<span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(captain_hgm4)</span>
-<span id="cb54-8"><a href="#cb54-8" tabindex="-1"></a>rels_nb <span class="ot">&lt;-</span> irel_to_elim[irel_to_elim<span class="sc">&gt;</span><span class="dv">0</span>]</span>
-<span id="cb54-9"><a href="#cb54-9" tabindex="-1"></a><span class="co"># find variables numbers of each relation to obtain the space to construct</span></span>
-<span id="cb54-10"><a href="#cb54-10" tabindex="-1"></a>rels_names <span class="ot">=</span> captain_rel_names4[rels_nb]</span>
-<span id="cb54-11"><a href="#cb54-11" tabindex="-1"></a>yv1 <span class="ot">=</span> <span class="fu">get</span>(rels_names[<span class="dv">1</span>])<span class="sc">$</span>infovar</span>
-<span id="cb54-12"><a href="#cb54-12" tabindex="-1"></a>yv2 <span class="ot">=</span> <span class="fu">get</span>(rels_names[<span class="dv">2</span>])<span class="sc">$</span>infovar</span>
-<span id="cb54-13"><a href="#cb54-13" tabindex="-1"></a>yv<span class="ot">=</span><span class="fu">rbind</span>(yv1,yv2)</span>
-<span id="cb54-14"><a href="#cb54-14" tabindex="-1"></a>yinfov <span class="ot">=</span> <span class="fu">doubles</span>(yv)</span>
-<span id="cb54-15"><a href="#cb54-15" tabindex="-1"></a>infovar <span class="ot">&lt;-</span> yinfov[<span class="fu">order</span>(yinfov[,<span class="dv">1</span>]),]</span>
-<span id="cb54-16"><a href="#cb54-16" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb54-17"><a href="#cb54-17" tabindex="-1"></a><span class="co"># extract valuenames</span></span>
-<span id="cb54-18"><a href="#cb54-18" tabindex="-1"></a>infovalues <span class="ot">&lt;-</span> captain_vars1[infovar[,<span class="dv">1</span>]]</span>
-<span id="cb54-19"><a href="#cb54-19" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb54-20"><a href="#cb54-20" tabindex="-1"></a><span class="co"># extend the relations before combining them</span></span>
-<span id="cb54-21"><a href="#cb54-21" tabindex="-1"></a><span class="co"># 1. making an empty reference relation with mass(frame) = 1 and</span></span>
-<span id="cb54-22"><a href="#cb54-22" tabindex="-1"></a><span class="co"># extending a bca to it.</span></span>
-<span id="cb54-23"><a href="#cb54-23" tabindex="-1"></a><span class="co"># 1: construct the tt matrix</span></span>
-<span id="cb54-24"><a href="#cb54-24" tabindex="-1"></a><span class="do">##</span></span>
-<span id="cb54-25"><a href="#cb54-25" tabindex="-1"></a>init_tt <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(<span class="dv">1</span>,<span class="fu">sum</span>(infovar[,<span class="dv">2</span>])),<span class="at">nrow=</span><span class="dv">1</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">unlist</span>(infovalues) ) )</span>
-<span id="cb54-26"><a href="#cb54-26" tabindex="-1"></a><span class="co"># 2: mass values</span></span>
-<span id="cb54-27"><a href="#cb54-27" tabindex="-1"></a>init_spec <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>, </span>
-<span id="cb54-28"><a href="#cb54-28" tabindex="-1"></a><span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>)))</span>
-<span id="cb54-29"><a href="#cb54-29" tabindex="-1"></a><span class="co"># 3: info on variables</span></span>
-<span id="cb54-30"><a href="#cb54-30" tabindex="-1"></a>init_info <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">as.vector</span>(infovar), <span class="at">ncol =</span> <span class="dv">2</span>,</span>
-<span id="cb54-31"><a href="#cb54-31" tabindex="-1"></a><span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )</span>
-<span id="cb54-32"><a href="#cb54-32" tabindex="-1"></a><span class="co"># 4: the relation</span></span>
-<span id="cb54-33"><a href="#cb54-33" tabindex="-1"></a>relRef <span class="ot">&lt;-</span> <span class="fu">bcaRel</span>(<span class="at">tt =</span> init_tt, <span class="at">spec =</span> init_spec,</span>
-<span id="cb54-34"><a href="#cb54-34" tabindex="-1"></a><span class="at">infovar =</span> init_info, <span class="at">varnames =</span> <span class="fu">names</span>(infovalues), <span class="at">relnb =</span> <span class="dv">13</span>)</span>
-<span id="cb54-35"><a href="#cb54-35" tabindex="-1"></a><span class="co"># extend the relations </span></span>
-<span id="cb54-36"><a href="#cb54-36" tabindex="-1"></a>f_ext <span class="ot">&lt;-</span> <span class="fu">extmin</span>(<span class="fu">get</span>(captain_rel_names4[rels_nb[<span class="dv">1</span>]]), relRef)</span>
-<span id="cb54-37"><a href="#cb54-37" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb54-38"><a href="#cb54-38" tabindex="-1"></a><span class="co"># 3: combine the relations</span></span>
-<span id="cb54-39"><a href="#cb54-39" tabindex="-1"></a><span class="co"># combine extended relations</span></span>
-<span id="cb54-40"><a href="#cb54-40" tabindex="-1"></a>rel_E2_12 <span class="ot">&lt;-</span> <span class="fu">nzdsr</span>(<span class="fu">dsrwon</span>(f_ext,rel_12, <span class="at">relnb =</span> <span class="dv">13</span>) ) </span>
-<span id="cb54-41"><a href="#cb54-41" tabindex="-1"></a><span class="co"># 4 eliminate the variable &quot;Forecast&quot; (5)</span></span>
-<span id="cb54-42"><a href="#cb54-42" tabindex="-1"></a>rel_13 <span class="ot">&lt;-</span> <span class="fu">elim</span>(rel_E2_12, <span class="at">xnb =</span> <span class="fu">order</span>(elim_order)[<span class="dv">5</span>])</span>
-<span id="cb54-43"><a href="#cb54-43" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb54-44"><a href="#cb54-44" tabindex="-1"></a><span class="do">## sixth step </span></span>
-<span id="cb54-45"><a href="#cb54-45" tabindex="-1"></a>var_to_elim[<span class="dv">6</span>] </span></code></pre></div>
-<pre><code>## [1] &quot;Sailing&quot;</code></pre>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a><span class="fu">order</span>(elim_order)[<span class="dv">6</span>] <span class="co"># Sailing (3)</span></span></code></pre></div>
-<pre><code>## [1] 3</code></pre>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" tabindex="-1"></a><span class="co">#eliminate var &quot;Sailing&quot; (3)</span></span>
-<span id="cb58-2"><a href="#cb58-2" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb58-3"><a href="#cb58-3" tabindex="-1"></a><span class="co"># update hg and relations names</span></span>
-<span id="cb58-4"><a href="#cb58-4" tabindex="-1"></a><span class="co"># rels_nb to remove</span></span>
-<span id="cb58-5"><a href="#cb58-5" tabindex="-1"></a><span class="fu">print</span>(rels_nb) <span class="co"># 2,3</span></span></code></pre></div>
-<pre><code>##  E2 R12 
-##   2   3</code></pre>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" tabindex="-1"></a><span class="co"># add R13</span></span>
-<span id="cb60-2"><a href="#cb60-2" tabindex="-1"></a>R13 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span> <span class="sc">%in%</span> rel_13<span class="sc">$</span>infovar[,<span class="dv">1</span>]</span>
-<span id="cb60-3"><a href="#cb60-3" tabindex="-1"></a><span class="co"># remove rels_nb E3 and R9, add R11, add R12</span></span>
-<span id="cb60-4"><a href="#cb60-4" tabindex="-1"></a>captain_hgm5 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(captain_hgm4[,<span class="sc">-</span>rels_nb], R13)</span>
-<span id="cb60-5"><a href="#cb60-5" tabindex="-1"></a>captain_rel_names5 <span class="ot">&lt;-</span> <span class="fu">c</span>(captain_rel_names4[<span class="sc">-</span>rels_nb], <span class="st">&quot;rel_13&quot;</span>)</span>
-<span id="cb60-6"><a href="#cb60-6" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb60-7"><a href="#cb60-7" tabindex="-1"></a>irel_to_elim<span class="ot">&lt;-</span> captain_hgm5[var_to_elim[<span class="dv">6</span>],]<span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(captain_hgm5)</span>
-<span id="cb60-8"><a href="#cb60-8" tabindex="-1"></a>rels_nb <span class="ot">&lt;-</span> irel_to_elim[irel_to_elim<span class="sc">&gt;</span><span class="dv">0</span>]</span>
-<span id="cb60-9"><a href="#cb60-9" tabindex="-1"></a><span class="co"># find variables numbers of each relation to obtain the space to construct</span></span>
-<span id="cb60-10"><a href="#cb60-10" tabindex="-1"></a>rels_names <span class="ot">=</span> captain_rel_names5[rels_nb]</span>
-<span id="cb60-11"><a href="#cb60-11" tabindex="-1"></a>yv1 <span class="ot">=</span> <span class="fu">get</span>(rels_names[<span class="dv">1</span>])<span class="sc">$</span>infovar</span>
-<span id="cb60-12"><a href="#cb60-12" tabindex="-1"></a>yv2 <span class="ot">=</span> <span class="fu">get</span>(rels_names[<span class="dv">2</span>])<span class="sc">$</span>infovar</span>
-<span id="cb60-13"><a href="#cb60-13" tabindex="-1"></a>yv<span class="ot">=</span><span class="fu">rbind</span>(yv1,yv2)</span>
-<span id="cb60-14"><a href="#cb60-14" tabindex="-1"></a>yinfov <span class="ot">=</span> <span class="fu">doubles</span>(yv)</span>
-<span id="cb60-15"><a href="#cb60-15" tabindex="-1"></a>infovar <span class="ot">&lt;-</span> yinfov[<span class="fu">order</span>(yinfov[,<span class="dv">1</span>]),]</span>
-<span id="cb60-16"><a href="#cb60-16" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb60-17"><a href="#cb60-17" tabindex="-1"></a><span class="co"># extract valuenames</span></span>
-<span id="cb60-18"><a href="#cb60-18" tabindex="-1"></a>infovalues <span class="ot">&lt;-</span> captain_vars1[infovar[,<span class="dv">1</span>]]</span>
-<span id="cb60-19"><a href="#cb60-19" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb60-20"><a href="#cb60-20" tabindex="-1"></a><span class="co"># extend the relations before combining them</span></span>
-<span id="cb60-21"><a href="#cb60-21" tabindex="-1"></a><span class="co"># 1. making an empty reference relation with mass(frame) = 1 and</span></span>
-<span id="cb60-22"><a href="#cb60-22" tabindex="-1"></a><span class="co"># extending a bca to it.</span></span>
-<span id="cb60-23"><a href="#cb60-23" tabindex="-1"></a><span class="co"># 1: construct the tt matrix</span></span>
-<span id="cb60-24"><a href="#cb60-24" tabindex="-1"></a><span class="do">##</span></span>
-<span id="cb60-25"><a href="#cb60-25" tabindex="-1"></a>init_tt <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(<span class="dv">1</span>,<span class="fu">sum</span>(infovar[,<span class="dv">2</span>])),<span class="at">nrow=</span><span class="dv">1</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">unlist</span>(infovalues) ) )</span>
-<span id="cb60-26"><a href="#cb60-26" tabindex="-1"></a><span class="co"># 2: mass values</span></span>
-<span id="cb60-27"><a href="#cb60-27" tabindex="-1"></a>init_spec <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>, </span>
-<span id="cb60-28"><a href="#cb60-28" tabindex="-1"></a><span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>)))</span>
-<span id="cb60-29"><a href="#cb60-29" tabindex="-1"></a><span class="co"># 3: info on variables</span></span>
-<span id="cb60-30"><a href="#cb60-30" tabindex="-1"></a>init_info <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">as.vector</span>(infovar), <span class="at">ncol =</span> <span class="dv">2</span>,</span>
-<span id="cb60-31"><a href="#cb60-31" tabindex="-1"></a><span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )</span>
-<span id="cb60-32"><a href="#cb60-32" tabindex="-1"></a><span class="co"># 4: the relation</span></span>
-<span id="cb60-33"><a href="#cb60-33" tabindex="-1"></a>relRef <span class="ot">&lt;-</span> <span class="fu">bcaRel</span>(<span class="at">tt =</span> init_tt, <span class="at">spec =</span> init_spec,</span>
-<span id="cb60-34"><a href="#cb60-34" tabindex="-1"></a><span class="at">infovar =</span> init_info, <span class="at">varnames =</span> <span class="fu">names</span>(infovalues), <span class="at">relnb =</span> <span class="dv">14</span>)</span>
-<span id="cb60-35"><a href="#cb60-35" tabindex="-1"></a><span class="co"># extend the relations </span></span>
-<span id="cb60-36"><a href="#cb60-36" tabindex="-1"></a>captain_rel_names5[rels_nb[<span class="dv">1</span>]] <span class="co"># &quot; ads_rel&quot;</span></span></code></pre></div>
-<pre><code>## [1] &quot;ads_rel&quot;</code></pre>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" tabindex="-1"></a>captain_rel_names5[rels_nb[<span class="dv">2</span>]] <span class="co"># rel_13</span></span></code></pre></div>
-<pre><code>## [1] &quot;rel_13&quot;</code></pre>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" tabindex="-1"></a>rel_13_ext <span class="ot">&lt;-</span> <span class="fu">extmin</span>(<span class="fu">get</span>(captain_rel_names5[rels_nb[<span class="dv">2</span>]]), relRef)   </span>
-<span id="cb64-2"><a href="#cb64-2" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb64-3"><a href="#cb64-3" tabindex="-1"></a><span class="co"># 3: combine the relations</span></span>
-<span id="cb64-4"><a href="#cb64-4" tabindex="-1"></a><span class="co"># combine extended relations</span></span>
-<span id="cb64-5"><a href="#cb64-5" tabindex="-1"></a>rel_1_13 <span class="ot">&lt;-</span> <span class="fu">nzdsr</span>(<span class="fu">dsrwon</span>(ads_rel,rel_13_ext, <span class="at">relnb =</span> <span class="dv">14</span>, <span class="at">mcores =</span> <span class="st">&quot;no&quot;</span>) ) </span>
-<span id="cb64-6"><a href="#cb64-6" tabindex="-1"></a><span class="co"># 4 eliminate the variable &quot;SAiling&quot; (3)</span></span>
-<span id="cb64-7"><a href="#cb64-7" tabindex="-1"></a>rel_14 <span class="ot">&lt;-</span> <span class="fu">elim</span>(rel_1_13, <span class="at">xnb =</span> <span class="fu">order</span>(elim_order)[<span class="dv">6</span>])</span>
-<span id="cb64-8"><a href="#cb64-8" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb64-9"><a href="#cb64-9" tabindex="-1"></a><span class="do">## Step 7 </span></span>
-<span id="cb64-10"><a href="#cb64-10" tabindex="-1"></a>var_to_elim[<span class="dv">7</span>] </span></code></pre></div>
-<pre><code>## [1] &quot;Departure&quot;</code></pre>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" tabindex="-1"></a><span class="fu">order</span>(elim_order)[<span class="dv">7</span>] <span class="co"># Departure (2)</span></span></code></pre></div>
-<pre><code>## [1] 2</code></pre>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" tabindex="-1"></a><span class="co">#eliminate var &quot;Departure&quot; (2)</span></span>
-<span id="cb68-2"><a href="#cb68-2" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb68-3"><a href="#cb68-3" tabindex="-1"></a><span class="co"># update hg and relations names</span></span>
-<span id="cb68-4"><a href="#cb68-4" tabindex="-1"></a><span class="co"># rels_nb to remove</span></span>
-<span id="cb68-5"><a href="#cb68-5" tabindex="-1"></a><span class="fu">print</span>(rels_nb) <span class="co"># 1,2</span></span></code></pre></div>
-<pre><code>##     R13 
-##   1   2</code></pre>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" tabindex="-1"></a><span class="co"># add R14</span></span>
-<span id="cb70-2"><a href="#cb70-2" tabindex="-1"></a>R14 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span> <span class="sc">%in%</span> rel_14<span class="sc">$</span>infovar[,<span class="dv">1</span>]</span>
-<span id="cb70-3"><a href="#cb70-3" tabindex="-1"></a><span class="co"># remove rels_nb E3 and R9, add R11, add R12</span></span>
-<span id="cb70-4"><a href="#cb70-4" tabindex="-1"></a>captain_hgm6 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(captain_hgm5[,<span class="sc">-</span>rels_nb], R14)</span>
-<span id="cb70-5"><a href="#cb70-5" tabindex="-1"></a>captain_rel_names6 <span class="ot">&lt;-</span> <span class="fu">c</span>(captain_rel_names5[<span class="sc">-</span>rels_nb], <span class="st">&quot;rel_14&quot;</span>)</span>
-<span id="cb70-6"><a href="#cb70-6" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb70-7"><a href="#cb70-7" tabindex="-1"></a>irel_to_elim<span class="ot">&lt;-</span> captain_hgm6[var_to_elim[<span class="dv">7</span>],]<span class="sc">*</span><span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(captain_hgm6)</span>
-<span id="cb70-8"><a href="#cb70-8" tabindex="-1"></a>rels_nb <span class="ot">&lt;-</span> irel_to_elim[irel_to_elim<span class="sc">&gt;</span><span class="dv">0</span>]</span>
-<span id="cb70-9"><a href="#cb70-9" tabindex="-1"></a><span class="co"># find variables numbers of each relation to obtain the space to construct</span></span>
-<span id="cb70-10"><a href="#cb70-10" tabindex="-1"></a>rels_names <span class="ot">=</span> captain_rel_names6[rels_nb]</span>
-<span id="cb70-11"><a href="#cb70-11" tabindex="-1"></a>yv1 <span class="ot">=</span> <span class="fu">get</span>(rels_names[<span class="dv">1</span>])<span class="sc">$</span>infovar</span>
-<span id="cb70-12"><a href="#cb70-12" tabindex="-1"></a>yv <span class="ot">=</span> yv1</span>
-<span id="cb70-13"><a href="#cb70-13" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(rels_names) <span class="sc">&gt;</span> <span class="dv">1</span> ) {</span>
-<span id="cb70-14"><a href="#cb70-14" tabindex="-1"></a>  yv2 <span class="ot">=</span> <span class="fu">get</span>(rels_names[<span class="dv">2</span>])<span class="sc">$</span>infovar</span>
-<span id="cb70-15"><a href="#cb70-15" tabindex="-1"></a>  yv<span class="ot">=</span><span class="fu">rbind</span>(yv1,yv2)</span>
-<span id="cb70-16"><a href="#cb70-16" tabindex="-1"></a>} </span>
-<span id="cb70-17"><a href="#cb70-17" tabindex="-1"></a>yinfov <span class="ot">=</span> <span class="fu">doubles</span>(yv)</span>
-<span id="cb70-18"><a href="#cb70-18" tabindex="-1"></a>infovar <span class="ot">&lt;-</span> yinfov[<span class="fu">order</span>(yinfov[,<span class="dv">1</span>]),]</span>
-<span id="cb70-19"><a href="#cb70-19" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb70-20"><a href="#cb70-20" tabindex="-1"></a><span class="co"># extract valuenames</span></span>
-<span id="cb70-21"><a href="#cb70-21" tabindex="-1"></a>infovalues <span class="ot">&lt;-</span> captain_vars1[infovar[,<span class="dv">1</span>]]</span>
-<span id="cb70-22"><a href="#cb70-22" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb70-23"><a href="#cb70-23" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(rels_names) <span class="sc">&gt;</span> <span class="dv">1</span> ) {</span>
-<span id="cb70-24"><a href="#cb70-24" tabindex="-1"></a><span class="co"># extend the relations before combining them</span></span>
-<span id="cb70-25"><a href="#cb70-25" tabindex="-1"></a><span class="co"># 1. making an empty reference relation with mass(frame) = 1 and</span></span>
-<span id="cb70-26"><a href="#cb70-26" tabindex="-1"></a><span class="co"># extending a bca to it.</span></span>
-<span id="cb70-27"><a href="#cb70-27" tabindex="-1"></a><span class="co"># 1: construct the tt matrix</span></span>
-<span id="cb70-28"><a href="#cb70-28" tabindex="-1"></a><span class="do">##</span></span>
-<span id="cb70-29"><a href="#cb70-29" tabindex="-1"></a>  init_tt <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rep</span>(<span class="dv">1</span>,<span class="fu">sum</span>(infovar[,<span class="dv">2</span>])),<span class="at">nrow=</span><span class="dv">1</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">unlist</span>(infovalues) ) )</span>
-<span id="cb70-30"><a href="#cb70-30" tabindex="-1"></a><span class="co"># 2: mass values</span></span>
-<span id="cb70-31"><a href="#cb70-31" tabindex="-1"></a>  init_spec <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>, </span>
-<span id="cb70-32"><a href="#cb70-32" tabindex="-1"></a><span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;specnb&quot;</span>, <span class="st">&quot;mass&quot;</span>)))</span>
-<span id="cb70-33"><a href="#cb70-33" tabindex="-1"></a><span class="co"># 3: info on variables</span></span>
-<span id="cb70-34"><a href="#cb70-34" tabindex="-1"></a>  init_info <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">as.vector</span>(infovar), <span class="at">ncol =</span> <span class="dv">2</span>,</span>
-<span id="cb70-35"><a href="#cb70-35" tabindex="-1"></a><span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;varnb&quot;</span>, <span class="st">&quot;size&quot;</span>)) )</span>
-<span id="cb70-36"><a href="#cb70-36" tabindex="-1"></a><span class="co"># 4: the relation</span></span>
-<span id="cb70-37"><a href="#cb70-37" tabindex="-1"></a>  relRef <span class="ot">&lt;-</span> <span class="fu">bcaRel</span>(<span class="at">tt =</span> init_tt, <span class="at">spec =</span> init_spec,</span>
-<span id="cb70-38"><a href="#cb70-38" tabindex="-1"></a><span class="at">infovar =</span> init_info, <span class="at">varnames =</span> <span class="fu">names</span>(infovalues), <span class="at">relnb =</span> <span class="dv">15</span>)</span>
-<span id="cb70-39"><a href="#cb70-39" tabindex="-1"></a><span class="co"># extend the relations </span></span>
-<span id="cb70-40"><a href="#cb70-40" tabindex="-1"></a>  captain_rel_names6[rels_nb[<span class="dv">1</span>]] <span class="co"># &quot; rel&quot;</span></span>
-<span id="cb70-41"><a href="#cb70-41" tabindex="-1"></a>  rel_ext <span class="ot">&lt;-</span> <span class="fu">extmin</span>(<span class="fu">get</span>(captain_rel_names6[rels_nb[<span class="dv">1</span>]]), relRef) <span class="do">## no need to extend. make a check on this case in an algorithm.</span></span>
-<span id="cb70-42"><a href="#cb70-42" tabindex="-1"></a>  captain_rel_names6[rels_nb[<span class="dv">2</span>]] <span class="co"># rel_14</span></span>
-<span id="cb70-43"><a href="#cb70-43" tabindex="-1"></a>  rel_14_ext <span class="ot">&lt;-</span> <span class="fu">extmin</span>(<span class="fu">get</span>(captain_rel_names6[rels_nb[<span class="dv">2</span>]]), relRef)   </span>
-<span id="cb70-44"><a href="#cb70-44" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb70-45"><a href="#cb70-45" tabindex="-1"></a><span class="co"># 3: combine the relations</span></span>
-<span id="cb70-46"><a href="#cb70-46" tabindex="-1"></a><span class="co"># combine extended relations</span></span>
-<span id="cb70-47"><a href="#cb70-47" tabindex="-1"></a>rel_comb <span class="ot">&lt;-</span> <span class="fu">nzdsr</span>(<span class="fu">dsrwon</span>(rel_ext,rel_14_ext, <span class="at">relnb =</span> <span class="dv">15</span>, <span class="at">mcores =</span> <span class="st">&quot;no&quot;</span>) ) </span>
-<span id="cb70-48"><a href="#cb70-48" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Results&quot;</span>)</span>
-<span id="cb70-49"><a href="#cb70-49" tabindex="-1"></a>}</span>
-<span id="cb70-50"><a href="#cb70-50" tabindex="-1"></a><span class="co"># 4 eliminate the variable &quot;Sailing&quot; (3)</span></span>
-<span id="cb70-51"><a href="#cb70-51" tabindex="-1"></a>rel_15 <span class="ot">&lt;-</span> <span class="fu">elim</span>(rel_14, <span class="at">xnb =</span> <span class="fu">order</span>(elim_order)[<span class="dv">7</span>]) </span>
-<span id="cb70-52"><a href="#cb70-52" tabindex="-1"></a><span class="fu">bcaPrint</span>(rel_15)</span></code></pre></div>
-<pre><code>##                   rel_15 specnb    mass
+<div id="calculations-to-obtain-the-belief-function-of-the-arrival-delay-using-the-peeling-algorithm" class="section level2">
+<h2>Calculations to obtain the belief function of the Arrival delay
+using the peeling algorithm</h2>
+<p>Our goal is the calculation of the belief function of the variable of
+interest “Arrival”. We apply an algorithm called “Peeling” to the belief
+network. This is a process of successive elimination of variables
+(peeling) until only the variable of interest (<em>Arrival</em> here)
+remains. The elimination of a variable has the effect of integrating its
+contribution to the reduced graph, which is also called “message
+passing”.</p>
+<p>Four parameters are necessary to trigger the algorithm. The first
+three are already defined when constructing the hypergraph. These are:
+captain_vars1: Variable numbers and size captain_rel_names: names of
+relations and evidences captain_hgm: Incidence matrix of the
+hypergraph</p>
+<p>The fourth parameter is an order of elimination of the variables that
+we have to set. here we set the elimination order to: 8 Repairs 4
+Loading 7 Weather 2 Departure 6 Maintenance 5 Forecast 3 Sailing<br />
+1 Arrival</p>
+<pre><code>## Elimination order :  8 4 7 2 6 5 3 
+##             R1 R2 R3 R4 R5 E1 E2 E3
+## Arrival      1  0  0  0  0  0  0  0
+## Departure    1  1  0  0  0  0  0  0
+## Sailing      1  0  1  0  0  0  0  0
+## Loading      0  1  0  0  0  1  0  0
+## Forecast     0  1  0  1  0  0  1  0
+## Maintenance  0  1  0  0  1  0  0  1
+## Weather      0  0  1  1  0  0  0  0
+## Repairs      0  0  1  0  1  0  0  0
+## Hg matrix 1 1 1 0 0 0 0 0 0 1 0 1 1 1 0 0 0 0 1 0 0 0 1 1 0 0 0 0 1 0 1 0 0 0 0 0 0 1 0 1 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 
+## i = : 1 . Eliminating variable no  8 : Repairs 
+## rels numbers to elim 3 5 
+## Relations to combine:  swr_rel mr_rel
+##  combining extended relation number : 1 
+## 
+##  combining extended relation number : 2 
+## eliminating variable 8 
+## graph updated 
+##             R1 R2 R3 R4 R5 E1 E2 E3 R9
+## Arrival      1  0  0  0  0  0  0  0  0
+## Departure    1  1  0  0  0  0  0  0  0
+## Sailing      1  0  0  0  0  0  0  0  1
+## Loading      0  1  0  0  0  1  0  0  0
+## Forecast     0  1  0  1  0  0  1  0  0
+## Maintenance  0  1  0  0  0  0  0  1  1
+## Weather      0  0  0  1  0  0  0  0  1
+## Repairs      0  0  0  0  0  0  0  0  0
+## relations updated ads_rel dlfm_rel swr_rel fw_rel mr_rel l_rel f_rel m_rel rel9 
+## i = : 2 . Eliminating variable no  4 : Loading 
+## rels numbers to elim 2 6 
+## Relations to combine:  dlfm_rel l_rel
+##  combining extended relation number : 1 
+## 
+##  combining extended relation number : 2 
+## eliminating variable 4 
+## graph updated 
+##             R1 R2 R3 R4 R5 E1 E2 E3 R9 R10
+## Arrival      1  0  0  0  0  0  0  0  0   0
+## Departure    1  0  0  0  0  0  0  0  0   1
+## Sailing      1  0  0  0  0  0  0  0  1   0
+## Loading      0  0  0  0  0  0  0  0  0   0
+## Forecast     0  0  0  1  0  0  1  0  0   1
+## Maintenance  0  0  0  0  0  0  0  1  1   1
+## Weather      0  0  0  1  0  0  0  0  1   0
+## Repairs      0  0  0  0  0  0  0  0  0   0
+## relations updated ads_rel dlfm_rel swr_rel fw_rel mr_rel l_rel f_rel m_rel rel9 rel10 
+## i = : 3 . Eliminating variable no  7 : Weather 
+## rels numbers to elim 4 9 
+## Relations to combine:  fw_rel rel9
+##  combining extended relation number : 1 
+## 
+##  combining extended relation number : 2 
+## eliminating variable 7 
+## graph updated 
+##             R1 R2 R3 R4 R5 E1 E2 E3 R9 R10 R11
+## Arrival      1  0  0  0  0  0  0  0  0   0   0
+## Departure    1  0  0  0  0  0  0  0  0   1   0
+## Sailing      1  0  0  0  0  0  0  0  0   0   1
+## Loading      0  0  0  0  0  0  0  0  0   0   0
+## Forecast     0  0  0  0  0  0  1  0  0   1   1
+## Maintenance  0  0  0  0  0  0  0  1  0   1   1
+## Weather      0  0  0  0  0  0  0  0  0   0   0
+## Repairs      0  0  0  0  0  0  0  0  0   0   0
+## relations updated ads_rel dlfm_rel swr_rel fw_rel mr_rel l_rel f_rel m_rel rel9 rel10 rel11 
+## i = : 4 . Eliminating variable no  2 : Departure 
+## rels numbers to elim 1 10 
+## Relations to combine:  ads_rel rel10
+##  combining extended relation number : 1 
+## 
+##  combining extended relation number : 2 
+## eliminating variable 2 
+## graph updated 
+##             R1 R2 R3 R4 R5 E1 E2 E3 R9 R10 R11 R12
+## Arrival      0  0  0  0  0  0  0  0  0   0   0   1
+## Departure    0  0  0  0  0  0  0  0  0   0   0   0
+## Sailing      0  0  0  0  0  0  0  0  0   0   1   1
+## Loading      0  0  0  0  0  0  0  0  0   0   0   0
+## Forecast     0  0  0  0  0  0  1  0  0   0   1   1
+## Maintenance  0  0  0  0  0  0  0  1  0   0   1   1
+## Weather      0  0  0  0  0  0  0  0  0   0   0   0
+## Repairs      0  0  0  0  0  0  0  0  0   0   0   0
+## relations updated ads_rel dlfm_rel swr_rel fw_rel mr_rel l_rel f_rel m_rel rel9 rel10 rel11 rel12 
+## i = : 5 . Eliminating variable no  6 : Maintenance 
+## rels numbers to elim 8 11 12 
+## Relations to combine:  m_rel rel11 rel12Relations to combine:  m_rel rel11 rel12
+##  combining extended relation number : 1 
+## 
+##  combining extended relation number : 2 
+## 
+##  combining extended relation number : 3 
+## eliminating variable 6 
+## graph updated 
+##             R1 R2 R3 R4 R5 E1 E2 E3 R9 R10 R11 R12 R13
+## Arrival      0  0  0  0  0  0  0  0  0   0   0   0   1
+## Departure    0  0  0  0  0  0  0  0  0   0   0   0   0
+## Sailing      0  0  0  0  0  0  0  0  0   0   0   0   1
+## Loading      0  0  0  0  0  0  0  0  0   0   0   0   0
+## Forecast     0  0  0  0  0  0  1  0  0   0   0   0   1
+## Maintenance  0  0  0  0  0  0  0  0  0   0   0   0   0
+## Weather      0  0  0  0  0  0  0  0  0   0   0   0   0
+## Repairs      0  0  0  0  0  0  0  0  0   0   0   0   0
+## relations updated ads_rel dlfm_rel swr_rel fw_rel mr_rel l_rel f_rel m_rel rel9 rel10 rel11 rel12 rel13 
+## i = : 6 . Eliminating variable no  5 : Forecast 
+## rels numbers to elim 7 13 
+## Relations to combine:  f_rel rel13
+##  combining extended relation number : 1 
+## 
+##  combining extended relation number : 2 
+## eliminating variable 5 
+## graph updated 
+##             R1 R2 R3 R4 R5 E1 E2 E3 R9 R10 R11 R12 R13 R14
+## Arrival      0  0  0  0  0  0  0  0  0   0   0   0   0   1
+## Departure    0  0  0  0  0  0  0  0  0   0   0   0   0   0
+## Sailing      0  0  0  0  0  0  0  0  0   0   0   0   0   1
+## Loading      0  0  0  0  0  0  0  0  0   0   0   0   0   0
+## Forecast     0  0  0  0  0  0  0  0  0   0   0   0   0   0
+## Maintenance  0  0  0  0  0  0  0  0  0   0   0   0   0   0
+## Weather      0  0  0  0  0  0  0  0  0   0   0   0   0   0
+## Repairs      0  0  0  0  0  0  0  0  0   0   0   0   0   0
+## relations updated ads_rel dlfm_rel swr_rel fw_rel mr_rel l_rel f_rel m_rel rel9 rel10 rel11 rel12 rel13 rel14 
+## i = : 7 . Eliminating variable no  3 : Sailing 
+## rels numbers to elim 14 
+## 
+##  combining extended relation number : 1 
+## eliminating variable 3 
+## graph updated 
+##             R1 R2 R3 R4 R5 E1 E2 E3 R9 R10 R11 R12 R13 R14 R15
+## Arrival      0  0  0  0  0  0  0  0  0   0   0   0   0   0   1
+## Departure    0  0  0  0  0  0  0  0  0   0   0   0   0   0   0
+## Sailing      0  0  0  0  0  0  0  0  0   0   0   0   0   0   0
+## Loading      0  0  0  0  0  0  0  0  0   0   0   0   0   0   0
+## Forecast     0  0  0  0  0  0  0  0  0   0   0   0   0   0   0
+## Maintenance  0  0  0  0  0  0  0  0  0   0   0   0   0   0   0
+## Weather      0  0  0  0  0  0  0  0  0   0   0   0   0   0   0
+## Repairs      0  0  0  0  0  0  0  0  0   0   0   0   0   0   0
+## relations updated ads_rel dlfm_rel swr_rel fw_rel mr_rel l_rel f_rel m_rel rel9 rel10 rel11 rel12 rel13 rel14 rel15 
+## rels numbers to combine 15 
+## Peeling ended</code></pre>
+<pre><code>##                        A specnb    mass
 ## 1                      5      1       0
-## 2                      3      2 0.02304
-## 3                      4      3 0.00864
+## 2                      4      2 0.00864
+## 3                      3      3 0.02304
 ## 4                      2      4 0.04032
 ## 5                      1      5 0.06912
 ## 6                      0      6  0.0432
-## 7                  5 + 3      7       0
-## 8                  4 + 2      8 0.00864
-## 9                  3 + 1      9 0.02304
-## 10                 2 + 0     10  0.0144
-## 11                 5 + 4     11       0
-## 12                 3 + 2     12  0.0612
-## 13                 4 + 3     13 0.03384
-## 14                 2 + 1     14 0.11592
-## 15                 1 + 0     15 0.15768
+## 7                  5 + 4      7       0
+## 8                  4 + 3      8 0.03384
+## 9                  3 + 2      9  0.0612
+## 10                 2 + 1     10 0.11592
+## 11                 1 + 0     11 0.15768
+## 12                 5 + 3     12       0
+## 13                 4 + 2     13 0.00864
+## 14                 3 + 1     14 0.02304
+## 15                 2 + 0     15  0.0144
 ## 16             5 + 4 + 3     16       0
 ## 17             4 + 3 + 2     17 0.02736
 ## 18             3 + 2 + 1     18 0.04176
 ## 19             2 + 1 + 0     19 0.09216
-## 20         5 + 4 + 3 + 2     20   0.006
-## 21         4 + 3 + 2 + 1     21 0.07192
-## 22         3 + 2 + 1 + 0     22 0.10416
-## 23         6 + 5 + 4 + 3     23       0
+## 20         6 + 5 + 4 + 3     20       0
+## 21         5 + 4 + 3 + 2     21   0.006
+## 22         4 + 3 + 2 + 1     22 0.07192
+## 23         3 + 2 + 1 + 0     23 0.10416
 ## 24                 frame     24       0
 ## 25     5 + 4 + 3 + 2 + 1     25    0.01
 ## 26     4 + 3 + 2 + 1 + 0     26  0.0436
 ## 27     6 + 5 + 4 + 3 + 2     27       0
 ## 28 5 + 4 + 3 + 2 + 1 + 0     28   0.004
 ## 29 6 + 5 + 4 + 3 + 2 + 1     29       0</code></pre>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" tabindex="-1"></a><span class="fu">belplau</span>(rel_15)</span></code></pre></div>
-<pre><code>##                        Belief Plausibility    Plty Ratio
-## 5                     0.00000      0.02000  2.000000e-02
-## 3                     0.02304      0.44992  4.605306e-01
-## 4                     0.00864      0.21400  2.158651e-01
-## 2                     0.04032      0.64144  6.683895e-01
-## 1                     0.06912      0.73336  7.878137e-01
-## 0                     0.04320      0.45920  4.799331e-01
-## 5 + 3                 0.02304      0.44992  4.605306e-01
-## 4 + 2                 0.05760      0.68392  7.257216e-01
-## 3 + 1                 0.11520      0.88480  1.000000e+00
-## 2 + 0                 0.09792      0.84232  9.337531e-01
-## 5 + 4                 0.00864      0.21400  2.158651e-01
-## 3 + 2                 0.12456      0.72136  8.239971e-01
-## 4 + 3                 0.06552      0.46720  4.999572e-01
-## 2 + 1                 0.22536      0.89128  1.150573e+00
-## 1 + 0                 0.27000      0.79096  1.083507e+00
-## 5 + 4 + 3             0.06552      0.46720  4.999572e-01
-## 4 + 3 + 2             0.20304      0.73000  9.159807e-01
-## 3 + 2 + 1             0.37440      0.94816  1.515601e+00
-## 2 + 1 + 0             0.53280      0.93448  2.000171e+00
-## 5 + 4 + 3 + 2         0.20904      0.73000  9.229291e-01
-## 4 + 3 + 2 + 1         0.52480      0.95680  2.013468e+00
-## 3 + 2 + 1 + 0         0.78600      0.99136  4.632523e+00
-## 6 + 5 + 4 + 3         0.06552      0.46720  4.999572e-01
-## frame                 1.00000      1.00000 -4.503600e+15
-## 5 + 4 + 3 + 2 + 1     0.54080      0.95680  2.083624e+00
-## 4 + 3 + 2 + 1 + 0     0.98000      1.00000  5.000000e+01
-## 6 + 5 + 4 + 3 + 2     0.20904      0.73000  9.229291e-01
-## 5 + 4 + 3 + 2 + 1 + 0 1.00000      1.00000 -4.503600e+15
-## 6 + 5 + 4 + 3 + 2 + 1 0.54080      0.95680  2.083624e+00</code></pre>
+<pre><code>##                        bel disbel  unc plau rplau
+## 5                     0.00   0.98 0.02 0.02  0.02
+## 4                     0.01   0.79 0.21 0.21  0.22
+## 3                     0.02   0.55 0.43 0.45  0.46
+## 2                     0.04   0.36 0.60 0.64  0.67
+## 1                     0.07   0.27 0.66 0.73  0.79
+## 0                     0.04   0.54 0.42 0.46  0.48
+## 5 + 4                 0.01   0.79 0.21 0.21  0.22
+## 4 + 3                 0.07   0.53 0.40 0.47  0.50
+## 3 + 2                 0.12   0.28 0.60 0.72  0.82
+## 2 + 1                 0.23   0.11 0.67 0.89  1.15
+## 1 + 0                 0.27   0.21 0.52 0.79  1.08
+## 5 + 3                 0.02   0.55 0.43 0.45  0.46
+## 4 + 2                 0.06   0.32 0.63 0.68  0.73
+## 3 + 1                 0.12   0.12 0.77 0.88  1.00
+## 2 + 0                 0.10   0.16 0.74 0.84  0.93
+## 5 + 4 + 3             0.07   0.53 0.40 0.47  0.50
+## 4 + 3 + 2             0.20   0.27 0.53 0.73  0.92
+## 3 + 2 + 1             0.37   0.05 0.57 0.95  1.52
+## 2 + 1 + 0             0.53   0.07 0.40 0.93  2.00
+## 6 + 5 + 4 + 3         0.07   0.53 0.40 0.47  0.50
+## 5 + 4 + 3 + 2         0.21   0.27 0.52 0.73  0.92
+## 4 + 3 + 2 + 1         0.52   0.04 0.43 0.96  2.01
+## 3 + 2 + 1 + 0         0.79   0.01 0.21 0.99  4.63
+## frame                 1.00   0.00 0.00 1.00   Inf
+## 5 + 4 + 3 + 2 + 1     0.54   0.04 0.42 0.96  2.08
+## 4 + 3 + 2 + 1 + 0     0.98   0.00 0.02 1.00 50.00
+## 6 + 5 + 4 + 3 + 2     0.21   0.27 0.52 0.73  0.92
+## 5 + 4 + 3 + 2 + 1 + 0 1.00   0.00 0.00 1.00   Inf
+## 6 + 5 + 4 + 3 + 2 + 1 0.54   0.04 0.42 0.96  2.08</code></pre>
 </div>
 </div>
 <div class="footnotes footnotes-end-of-document">

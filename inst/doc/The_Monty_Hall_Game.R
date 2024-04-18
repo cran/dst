@@ -46,13 +46,13 @@ bcaPrint(MHABC_rel)
 
 ## -----------------------------------------------------------------------------
 # Evidence related to choice of door A
-MHA_E <-  bca(f= diag(1,3,3), m= rep(1/3, 3), cnames =c("car", "goat1", "goat2"), varnames = "MHA", varnb = 1)
+MHA_E <-  bca(tt= diag(1,3,3), m= rep(1/3, 3), cnames =c("car", "goat1", "goat2"), varnames = "MHA", idvar = 1)
 # Evidence of the contestant (function MHA_E attached to variable A)
 bcaPrint(MHA_E)
 
 ## -----------------------------------------------------------------------------
 # Evidence for door B
-MHB_E <- bca(f= matrix(c(0,1,1), ncol=3, byrow = TRUE), m=1, cnames =c("car", "goat1", "goat2"), varnames = "MHB" , varnb=2)
+MHB_E <- bca(tt= matrix(c(0,1,1), ncol=3, byrow = TRUE), m=1, cnames =c("car", "goat1", "goat2"), varnames = "MHB" , idvar=2)
 # Evidence added by the Host (function MHB_E attached to variable B)
 bcaPrint(MHB_E)
 
@@ -63,7 +63,7 @@ library(igraph)
 # Encode pieces of evidence and relations with an incidence matrix
 Monty_hgm <- matrix(c(1,1,1,1,0,0,0,1,0), ncol=3, dimnames = list(c("A", "B", "C"), c("r_ABC", "ev_A", "ev_B")))
 # The graph structure
-Monty_hg <- graph_from_incidence_matrix(incidence = Monty_hgm, directed = FALSE, multiple = FALSE, weighted = NULL,add.names = NULL)
+Monty_hg <- graph_from_biadjacency_matrix(incidence = Monty_hgm, directed = FALSE, multiple = FALSE, weighted = NULL,add.names = NULL)
 V(Monty_hg)
 # Show variables as circles, relations and evidence as rectangles
 V(Monty_hg)$shape <- c("circle", "crectangle")[V(Monty_hg)$type+1]
@@ -93,7 +93,7 @@ bcaPrint(MHBC)
 ## ----echo=FALSE---------------------------------------------------------------
 # {r, fig.show='hold', fig_caption: yes, echo=FALSE, message=FALSE}
 Monty2_hgm <- matrix(c(1,1,1,0), ncol=2, dimnames = list(c("B", "C"), c("r_BC", "ev_B")))
-Monty2_hg <- graph_from_incidence_matrix(incidence = Monty2_hgm, directed = FALSE, multiple = FALSE, weighted = NULL,add.names = NULL)
+Monty2_hg <- graph_from_biadjacency_matrix(incidence = Monty2_hgm, directed = FALSE, multiple = FALSE, weighted = NULL,add.names = NULL)
 V(Monty2_hg)
 # Variables as circles, relations and evidence as rectangles
 V(Monty2_hg)$shape <- c("circle","crectangle")[V(Monty2_hg)$type+1]
@@ -119,9 +119,11 @@ MHB_BC_comb$con
 # 3. Eliminate variable B
 MHC <- elim(MHB_BC_comb, xnb = 2)
 # Final result: the belief function MHC attached to variable C
-belplau(MHC)
+round(belplau(MHC), digits = 2 )
 
 ## -----------------------------------------------------------------------------
-MHC_plus_singl <- addTobca(MHC, f=matrix(c(0,1,0,0,0,1), ncol = 3, byrow = TRUE))
-tabresul(MHC_plus_singl)
+MHC_plus_singl <- addTobca(MHC, tt = matrix(c(0,1,0,0,0,1), ncol = 3, byrow = TRUE))
+result <- tabresul(MHC_plus_singl)
+round(result[[1]], digits = 2)
+cat("\n", " conflict:", result[[2]] )
 

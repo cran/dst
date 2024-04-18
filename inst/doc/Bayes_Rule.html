@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Peiyuan Zhu" />
+
+<meta name="date" content="2023-11-02" />
+
+<title>Bayes_Rule</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Bayes_Rule</h1>
+<h4 class="author">Peiyuan Zhu</h4>
+<h4 class="date">2023-11-02</h4>
+
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>In Mathematical Theory of Evidence Glenn Shafer talked about how
+Dempster’s rule of combination generalizes Bayesian conditioning. In
+this document we investigate numerically how a simple Bayesian model can
+be encoded into the language of belief function.</p>
+<p>Recall the Bayes Rule of conditioning in simple terms:</p>
+<p><span class="math display">\[P(H|E) = \dfrac{P(H) \cdot P(E|H)}
+{P(E)}\]</span> Let’s see how this is translated in the belief functions
+setup.</p>
+</div>
+<div id="simple-bayes-example" class="section level1">
+<h1>1. Simple Bayes Example</h1>
+<p>In particular, the Bayesian belief functions concentrates their
+masses on the singletons only, unlike more general basic mass assignment
+functions. For instance, in a frame <span class="math inline">\(\Theta=\{a,b,c\}\)</span>, basic mass assignment
+<span class="math inline">\(m(\{a\})=0.2\)</span>, <span class="math inline">\(m(\{b\})=0.3\)</span> and <span class="math inline">\(m(\{c\})=0.5\)</span> defines a Bayesian belief
+function.</p>
+<p>In the Bayesian language, this is the prior distribution <span class="math inline">\(P(H)\)</span>. Function <em>bca</em> is used to
+set the distribution of <em>H</em>.</p>
+<pre><code>## The prior distribution H</code></pre>
+<pre><code>##   H specnb mass
+## 1 a      1  0.2
+## 2 b      2  0.3
+## 3 c      3  0.5</code></pre>
+<p>The law of conditional probability is a special case of Dempster’s
+rule of combination that all the masses focus on the event is
+conditioned. For instance, basic mass assignment focuses all the masses
+on subset <span class="math inline">\(E =\{b,c\}\)</span>. Hence, using
+function <em>bca</em>, we set <span class="math inline">\(m(\{b,c\})=1\)</span>.</p>
+<pre><code>## Setting an Event E = {b,c} with mass = 1</code></pre>
+<pre><code>##   Event specnb mass
+## 1     a      1    0
+## 2     b      2    0
+## 3     c      3    0
+## 4 b + c      4    1
+## 5 frame      5    0</code></pre>
+<p>Now we set the computation of Bayes’s Theorem in motion.</p>
+<p>In a first step, we use function <em>dsrwon</em> to combine our two
+basic mass assignments H and Event. The non-normalized Dempster Rule of
+combination gives a mass distribution <em>H_Event</em> composed of two
+parts:</p>
+<ol style="list-style-type: decimal">
+<li>the distribution of the product <span class="math inline">\(P(H)
+\cdot P(E|H)\)</span> on <span class="math inline">\(\Theta\)</span>;</li>
+<li>a mass allotted to the empty set <span class="math inline">\(m(\varnothing)\)</span>.</li>
+</ol>
+<pre><code>## The combination of H and Event E</code></pre>
+<pre><code>##   H_Event specnb mass
+## 1       ø      1  0.2
+## 2       a      2    0
+## 3       b      3  0.3
+## 4       c      4  0.5</code></pre>
+<p>It turns out that we can obtain the marginal <span class="math inline">\(P(E)\)</span> from <span class="math inline">\(m(\varnothing)\)</span>: <span class="math display">\[P(E) = 1 - m(\varnothing)\]</span>.</p>
+<p>Hence, <span class="math inline">\(P(E)\)</span> is nothing else than
+the normalization constant of Dempster’s rule of combination.</p>
+<p>In our second step of computation we us function <em>nzdsr</em>, to
+apply the normalization constant to distribution <em>H_Event</em>, which
+gives the posterior distribution <span class="math inline">\(P(H|E)\)</span></p>
+<pre><code>## The posterior distribution P(H|E)</code></pre>
+<pre><code>##   H_given_E specnb  mass
+## 1         a      1     0
+## 2         b      2 0.375
+## 3         c      3 0.625</code></pre>
+<p>Note that since <em>H_given_E</em> is defined only on singletons and
+the mass allocated to <span class="math inline">\(\Theta\)</span> is
+zero. Hence <span class="math inline">\(bel(\cdot) = P(\cdot) =
+Pl(\cdot)\)</span>, as shown by the following table.</p>
+<pre><code>##         bel disbel unc  plau rplau
+## a     0.000  1.000   0 0.000 0.000
+## b     0.375  0.625   0 0.375 0.600
+## c     0.625  0.375   0 0.625 1.667
+## frame 1.000  0.000   0 1.000   Inf</code></pre>
+</div>
+<div id="example-with-two-variables" class="section level1">
+<h1>2. Example with two variables</h1>
+<p>In the first example, the conditioning event was a subset of the
+frame <span class="math inline">\(\Theta\)</span> of variable
+<em>H</em>. We now show the computation of Bayes’s rule of conditioning
+by Dempster’s Rule in the case of two variables.</p>
+<p>Let’s say we have the variable H defined on <span class="math inline">\(\Theta = \{a, b, c\}\)</span> as before.</p>
+<pre><code>## The prior distribution</code></pre>
+<pre><code>##   X specnb mass
+## 1 a      1  0.2
+## 2 b      2  0.3
+## 3 c      3  0.5</code></pre>
+<p>let’s add a second variable E with three outcomes <span class="math inline">\(\Lambda =\{d, e, f\}\)</span> .</p>
+<p><span class="math inline">\(P(\{d|a\})=0.1\)</span>, <span class="math inline">\(P(\{d|b\})=0.2\)</span> and <span class="math inline">\(P(\{d|c\})=0.7\)</span>.</p>
+<p>This distribution will be encoded in the product space <span class="math inline">\(\Theta \times \Lambda\)</span> by setting</p>
+<p><span class="math inline">\(m(\{a,d\}) = 0.1\)</span>; <span class="math inline">\(m(\{b,d\}) = 0.2\)</span>; <span class="math inline">\(m(\{c,d\}) = 0.7\)</span></p>
+<p>We now do this using function <em>bcaRel</em>.</p>
+<pre><code>## Specify information on variables, description matrix and mass vector</code></pre>
+<pre><code>## Identifying variables and frames</code></pre>
+<pre><code>##      varnb size
+## [1,]     1    3
+## [2,]     4    3</code></pre>
+<pre><code>## Note that variables numbers must be in increasing order</code></pre>
+<pre><code>## The description matrix of the relation between X and E</code></pre>
+<pre><code>##      a b c d e f
+## [1,] 1 0 0 1 0 0
+## [2,] 0 1 0 1 0 0
+## [3,] 0 0 1 1 0 0
+## [4,] 1 1 1 1 1 1</code></pre>
+<pre><code>## Note Columns of matrix must follow variables ordering.</code></pre>
+<pre><code>## Mass specifications</code></pre>
+<pre><code>##      specnb mass
+## [1,]      1  0.1
+## [2,]      2  0.2
+## [3,]      3  0.7
+## [4,]      4  0.0</code></pre>
+<pre><code>## The relation between Evidence E and X</code></pre>
+<pre><code>##   rel_EX specnb mass
+## 1    a d      1  0.1
+## 2    b d      2  0.2
+## 3    c d      3  0.7
+## 4  frame      4    0</code></pre>
+<p>Now we combine Prior <span class="math inline">\(P(X)\)</span> with
+rel_EX. But first, we need to extent <em>X</em> to the space <span class="math inline">\(\Theta \times \Lambda\)</span>.</p>
+<pre><code>## Prior X extended in product space of (X,E</code></pre>
+<pre><code>##            X_xtnd specnb mass
+## 1 a d + a e + a f      1  0.2
+## 2 b d + b e + b f      2  0.3
+## 3 c d + c e + c f      3  0.5</code></pre>
+<p>Combine X extended and E_X in the product space <span class="math inline">\(\Theta \times \Lambda\)</span>.</p>
+<pre><code>## Mass distribution of the combination of X extended and E_X</code></pre>
+<pre><code>##         comb_X_EX specnb mass
+## 1               ø      1 0.57
+## 2             a d      2 0.02
+## 3             b d      3 0.06
+## 4             c d      4 0.35
+## 5 a d + a e + a f      5    0
+## 6 b d + b e + b f      6    0
+## 7 c d + c e + c f      7    0</code></pre>
+<p>As we can see, we have</p>
+<ol style="list-style-type: decimal">
+<li><p>the distribution of the product <span class="math inline">\(P(H)
+\cdot P(E|H)\)</span> on <span class="math inline">\(\Theta \times
+\Lambda\)</span>;</p></li>
+<li><p>a mass allotted to the empty set <span class="math inline">\(m(\varnothing)\)</span>, which is <span class="math inline">\(1 - P(E)\)</span>.</p></li>
+</ol>
+<p>Using function <em>nzdsr</em>, we apply the normalization constant to
+obtain the desired result. Then, using function <em>elim</em>, we obtain
+the marginal of X, which turns out to be <span class="math inline">\(P(X
+| E = d)\)</span></p>
+<pre><code>## The normalized mass distribution of the combination of X extended and E_X</code></pre>
+<pre><code>##    norm_comb_X_EX specnb               mass
+## 1             a d      1 0.0465116279069768
+## 2             b d      2   0.13953488372093
+## 3             c d      3  0.813953488372093
+## 4 a d + a e + a f      4                  0
+## 5 b d + b e + b f      5                  0
+## 6 c d + c e + c f      6                  0</code></pre>
+<pre><code>## The posterior distribution P(X|E) for (a,d), (b,d), (c,d), after eliminating variable E</code></pre>
+<pre><code>##   dist_XgE specnb               mass
+## 1        a      1 0.0465116279069768
+## 2        b      2   0.13953488372093
+## 3        c      3  0.813953488372093</code></pre>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

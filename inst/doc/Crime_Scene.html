@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Peiyuan Zhu" />
+
+<meta name="date" content="2023-10-13" />
+
+<title>Crime_Scene</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Crime_Scene</h1>
+<h4 class="author">Peiyuan Zhu</h4>
+<h4 class="date">2023-10-13</h4>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>This is an example taken from Geometry of Uncertainty by Fabio
+Cuzzolin (2021). Suppose we’re a detector investigating a crime scene.
+There are two witnesses who testified on a murder trial. Three suspects
+are called into question: Mary, Peter, and John. Mary and John are
+blonde. From the first witness’s testimony, the suspect was a male.
+However, as a detective we’re don’t trust the witness fully, because the
+witness was drunk that day and cannot be completely held accountable for
+his testimony. Another witness found a blond hair on the floor, but the
+floor might have been cleaned before the crime scene was controlled, so
+in that case the hair doesn’t help us narrowing down the suspects.</p>
+</div>
+<div id="belief-combination" class="section level2">
+<h2>Belief combination</h2>
+<p>Now let’s put the above example in the language of belief functions.
+We start by conceptualizing a frame of discernment <span class="math inline">\(\Theta=\{\text{Peter}, \text{John},
+\text{Mary}\}\)</span> for the outcome of the murder trial. Here we use
+the word “frame of discernment” to distinguish it from “sample space” in
+probability theory but they’re mathematically the same. Then we define
+basic chance assignment as a mapping <span class="math inline">\(2^\Theta\rightarrow[0,1]\)</span>.</p>
+<p>With the above representation of the crime scene, two basic chance
+assignment objects can be created from the two witnesses. The first
+basic chance assignment assigns 0.8 to <span class="math inline">\(\{\text{Peter}, \text{John}\}\)</span> and 0.2 to
+<span class="math inline">\(\Theta\)</span>. This means that the
+detective imagine that out of all possible situations that could’ve
+happened, 80% of those have the property such that the witness was not
+drunk, and out of all possible situations that could’ve happened, 20% of
+those have the property such that the witness was drunk.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>bpa1 <span class="ot">&lt;-</span> <span class="fu">bca</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>), <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.2</span>), <span class="fu">c</span>(<span class="st">&quot;Peter&quot;</span>, <span class="st">&quot;John&quot;</span>, <span class="st">&quot;Mary&quot;</span>))</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>bpa1<span class="sc">$</span>tt</span></code></pre></div>
+<pre><code>##              Peter John Mary
+## Peter + John     1    1    0
+## frame            1    1    1</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>bpa1<span class="sc">$</span>spec</span></code></pre></div>
+<pre><code>##      specnb mass
+## [1,]      1  0.8
+## [2,]      2  0.2</code></pre>
+<p>The number 0.8 is given out of a subjective judgment by the observer,
+which seems like it come from nowhere but the philosophy of the belief
+function is founded upon the view that value judgments e.g. a vote, as
+relational properties between a system and an observer at the
+metaphysical level, are as real as (or even more real as) objects
+e.g. atoms from the traditional, substance-based metaphysical level. In
+the theory of belief functions, the relation is modeled as an uncertain
+relation, that is, a mathematical relation between a probability algebra
+and a frame of discernment.</p>
+<p>Using the basic chance assignment object, we can calculate the
+belplau object, which includes five parameters: belief, disbelief,
+epistemic uncertainty, plausibility, and plausibility ratio. Here we use
+the word “belief” “disbelief” instead of “p-value” / “a-value” to
+distinguish it from upper / lower confidence interval containing
+objective probabilities as a stochastic variable while assuming it is
+not a stochastic variable from frequentist hypothesis testing or upper /
+lower credible interval containing high posterior beliefs from Bayesian
+hypothesis testing, and “epistemic uncertainty” to distinguish it from
+length of confidence interval of objective probabilities after
+controlling for false discovery rate or credible sets.</p>
+<ol style="list-style-type: decimal">
+<li>The belief of a hypothesis is justified via summing over basic
+chance assignments that implies that hypothesis.</li>
+<li>The disbelief of a hypothesis is justified via summing over basic
+chance assignments that implies the negation of that hypothesis.</li>
+<li>The epistemic uncertainty is calculated via the remaining masses
+that are neither attributed to belief, nor attributed to disbelief.</li>
+<li>The plausibility is calculated via the remaining masses that are not
+attributed to disbelief.</li>
+<li>The plausibility ratio is calculated via the ratio between the
+remaining masses that are not attributed to disbelief and the remaining
+masses that are not attributed to belief.</li>
+</ol>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>belplau1<span class="ot">&lt;-</span><span class="fu">belplau</span>(bpa1)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>belplau1</span></code></pre></div>
+<pre><code>##              bel disbel unc plau rplau
+## Peter + John 0.8      0 0.2    1     5
+## frame        1.0      0 0.0    1   Inf</code></pre>
+<p>In the language of bett</p>
+<p>Notice since both belief and basic mass assignment take the same
+values as both are defined via the summation operation. No belief on any
+suspect more specific than the entire group, can solemnly justify the
+entire crime scene. The second chance assignment assigns 0.6 to <span class="math inline">\(\{\text{Peter}, \text{John}\}\)</span> and 0.4 to
+<span class="math inline">\(\Theta\)</span> following the same logic as
+the first basic chance assignment. Its basic chance assignment object
+can be created likewise.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>bpa2 <span class="ot">&lt;-</span> <span class="fu">bca</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>), <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.4</span>), <span class="fu">c</span>(<span class="st">&quot;Peter&quot;</span>, <span class="st">&quot;John&quot;</span>, <span class="st">&quot;Mary&quot;</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>bpa2<span class="sc">$</span>tt</span></code></pre></div>
+<pre><code>##             Peter John Mary
+## John + Mary     0    1    1
+## frame           1    1    1</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>bpa2<span class="sc">$</span>spec</span></code></pre></div>
+<pre><code>##      specnb mass
+## [1,]      1  0.6
+## [2,]      2  0.4</code></pre>
+<p>The belplau object can be computed from the basic chance assignment
+object by following the same logic as how the first belplau object is
+created via the first basic chance assignment object.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>belplau2<span class="ot">&lt;-</span><span class="fu">belplau</span>(bpa2)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>belplau2</span></code></pre></div>
+<pre><code>##             bel disbel unc plau rplau
+## John + Mary 0.6      0 0.4    1   2.5
+## frame       1.0      0 0.0    1   Inf</code></pre>
+<p>Having computed two basic chance assignment objects, we can use
+dsrwon to combine them and obtain a new basic chance assignment object.
+We cannot combine belplau objects as it is known that there’s no close
+form solution to the combined result in general. Here we use the word
+“combination” to distinguish up-projecting marginal masses into the
+product space and then down-project onto the marginal space from the
+masses on the product space in Dempster-Shafer theroy aside from
+constructing probability measure on the product space, usually done via
+Kolmogorov extension theorem among the frequentist methods, or random
+measure from de Finetti theorem among the Bayesian methods.</p>
+<p>More precisely, the combination rule constructs a new basic chance
+assignment object by summing over multiplies of masses over
+intersections from the two input basic chance assignment objects and
+normalizing over probabilities non-conflicting items. There are several
+ways to interpret this process.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>bpa3<span class="ot">&lt;-</span><span class="fu">dsrwon</span>(bpa1, bpa2)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>bpa3<span class="sc">$</span>tt</span></code></pre></div>
+<pre><code>##              Peter John Mary
+## John             0    1    0
+## Peter + John     1    1    0
+## John + Mary      0    1    1
+## frame            1    1    1</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>bpa3<span class="sc">$</span>spec</span></code></pre></div>
+<pre><code>##      specnb mass
+## [1,]      1 0.48
+## [2,]      2 0.32
+## [3,]      3 0.12
+## [4,]      4 0.08</code></pre>
+<p>The belplau object can be computed from the basic chance assignment
+object by following the same logic as how the first belplau object is
+created via the first basic chance assignment object. Notice the belief
+on the new set of intersection is multiplied while the belief of the
+existing two evidences stays put.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>belplau3<span class="ot">&lt;-</span><span class="fu">belplau</span>(bpa3)</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>belplau3</span></code></pre></div>
+<pre><code>##               bel disbel  unc plau    rplau
+## John         0.48      0 0.52    1 1.923077
+## Peter + John 0.80      0 0.20    1 5.000000
+## John + Mary  0.60      0 0.40    1 2.500000
+## frame        1.00      0 0.00    1      Inf</code></pre>
+<p>In this example, there is no degree of support for Peter, no degree
+of support for Mary also. It would be interesting to know more about
+these two people, such as their degree of plausibility. To do that, we
+add the singletons {peter} and {Mary} to the bpa obtained. See what we
+get.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>bpa3_plus_singl <span class="ot">&lt;-</span> <span class="fu">addTobca</span>(bpa3, <span class="at">tt =</span> <span class="fu">diag</span>(<span class="dv">3</span>)) </span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="fu">belplau</span>(bpa3_plus_singl)</span></code></pre></div>
+<pre><code>##               bel disbel  unc plau    rplau
+## John         0.48    0.0 0.52  1.0 1.923077
+## Peter        0.00    0.6 0.40  0.4 0.400000
+## Mary         0.00    0.8 0.20  0.2 0.200000
+## Peter + John 0.80    0.0 0.20  1.0 5.000000
+## John + Mary  0.60    0.0 0.40  1.0 2.500000
+## frame        1.00    0.0 0.00  1.0      Inf</code></pre>
+<div id="which-one-is-the-most-plausible-murderer" class="section level3">
+<h3>Which one is the most plausible murderer?</h3>
+<p>John is a man and John is blond. Nothing contradicts the {John}
+hypothesis, so the belief for John is 0.48 and the plausibility is one.
+The belief for Peter or Mary is 0, since no piece of evidence points
+directly toward them individually.</p>
+<p>As we can see, Pl(Peter) is 0.4 and Pl(Mary) is only 0.2. We can say
+that there is only a 20% chances (40% chances) that the evidence is not
+contradictory with Mary (Peter) as the murderer.</p>
+<p>As a decision rule, we can use the ratio of the plausibility of an
+hypothesis H versus its contrary.</p>
+<p>Pl(H)/( Pl(¬H)) = Pl(H)/(1-Bel(H)).</p>
+<p>Of the three suspects, we see from our table of results that John has
+the highest plausibility ratio (1.92), Peter scores 0.4 and Mary
+0.2.</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
