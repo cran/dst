@@ -373,7 +373,7 @@ detective imagine that out of all possible situations that could’ve
 happened, 80% of those have the property such that the witness was not
 drunk, and out of all possible situations that could’ve happened, 20% of
 those have the property such that the witness was drunk.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>bpa1 <span class="ot">&lt;-</span> <span class="fu">bca</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>), <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.2</span>), <span class="fu">c</span>(<span class="st">&quot;Peter&quot;</span>, <span class="st">&quot;John&quot;</span>, <span class="st">&quot;Mary&quot;</span>))</span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>bpa1 <span class="ot">&lt;-</span> <span class="fu">bca</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>), <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.2</span>), <span class="at">cnames =</span> <span class="fu">c</span>(<span class="st">&quot;Peter&quot;</span>, <span class="st">&quot;John&quot;</span>, <span class="st">&quot;Mary&quot;</span>))</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>bpa1<span class="sc">$</span>tt</span></code></pre></div>
 <pre><code>##              Peter John Mary
 ## Peter + John     1    1    0
@@ -382,6 +382,7 @@ those have the property such that the witness was drunk.</p>
 <pre><code>##      specnb mass
 ## [1,]      1  0.8
 ## [2,]      2  0.2</code></pre>
+<p>Crime_Scene.R</p>
 <p>The number 0.8 is given out of a subjective judgment by the observer,
 which seems like it come from nowhere but the philosophy of the belief
 function is founded upon the view that value judgments e.g. a vote, as
@@ -420,6 +421,7 @@ masses that are not attributed to belief.</li>
 <pre><code>##              bel disbel unc plau rplau
 ## Peter + John 0.8      0 0.2    1     5
 ## frame        1.0      0 0.0    1   Inf</code></pre>
+<p>Crime_Scene.R</p>
 <p>In the language of bett</p>
 <p>Notice since both belief and basic mass assignment take the same
 values as both are defined via the summation operation. No belief on any
@@ -428,7 +430,7 @@ entire crime scene. The second chance assignment assigns 0.6 to <span class="mat
 <span class="math inline">\(\Theta\)</span> following the same logic as
 the first basic chance assignment. Its basic chance assignment object
 can be created likewise.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>bpa2 <span class="ot">&lt;-</span> <span class="fu">bca</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>), <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.4</span>), <span class="fu">c</span>(<span class="st">&quot;Peter&quot;</span>, <span class="st">&quot;John&quot;</span>, <span class="st">&quot;Mary&quot;</span>))</span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>bpa2 <span class="ot">&lt;-</span> <span class="fu">bca</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>), <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.4</span>), <span class="at">cnames =</span> <span class="fu">c</span>(<span class="st">&quot;Peter&quot;</span>, <span class="st">&quot;John&quot;</span>, <span class="st">&quot;Mary&quot;</span>))</span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>bpa2<span class="sc">$</span>tt</span></code></pre></div>
 <pre><code>##             Peter John Mary
 ## John + Mary     0    1    1
@@ -437,6 +439,7 @@ can be created likewise.</p>
 <pre><code>##      specnb mass
 ## [1,]      1  0.6
 ## [2,]      2  0.4</code></pre>
+<p>Crime_Scene.R</p>
 <p>The belplau object can be computed from the basic chance assignment
 object by following the same logic as how the first belplau object is
 created via the first basic chance assignment object.</p>
@@ -445,6 +448,7 @@ created via the first basic chance assignment object.</p>
 <pre><code>##             bel disbel unc plau rplau
 ## John + Mary 0.6      0 0.4    1   2.5
 ## frame       1.0      0 0.0    1   Inf</code></pre>
+<p>Crime_Scene.R</p>
 <p>Having computed two basic chance assignment objects, we can use
 dsrwon to combine them and obtain a new basic chance assignment object.
 We cannot combine belplau objects as it is known that there’s no close
@@ -454,7 +458,10 @@ product space and then down-project onto the marginal space from the
 masses on the product space in Dempster-Shafer theroy aside from
 constructing probability measure on the product space, usually done via
 Kolmogorov extension theorem among the frequentist methods, or random
-measure from de Finetti theorem among the Bayesian methods.</p>
+measure from de Finetti theorem among the Bayesian methods. In this
+case, we directly assign probabilities to the sets to represent our
+ignorance, which is mathematically equivalent to defining probabilities
+on the margin of two situations and extending it.</p>
 <p>More precisely, the combination rule constructs a new basic chance
 assignment object by summing over multiplies of masses over
 intersections from the two input basic chance assignment objects and
@@ -473,6 +480,7 @@ ways to interpret this process.</p>
 ## [2,]      2 0.32
 ## [3,]      3 0.12
 ## [4,]      4 0.08</code></pre>
+<p>Crime_Scene.R</p>
 <p>The belplau object can be computed from the basic chance assignment
 object by following the same logic as how the first belplau object is
 created via the first basic chance assignment object. Notice the belief
@@ -485,6 +493,7 @@ existing two evidences stays put.</p>
 ## Peter + John 0.80      0 0.20    1 5.000000
 ## John + Mary  0.60      0 0.40    1 2.500000
 ## frame        1.00      0 0.00    1      Inf</code></pre>
+<p>Crime_Scene.R</p>
 <p>In this example, there is no degree of support for Peter, no degree
 of support for Mary also. It would be interesting to know more about
 these two people, such as their degree of plausibility. To do that, we
@@ -499,8 +508,7 @@ get.</p>
 ## Peter + John 0.80    0.0 0.20  1.0 5.000000
 ## John + Mary  0.60    0.0 0.40  1.0 2.500000
 ## frame        1.00    0.0 0.00  1.0      Inf</code></pre>
-<div id="which-one-is-the-most-plausible-murderer" class="section level3">
-<h3>Which one is the most plausible murderer?</h3>
+<p>Crime_Scene.R ### Which one is the most plausible murderer?</p>
 <p>John is a man and John is blond. Nothing contradicts the {John}
 hypothesis, so the belief for John is 0.48 and the plausibility is one.
 The belief for Peter or Mary is 0, since no piece of evidence points
@@ -514,7 +522,6 @@ hypothesis H versus its contrary.</p>
 <p>Of the three suspects, we see from our table of results that John has
 the highest plausibility ratio (1.92), Peter scores 0.4 and Mary
 0.2.</p>
-</div>
 </div>
 
 

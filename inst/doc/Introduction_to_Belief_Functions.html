@@ -12,7 +12,7 @@
 
 <meta name="author" content="Claude Boivin" />
 
-<meta name="date" content="2024-04-17" />
+<meta name="date" content="2024-06-05" />
 
 <title>Introduction to Belief Functions</title>
 
@@ -340,7 +340,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Introduction to Belief Functions</h1>
 <h4 class="author">Claude Boivin<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></h4>
-<h4 class="date">2024-04-17</h4>
+<h4 class="date">2024-06-05</h4>
 
 
 
@@ -426,16 +426,15 @@ function <em>belplau</em>.</p>
 <span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="co">#&gt; $Conflict</span></span>
 <span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span></code></pre></div>
-<p>We don’t have a probability distribution here; only one of the two
-elementary events has received a mass value; The elementary event “no
-sun” has a degree of support (belief) of 0.45 and the elementary event
-“sun” has a degree of support of 0. The remaining mass of 0.55 has been
-allotted to the frame <span class="math inline">\({&#39;Sun&#39;,
-&#39;NoSun&#39;}\)</span>. This is the expression of the part of
-ignorance that remains. The chances of “sun” are not very good at 0.55.
-The odds “Sun/No Sun”” are at 0.55. This is the plausibility ratio given
-by function <em>tabresul</em>. Maybe look at July for my vacation
-instead of August? Another story.</p>
+<p>Introduction_to_Belief_Functions.R We don’t have a probability
+distribution here; only one of the two elementary events has received a
+mass value; The elementary event “no sun” has a degree of support
+(belief) of 0.45 and the elementary event “sun” has a degree of support
+of 0. The remaining mass of 0.55 has been allotted to the frame <span class="math inline">\({&#39;Sun&#39;, &#39;NoSun&#39;}\)</span>. This is
+the expression of the part of ignorance that remains. The chances of
+“sun” are not very good at 0.55. The odds “Sun/No Sun”” are at 0.55.
+This is the plausibility ratio given by function <em>tabresul</em>.
+Maybe look at July for my vacation instead of August? Another story.</p>
 <p>If we want to express the result within probability theory, we can
 apply a transformation to the plausibility distribution of the
 elementary events to obtain a probability distribution. This is called
@@ -444,8 +443,8 @@ the plausibility transformation <a href="#fn3" class="footnote-ref" id="fnref3">
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt;       Sun NoSun    trplau</span></span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; Sun     1     0 0.3548387</span></span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; NoSun   0     1 0.6451613</span></span></code></pre></div>
-<p>The plausibility transformation gives a probability of sun 0f
-0.35.</p>
+<p>Introduction_to_Belief_Functions.R The plausibility transformation
+gives a probability of sun 0f 0.35.</p>
 <p>On my trip to Forillon National Park, there will be roadworks
 eventually. If so I could be arriving too late to set my tent in
 daylight. From experience, I know that there are generally no roadworks
@@ -490,41 +489,56 @@ for <em>rdworks = no</em>.</p>
 <span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a><span class="co">#&gt; Wy Rn + Wn Ry + Wn Rn FALSE  TRUE  TRUE  TRUE</span></span>
 <span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a><span class="co">#&gt; frame                  TRUE  TRUE  TRUE  TRUE</span></span>
 <span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a><span class="co">#&gt; $spec</span></span>
-<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a><span class="co">#&gt;      specnb mass</span></span>
-<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a><span class="co">#&gt; [1,]      1  0.9</span></span>
-<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a><span class="co">#&gt; [2,]      2  0.1</span></span>
-<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a><span class="co">#&gt; $infovar</span></span>
-<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a><span class="co">#&gt;      varnb size</span></span>
-<span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a><span class="co">#&gt; [1,]     4    2</span></span>
-<span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a><span class="co">#&gt; [2,]     5    2</span></span>
-<span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a><span class="co">#&gt; $varnames</span></span>
-<span id="cb3-47"><a href="#cb3-47" tabindex="-1"></a><span class="co">#&gt; [1] &quot;RdWorks&quot; &quot;Rain&quot;   </span></span>
-<span id="cb3-48"><a href="#cb3-48" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-49"><a href="#cb3-49" tabindex="-1"></a><span class="co">#&gt; $valuenames</span></span>
-<span id="cb3-50"><a href="#cb3-50" tabindex="-1"></a><span class="co">#&gt; $valuenames$RdWorks</span></span>
-<span id="cb3-51"><a href="#cb3-51" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Wy&quot; &quot;Wn&quot;</span></span>
-<span id="cb3-52"><a href="#cb3-52" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-53"><a href="#cb3-53" tabindex="-1"></a><span class="co">#&gt; $valuenames$Rain</span></span>
-<span id="cb3-54"><a href="#cb3-54" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Ry&quot; &quot;Rn&quot;</span></span>
-<span id="cb3-55"><a href="#cb3-55" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-56"><a href="#cb3-56" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-57"><a href="#cb3-57" tabindex="-1"></a><span class="co">#&gt; $ssnames</span></span>
-<span id="cb3-58"><a href="#cb3-58" tabindex="-1"></a><span class="co">#&gt; $ssnames[[1]]</span></span>
-<span id="cb3-59"><a href="#cb3-59" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Wy Rn&quot; &quot;Wn Ry&quot; &quot;Wn Rn&quot;</span></span>
-<span id="cb3-60"><a href="#cb3-60" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-61"><a href="#cb3-61" tabindex="-1"></a><span class="co">#&gt; $ssnames[[2]]</span></span>
-<span id="cb3-62"><a href="#cb3-62" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Wy Ry&quot; &quot;Wy Rn&quot; &quot;Wn Ry&quot; &quot;Wn Rn&quot;</span></span>
-<span id="cb3-63"><a href="#cb3-63" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-64"><a href="#cb3-64" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-65"><a href="#cb3-65" tabindex="-1"></a><span class="co">#&gt; $inforel</span></span>
-<span id="cb3-66"><a href="#cb3-66" tabindex="-1"></a><span class="co">#&gt;      relnb depth</span></span>
-<span id="cb3-67"><a href="#cb3-67" tabindex="-1"></a><span class="co">#&gt; [1,]     1     2</span></span>
-<span id="cb3-68"><a href="#cb3-68" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-69"><a href="#cb3-69" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;class&quot;)</span></span>
-<span id="cb3-70"><a href="#cb3-70" tabindex="-1"></a><span class="co">#&gt; [1] &quot;list&quot;    &quot;bcaspec&quot;</span></span></code></pre></div>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a><span class="co">#&gt; $qq</span></span>
+<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a><span class="co">#&gt; function (x) </span></span>
+<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a><span class="co">#&gt; {</span></span>
+<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a><span class="co">#&gt;     q &lt;- 0</span></span>
+<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a><span class="co">#&gt;     for (i in 1:nrow(tt)) {</span></span>
+<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a><span class="co">#&gt;         if (all(tt[i, ] - x &gt;= 0)) {</span></span>
+<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a><span class="co">#&gt;             q &lt;- q + m[i]</span></span>
+<span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a><span class="co">#&gt;         }</span></span>
+<span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
+<span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a><span class="co">#&gt;     return(q)</span></span>
+<span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a><span class="co">#&gt; }</span></span>
+<span id="cb3-47"><a href="#cb3-47" tabindex="-1"></a><span class="co">#&gt; &lt;bytecode: 0x7f8e3d9d69f8&gt;</span></span>
+<span id="cb3-48"><a href="#cb3-48" tabindex="-1"></a><span class="co">#&gt; &lt;environment: 0x7f8e3dbaa678&gt;</span></span>
+<span id="cb3-49"><a href="#cb3-49" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-50"><a href="#cb3-50" tabindex="-1"></a><span class="co">#&gt; $spec</span></span>
+<span id="cb3-51"><a href="#cb3-51" tabindex="-1"></a><span class="co">#&gt;      specnb mass</span></span>
+<span id="cb3-52"><a href="#cb3-52" tabindex="-1"></a><span class="co">#&gt; [1,]      1  0.9</span></span>
+<span id="cb3-53"><a href="#cb3-53" tabindex="-1"></a><span class="co">#&gt; [2,]      2  0.1</span></span>
+<span id="cb3-54"><a href="#cb3-54" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-55"><a href="#cb3-55" tabindex="-1"></a><span class="co">#&gt; $infovar</span></span>
+<span id="cb3-56"><a href="#cb3-56" tabindex="-1"></a><span class="co">#&gt;         varnb size</span></span>
+<span id="cb3-57"><a href="#cb3-57" tabindex="-1"></a><span class="co">#&gt; RdWorks     4    2</span></span>
+<span id="cb3-58"><a href="#cb3-58" tabindex="-1"></a><span class="co">#&gt; Rain        5    2</span></span>
+<span id="cb3-59"><a href="#cb3-59" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-60"><a href="#cb3-60" tabindex="-1"></a><span class="co">#&gt; $varnames</span></span>
+<span id="cb3-61"><a href="#cb3-61" tabindex="-1"></a><span class="co">#&gt; [1] &quot;RdWorks&quot; &quot;Rain&quot;   </span></span>
+<span id="cb3-62"><a href="#cb3-62" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-63"><a href="#cb3-63" tabindex="-1"></a><span class="co">#&gt; $valuenames</span></span>
+<span id="cb3-64"><a href="#cb3-64" tabindex="-1"></a><span class="co">#&gt; $valuenames$RdWorks</span></span>
+<span id="cb3-65"><a href="#cb3-65" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Wy&quot; &quot;Wn&quot;</span></span>
+<span id="cb3-66"><a href="#cb3-66" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-67"><a href="#cb3-67" tabindex="-1"></a><span class="co">#&gt; $valuenames$Rain</span></span>
+<span id="cb3-68"><a href="#cb3-68" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Ry&quot; &quot;Rn&quot;</span></span>
+<span id="cb3-69"><a href="#cb3-69" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-70"><a href="#cb3-70" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-71"><a href="#cb3-71" tabindex="-1"></a><span class="co">#&gt; $ssnames</span></span>
+<span id="cb3-72"><a href="#cb3-72" tabindex="-1"></a><span class="co">#&gt; $ssnames[[1]]</span></span>
+<span id="cb3-73"><a href="#cb3-73" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Wy Rn&quot; &quot;Wn Ry&quot; &quot;Wn Rn&quot;</span></span>
+<span id="cb3-74"><a href="#cb3-74" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-75"><a href="#cb3-75" tabindex="-1"></a><span class="co">#&gt; $ssnames[[2]]</span></span>
+<span id="cb3-76"><a href="#cb3-76" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Wy Ry&quot; &quot;Wy Rn&quot; &quot;Wn Ry&quot; &quot;Wn Rn&quot;</span></span>
+<span id="cb3-77"><a href="#cb3-77" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-78"><a href="#cb3-78" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-79"><a href="#cb3-79" tabindex="-1"></a><span class="co">#&gt; $inforel</span></span>
+<span id="cb3-80"><a href="#cb3-80" tabindex="-1"></a><span class="co">#&gt;      relnb depth</span></span>
+<span id="cb3-81"><a href="#cb3-81" tabindex="-1"></a><span class="co">#&gt; [1,]     1     2</span></span>
+<span id="cb3-82"><a href="#cb3-82" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-83"><a href="#cb3-83" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;class&quot;)</span></span>
+<span id="cb3-84"><a href="#cb3-84" tabindex="-1"></a><span class="co">#&gt; [1] &quot;list&quot;    &quot;bcaspec&quot;</span></span></code></pre></div>
+<p>Introduction_to_Belief_Functions.R</p>
 <p>It is cloudy on my day of departure. Forecast are 60 % chances of
 rain today. We now change the distribution of the bcaspec
 <em>rdworks</em> in order to reflect this condition.</p>
@@ -533,34 +547,32 @@ rain today. We now change the distribution of the bcaspec
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">bcaPrint</span>(rain)</span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt;    rain specnb mass</span></span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; 1    Ry      1  0.6</span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; 2    Rn      2    0</span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; 3 frame      3  0.4</span></span></code></pre></div>
-<p>Finally, I would like to combine this piece of evidence with the
-relation between Rain and roadworks in order to evaluate the chances of
-roadworks on the day of my trip. I proceed in three steps to achieve
-that: Firstly extend the Evidence (variable Rain) to the product space
-Rain x Roadworks. Secondly, combine the two relations. Thirdly,
-marginalize to the variable Roadworks.</p>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; 2 frame      3  0.4</span></span></code></pre></div>
+<p>Introduction_to_Belief_Functions.R Finally, I would like to combine
+this piece of evidence with the relation between Rain and roadworks in
+order to evaluate the chances of roadworks on the day of my trip. I
+proceed in three steps to achieve that: Firstly extend the Evidence
+(variable Rain) to the product space Rain x Roadworks. Secondly, combine
+the two relations. Thirdly, marginalize to the variable Roadworks.</p>
 <p>First step is done using the function <em>extmin</em>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Evidence of rain extended to the space W x R</span></span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>rain_xtnd <span class="ot">&lt;-</span> <span class="fu">extmin</span>(rain, noW_if_R)</span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">bcaPrint</span>(rain_xtnd)</span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt;       rain_xtnd specnb mass</span></span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; 1 Wy Ry + Wn Ry      1  0.6</span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; 2 Wy Rn + Wn Rn      2    0</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; 3         frame      3  0.4</span></span></code></pre></div>
-<p>Second step is done using functions <em>dsrwon</em> and
-<em>nzdsr</em>).</p>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; 2         frame      3  0.4</span></span></code></pre></div>
+<p>Introduction_to_Belief_Functions.R Second step is done using
+functions <em>dsrwon</em> and <em>nzdsr</em>).</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># combine the relation noW_if_R with variable rain extended on W x R (rain_xtnd)</span></span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>comb_rel <span class="ot">&lt;-</span> <span class="fu">nzdsr</span>(<span class="fu">dsrwon</span>(rain_xtnd, noW_if_R))</span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">bcaPrint</span>(comb_rel)</span>
 <span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt;                comb_rel specnb mass</span></span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; 1                 Wn Ry      1 0.54</span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; 2         Wy Rn + Wn Rn      2    0</span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; 3         Wy Ry + Wn Ry      3 0.06</span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; 4 Wy Rn + Wn Ry + Wn Rn      4 0.36</span></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; 5                 frame      5 0.04</span></span></code></pre></div>
-<p>Third step: Marginalization is done using function <em>elim</em>.</p>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; 2         Wy Ry + Wn Ry      3 0.06</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; 3 Wy Rn + Wn Ry + Wn Rn      4 0.36</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; 4                 frame      5 0.04</span></span></code></pre></div>
+<p>Introduction_to_Belief_Functions.R Third step: Marginalization is
+done using function <em>elim</em>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># marginalize to variable roadworks by eliminating variable rain (variable nb = 5)</span></span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>roadworks_ev <span class="ot">&lt;-</span> <span class="fu">elim</span>(comb_rel, <span class="at">xnb =</span> <span class="dv">5</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">belplau</span>(roadworks_ev)</span>
@@ -582,9 +594,10 @@ marginalize to the variable Roadworks.</p>
 <span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt;    Wy Wn    trplau</span></span>
 <span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt; Wy  1  0 0.3150685</span></span>
 <span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co">#&gt; Wn  0  1 0.6849315</span></span></code></pre></div>
-<p>Finally the results. Function <em>belplau</em> shows that the odds of
-“No roadworks” vs Roadworks are 2.17. Using the plausibility
-transformation, I obtain a probability of “No Roadworks” of 0.68.</p>
+<p>Introduction_to_Belief_Functions.R Finally the results. Function
+<em>belplau</em> shows that the odds of “No roadworks” vs Roadworks are
+2.17. Using the plausibility transformation, I obtain a probability of
+“No Roadworks” of 0.68.</p>
 </div>
 <div class="footnotes footnotes-end-of-document">
 <hr />

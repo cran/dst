@@ -51,9 +51,13 @@ test_that("bcaspec_1", {
   infovar=matrix(c(4,5,2,2), ncol=2, dimnames =list(NULL, c("varnb", "size")))
   varnames = c("RdWorks", "Rain")
   valuenames <- list(Rain= c("Ry", "Rn"), RdWorks=c("rWdy", "rWdn") )
-  result <- bca(tt = tt1, m, cnames, infovar = infovar, varnames = varnames, valuenames = valuenames)
+  result <- bca(tt = tt1, m = m, cnames = cnames, infovar = infovar, varnames = varnames, valuenames = valuenames)
   expect_equal(colnames(result$tt), c("rWdy Ry", "rWdy Rn", "rWdn Ry", "rWdn Rn"))
   #
   # T8 tt matrix mising
   expect_error(bca(m = c(0.2,0.5, 0.3), varnames = "x", idvar = 1), "Error in input arguments: description matrix tt is missing.")
+  #
+  # T9 Names of variables must start with a letter
+  expect_error(bca(tt=matrix(c(0,1,1), nrow = 1, byrow = TRUE), m = c(1), cnames = c("a", "b", "c"), idvar = 2, varnames = 1 ) )
+  #
 })

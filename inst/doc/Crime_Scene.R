@@ -4,7 +4,7 @@ library(dst)
 knitr::opts_chunk$set(echo = TRUE)
 
 ## -----------------------------------------------------------------------------
-bpa1 <- bca(matrix(c(1,1,0,1,1,1), nrow = 2, byrow = TRUE), c(0.8, 0.2), c("Peter", "John", "Mary"))
+bpa1 <- bca(matrix(c(1,1,0,1,1,1), nrow = 2, byrow = TRUE), c(0.8, 0.2), cnames = c("Peter", "John", "Mary"))
 bpa1$tt
 bpa1$spec
 
@@ -13,7 +13,7 @@ belplau1<-belplau(bpa1)
 belplau1
 
 ## -----------------------------------------------------------------------------
-bpa2 <- bca(matrix(c(0,1,1,1,1,1), nrow = 2, byrow = TRUE), c(0.6, 0.4), c("Peter", "John", "Mary"))
+bpa2 <- bca(matrix(c(0,1,1,1,1,1), nrow = 2, byrow = TRUE), c(0.6, 0.4), cnames = c("Peter", "John", "Mary"))
 bpa2$tt
 bpa2$spec
 

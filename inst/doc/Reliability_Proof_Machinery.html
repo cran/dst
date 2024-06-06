@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Peiyuan Zhu" />
+
+<meta name="date" content="2024-03-28" />
+
+<title>Reliability_Proof_Machinery</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Reliability_Proof_Machinery</h1>
+<h4 class="author">Peiyuan Zhu</h4>
+<h4 class="date">2024-03-28</h4>
+
+
+
+<p>Here’s an example given in section 1.1 of Mathematical Theory of
+Hints by Jurg Kohlas and Paul-Andre Monney. Suppose we have implication
+<span class="math inline">\(a_1 \vee a_2 \implies b\)</span> while <span class="math inline">\(a_1\)</span>, <span class="math inline">\(a_2\)</span> are not known to be true for certain.
+Let <span class="math inline">\(p_1 = 0.3\)</span> be the probability
+that <span class="math inline">\(a_1\)</span> is true and <span class="math inline">\(p_2 = 0.4\)</span> the probability that <span class="math inline">\(a_2\)</span> is true. This is an example of
+combining “pure arguments” by Jacob Bernoulli in Ars Conjectandi.</p>
+<p>First, we use function <em>bcaRel</em> to define the implication
+relation in its disjunctive form <span class="math inline">\(b \vee
+(\neg a_1 \land \neg a_2)\)</span>. The required binary table can also
+be obtained from <a href="https://web.stanford.edu/class/cs103/tools/truth-table-tool/" class="uri">https://web.stanford.edu/class/cs103/tools/truth-table-tool/</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>tt <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>               <span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>               <span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>               <span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>               <span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>               <span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="at">ncol =</span> <span class="dv">6</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>,<span class="fu">c</span>(<span class="st">&quot;a1 no&quot;</span>, <span class="st">&quot;a1 yes&quot;</span>, <span class="st">&quot;a2 no&quot;</span>, <span class="st">&quot;a2 yes&quot;</span>, <span class="st">&quot;b no&quot;</span>, <span class="st">&quot;b yes&quot;</span>)))</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>spec <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">nrow =</span> <span class="dv">5</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>infovar <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>varnames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a1&quot;</span>,<span class="st">&quot;a2&quot;</span>,<span class="st">&quot;b&quot;</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>bcaRel1<span class="ot">&lt;-</span><span class="fu">bcaRel</span>(tt,spec,infovar,varnames)</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;The implication relation&quot;</span>,<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>## The implication relation</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">bcaPrint</span>(bcaRel1)</span></code></pre></div>
+<pre><code>##                                                                                                bcaRel1
+## 1 a1 no a2 no b no + a1 no a2 no b yes + a1 no a2 yes b yes + a1 yes a2 no b yes + a1 yes a2 yes b yes
+##   specnb mass
+## 1      1    1</code></pre>
+<p>Reliability_Proof_Machinery.R Second, we use function <em>bca</em> to
+define the probabilities such that each of the assumptions are true. For
+<span class="math inline">\(a_1\)</span> is true, probability 0.3 is
+given to “a1 is true” and 0.7 given to the whole first frame.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>tt <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;a1 no&quot;</span>, <span class="st">&quot;a1 yes&quot;</span>)))</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.3</span>,<span class="fl">0.7</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>varnames <span class="ot">&lt;-</span> <span class="st">&quot;a1&quot;</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>idvar <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>bca1 <span class="ot">&lt;-</span> <span class="fu">bca</span>(tt, m, <span class="at">idvar=</span>idvar, <span class="at">varnames=</span>varnames)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="fu">bcaPrint</span>(bca1)</span></code></pre></div>
+<pre><code>##     bca1 specnb mass
+## 1 a1 yes      1  0.3
+## 2  frame      2  0.7</code></pre>
+<p>Reliability_Proof_Machinery.R For <span class="math inline">\(a_2\)</span> is true, probability 0.4 is given to
+“a2 is true” and 0.6 given to the whole second frame.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>tt <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">&quot;a2 no&quot;</span>, <span class="st">&quot;a2 yes&quot;</span>)))</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.4</span>,<span class="fl">0.6</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>varnames <span class="ot">&lt;-</span> <span class="st">&quot;a2&quot;</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>idvar <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>bca2 <span class="ot">&lt;-</span> <span class="fu">bca</span>(tt, m, <span class="at">idvar=</span>idvar, <span class="at">varnames=</span>varnames)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="fu">bcaPrint</span>(bca2)</span></code></pre></div>
+<pre><code>##     bca2 specnb mass
+## 1 a2 yes      1  0.4
+## 2  frame      2  0.6</code></pre>
+<p>Reliability_Proof_Machinery.R Now we combine the two bca’s. To do
+that we need to first extend the two bca’s are they’re defined on the
+marginal frames. Using function <em>extmin</em>, bca1 can be extended to
+the whole frame of the product space of the three variables (a1, a2, b)
+as:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>bca1_extmin <span class="ot">&lt;-</span> <span class="fu">extmin</span>(bca1,bcaRel1)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">bcaPrint</span>(bca1_extmin)</span></code></pre></div>
+<pre><code>##                                                                         bca1_extmin
+## 1 a1 yes a2 no b no + a1 yes a2 no b yes + a1 yes a2 yes b no + a1 yes a2 yes b yes
+## 2                                                                             frame
+##   specnb mass
+## 1      1  0.3
+## 2      2  0.7</code></pre>
+<p>Reliability_Proof_Machinery.R Likewise, bca2 can be extended to the
+whole frame of the product space as:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>bca2_extmin <span class="ot">&lt;-</span> <span class="fu">extmin</span>(bca2,bcaRel1)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">bcaPrint</span>(bca2_extmin)</span></code></pre></div>
+<pre><code>##                                                                         bca2_extmin
+## 1 a1 no a2 yes b no + a1 no a2 yes b yes + a1 yes a2 yes b no + a1 yes a2 yes b yes
+## 2                                                                             frame
+##   specnb mass
+## 1      1  0.4
+## 2      2  0.6</code></pre>
+<p>Reliability_Proof_Machinery.R Having extended the marginal bca to the
+whole frame, we can use function <em>dsrwon</em> to perform Dempster’s
+rule of combination them.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>bca12_extmin <span class="ot">&lt;-</span> <span class="fu">dsrwon</span>(bca1_extmin,bca2_extmin)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">bcaPrint</span>(bca12_extmin)</span></code></pre></div>
+<pre><code>##                                                                        bca12_extmin
+## 1                                          a1 yes a2 yes b no + a1 yes a2 yes b yes
+## 2 a1 yes a2 no b no + a1 yes a2 no b yes + a1 yes a2 yes b no + a1 yes a2 yes b yes
+## 3 a1 no a2 yes b no + a1 no a2 yes b yes + a1 yes a2 yes b no + a1 yes a2 yes b yes
+## 4                                                                             frame
+##   specnb mass
+## 1      1 0.12
+## 2      2 0.18
+## 3      3 0.28
+## 4      4 0.42</code></pre>
+<p>Reliability_Proof_Machinery.R</p>
+<p>Remember that at the beginning, we defined a relation <span class="math inline">\(a_1 \vee a_2 \implies b\)</span>. This relation
+must now be combined with the combined bca’s to yield the final bca in
+the product space of (a1, a2, b).</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>bca12_extmin_dsrwon_bcaRel1 <span class="ot">&lt;-</span> <span class="fu">dsrwon</span>(bca12_extmin,bcaRel1)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">bcaPrint</span>(bca12_extmin_dsrwon_bcaRel1)</span></code></pre></div>
+<pre><code>##                                                                            bca12_extmin_dsrwon_bcaRel1
+## 1                                                                                  a1 yes a2 yes b yes
+## 2                                                             a1 yes a2 no b yes + a1 yes a2 yes b yes
+## 3                                                             a1 no a2 yes b yes + a1 yes a2 yes b yes
+## 4 a1 no a2 no b no + a1 no a2 no b yes + a1 no a2 yes b yes + a1 yes a2 no b yes + a1 yes a2 yes b yes
+##   specnb mass
+## 1      1 0.12
+## 2      2 0.18
+## 3      3 0.28
+## 4      7 0.42</code></pre>
+<p>Reliability_Proof_Machinery.R</p>
+<p>Now we can get the marginal bca of variable <em>b</em>. To do so, we
+need to summarize the other variables on this dimension. We do so by
+eliminating (deleting) the other dimensions than <em>b</em>, that is
+<em>a1</em> and <em>a2</em>. We choose to eliminate dimension 1 (a1)
+first, using function <em>elim</em>.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>bca12_extmin_elim1 <span class="ot">&lt;-</span> <span class="fu">elim</span>(bca12_extmin_dsrwon_bcaRel1,<span class="dv">1</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="fu">bcaPrint</span>(bca12_extmin_elim1)</span></code></pre></div>
+<pre><code>##                        bca12_extmin_elim1 specnb mass
+## 1                            a2 yes b yes      1  0.4
+## 2              a2 no b yes + a2 yes b yes      2 0.18
+## 3 a2 no b no + a2 no b yes + a2 yes b yes      5 0.42</code></pre>
+<p>Reliability_Proof_Machinery.R Likewise, we eliminate dimension 2.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>bca12_extmin_elim12 <span class="ot">&lt;-</span> <span class="fu">elim</span>(bca12_extmin_elim1,<span class="dv">2</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="fu">bcaPrint</span>(bca12_extmin_elim12)</span></code></pre></div>
+<pre><code>##   bca12_extmin_elim12 specnb mass
+## 1               b yes      1 0.58
+## 2               frame      2 0.42</code></pre>
+<p>Reliability_Proof_Machinery.R Having obtained the marginal bca of
+variable <em>b</em>, we can now evaluate belief and plausibility, using
+function <em>belplau</em>.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">belplau</span>(bca12_extmin_elim12)</span></code></pre></div>
+<pre><code>##        bel disbel  unc plau    rplau
+## b yes 0.58      0 0.42    1 2.380952
+## frame 1.00      0 0.00    1      Inf</code></pre>
+<p>Reliability_Proof_Machinery.R Note the result: bel(yes) = 0.58;</p>
+<p>which is the result one will obtain by applying the combination rule
+developed by Bernoulli:</p>
+<p><span class="math display">\[bel(b) = 1 - (1-p1) \cdot
+(1-p2)\]</span> <span class="math display">\[= 1 - (1-0.3 \cdot (1-0.4)
+= 1 - 0.42 = 0.58.\]</span> Alternatively, instead of using the OR gate,
+one can build up the graph by defining the two implications separately.
+First, we define the first implication.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>tt <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>               <span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>               <span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,</span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>               <span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">4</span>, <span class="at">ncol =</span> <span class="dv">4</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>,<span class="fu">c</span>(<span class="st">&quot;a1 no&quot;</span>, <span class="st">&quot;a1 yes&quot;</span>, <span class="st">&quot;b no&quot;</span>, <span class="st">&quot;b yes&quot;</span>)))</span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>spec <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">nrow =</span> <span class="dv">4</span>, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>infovar <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>varnames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a1&quot;</span>,<span class="st">&quot;b&quot;</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>bcaRel1<span class="ot">&lt;-</span><span class="fu">bcaRel</span>(tt,spec,infovar,varnames)</span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a><span class="fu">bcaPrint</span>(bcaRel1)</span></code></pre></div>
+<pre><code>##                                   bcaRel1 specnb mass
+## 1 a1 no b no + a1 no b yes + a1 yes b yes      1    1</code></pre>
+<p>Reliability_Proof_Machinery.R</p>
+<p>Similarly, we can define the second implication as follows.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>tt <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>               <span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,</span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>               <span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,</span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>               <span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">4</span>, <span class="at">ncol =</span> <span class="dv">4</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>,<span class="fu">c</span>(<span class="st">&quot;a2 no&quot;</span>, <span class="st">&quot;a2 yes&quot;</span>, <span class="st">&quot;b no&quot;</span>, <span class="st">&quot;b yes&quot;</span>)))</span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>spec <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">nrow =</span> <span class="dv">4</span>, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a>infovar <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a>varnames <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a2&quot;</span>,<span class="st">&quot;b&quot;</span>)</span>
+<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a>bcaRel2<span class="ot">&lt;-</span><span class="fu">bcaRel</span>(tt,spec,infovar,varnames)</span>
+<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a><span class="fu">bcaPrint</span>(bcaRel2)</span></code></pre></div>
+<pre><code>##                                   bcaRel2 specnb mass
+## 1 a2 no b no + a2 no b yes + a2 yes b yes      1    1</code></pre>
+<p>Reliability_Proof_Machinery.R</p>
+<p>Then we extend, combine, and eliminate variables. For the first
+variable and the first implication, we obtain:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>bca1_extmin <span class="ot">&lt;-</span> <span class="fu">extmin</span>(bca1,bcaRel1)</span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>bca1_extmin_bcaRel1_dsrwon <span class="ot">&lt;-</span> <span class="fu">dsrwon</span>(bca1_extmin, bcaRel1)</span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>bca1_extmin_bcaRel1_dsrwon_elim <span class="ot">&lt;-</span> <span class="fu">elim</span>(bca1_extmin_bcaRel1_dsrwon, <span class="dv">1</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a><span class="fu">bcaPrint</span>(bca1_extmin_bcaRel1_dsrwon_elim)</span></code></pre></div>
+<pre><code>##   bca1_extmin_bcaRel1_dsrwon_elim specnb mass
+## 1                           b yes      1  0.3
+## 2                           frame      2  0.7</code></pre>
+<p>Reliability_Proof_Machinery.R Similarly for the second variable and
+the second implication, we obtain:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>bca2_extmin <span class="ot">&lt;-</span> <span class="fu">extmin</span>(bca2,bcaRel2)</span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>bca2_extmin_bcaRel2_dsrwon <span class="ot">&lt;-</span> <span class="fu">dsrwon</span>(bca2_extmin, bcaRel2)</span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>bca2_extmin_bcaRel2_dsrwon_elim <span class="ot">&lt;-</span> <span class="fu">elim</span>(bca2_extmin_bcaRel2_dsrwon, <span class="dv">2</span>)</span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a><span class="fu">bcaPrint</span>(bca2_extmin_bcaRel2_dsrwon_elim)</span></code></pre></div>
+<pre><code>##   bca2_extmin_bcaRel2_dsrwon_elim specnb mass
+## 1                           b yes      1  0.4
+## 2                           frame      2  0.6</code></pre>
+<p>Reliability_Proof_Machinery.R</p>
+<p>Now, we combine the two results</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>bca12 <span class="ot">&lt;-</span> <span class="fu">dsrwon</span>(bca1_extmin_bcaRel1_dsrwon_elim,bca2_extmin_bcaRel2_dsrwon_elim)</span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a><span class="fu">bcaPrint</span>(bca12)</span></code></pre></div>
+<pre><code>##   bca12 specnb mass
+## 1 b yes      1 0.58
+## 2 frame      2 0.42</code></pre>
+<p>Reliability_Proof_Machinery.R</p>
+<p>Next, evaluate belief and plausibility.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="fu">belplau</span>(bca12)</span></code></pre></div>
+<pre><code>##        bel disbel  unc plau    rplau
+## b yes 0.58      0 0.42    1 2.380952
+## frame 1.00      0 0.00    1      Inf</code></pre>
+<p>Reliability_Proof_Machinery.R</p>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -8,5 +8,5 @@ test_that("dsrwonLogsumexp", {
   y <- bca(tt = matrix(c(1,0,0,1,1,1),nrow = 2, 
                        byrow = TRUE), m = c(0.6, 0.4),  
            cnames = c("a", "b", "c"),  varnames = "y", idvar = 1)
-  expect_equal(dsrwon(x,y),dsrwonLogsumpexp(x,y))
+  expect_equal(dsrwon(x,y),dsrwonLogsumexp(x,y))
 })

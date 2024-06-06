@@ -268,18 +268,15 @@ set the distribution of <em>H</em>.</p>
 ## 1 a      1  0.2
 ## 2 b      2  0.3
 ## 3 c      3  0.5</code></pre>
-<p>The law of conditional probability is a special case of Dempster’s
-rule of combination that all the masses focus on the event is
+<p>Bayes_Rule.R The law of conditional probability is a special case of
+Dempster’s rule of combination that all the masses focus on the event is
 conditioned. For instance, basic mass assignment focuses all the masses
 on subset <span class="math inline">\(E =\{b,c\}\)</span>. Hence, using
 function <em>bca</em>, we set <span class="math inline">\(m(\{b,c\})=1\)</span>.</p>
 <pre><code>## Setting an Event E = {b,c} with mass = 1</code></pre>
 <pre><code>##   Event specnb mass
-## 1     a      1    0
-## 2     b      2    0
-## 3     c      3    0
-## 4 b + c      4    1
-## 5 frame      5    0</code></pre>
+## 1 b + c      4    1</code></pre>
+<p>Bayes_Rule.R</p>
 <p>Now we set the computation of Bayes’s Theorem in motion.</p>
 <p>In a first step, we use function <em>dsrwon</em> to combine our two
 basic mass assignments H and Event. The non-normalized Dempster Rule of
@@ -293,10 +290,9 @@ parts:</p>
 <pre><code>## The combination of H and Event E</code></pre>
 <pre><code>##   H_Event specnb mass
 ## 1       ø      1  0.2
-## 2       a      2    0
-## 3       b      3  0.3
-## 4       c      4  0.5</code></pre>
-<p>It turns out that we can obtain the marginal <span class="math inline">\(P(E)\)</span> from <span class="math inline">\(m(\varnothing)\)</span>: <span class="math display">\[P(E) = 1 - m(\varnothing)\]</span>.</p>
+## 2       b      3  0.3
+## 3       c      4  0.5</code></pre>
+<p>Bayes_Rule.R It turns out that we can obtain the marginal <span class="math inline">\(P(E)\)</span> from <span class="math inline">\(m(\varnothing)\)</span>: <span class="math display">\[P(E) = 1 - m(\varnothing)\]</span>.</p>
 <p>Hence, <span class="math inline">\(P(E)\)</span> is nothing else than
 the normalization constant of Dempster’s rule of combination.</p>
 <p>In our second step of computation we us function <em>nzdsr</em>, to
@@ -304,9 +300,9 @@ apply the normalization constant to distribution <em>H_Event</em>, which
 gives the posterior distribution <span class="math inline">\(P(H|E)\)</span></p>
 <pre><code>## The posterior distribution P(H|E)</code></pre>
 <pre><code>##   H_given_E specnb  mass
-## 1         a      1     0
-## 2         b      2 0.375
-## 3         c      3 0.625</code></pre>
+## 1         b      2 0.375
+## 2         c      3 0.625</code></pre>
+<p>Bayes_Rule.R</p>
 <p>Note that since <em>H_given_E</em> is defined only on singletons and
 the mass allocated to <span class="math inline">\(\Theta\)</span> is
 zero. Hence <span class="math inline">\(bel(\cdot) = P(\cdot) =
@@ -316,6 +312,7 @@ Pl(\cdot)\)</span>, as shown by the following table.</p>
 ## b     0.375  0.625   0 0.375 0.600
 ## c     0.625  0.375   0 0.625 1.667
 ## frame 1.000  0.000   0 1.000   Inf</code></pre>
+<p>Bayes_Rule.R</p>
 </div>
 <div id="example-with-two-variables" class="section level1">
 <h1>2. Example with two variables</h1>
@@ -329,7 +326,7 @@ by Dempster’s Rule in the case of two variables.</p>
 ## 1 a      1  0.2
 ## 2 b      2  0.3
 ## 3 c      3  0.5</code></pre>
-<p>let’s add a second variable E with three outcomes <span class="math inline">\(\Lambda =\{d, e, f\}\)</span> .</p>
+<p>Bayes_Rule.R let’s add a second variable E with three outcomes <span class="math inline">\(\Lambda =\{d, e, f\}\)</span> .</p>
 <p><span class="math inline">\(P(\{d|a\})=0.1\)</span>, <span class="math inline">\(P(\{d|b\})=0.2\)</span> and <span class="math inline">\(P(\{d|c\})=0.7\)</span>.</p>
 <p>This distribution will be encoded in the product space <span class="math inline">\(\Theta \times \Lambda\)</span> by setting</p>
 <p><span class="math inline">\(m(\{a,d\}) = 0.1\)</span>; <span class="math inline">\(m(\{b,d\}) = 0.2\)</span>; <span class="math inline">\(m(\{c,d\}) = 0.7\)</span></p>
@@ -357,8 +354,8 @@ by Dempster’s Rule in the case of two variables.</p>
 <pre><code>##   rel_EX specnb mass
 ## 1    a d      1  0.1
 ## 2    b d      2  0.2
-## 3    c d      3  0.7
-## 4  frame      4    0</code></pre>
+## 3    c d      3  0.7</code></pre>
+<p>Bayes_Rule.R</p>
 <p>Now we combine Prior <span class="math inline">\(P(X)\)</span> with
 rel_EX. But first, we need to extent <em>X</em> to the space <span class="math inline">\(\Theta \times \Lambda\)</span>.</p>
 <pre><code>## Prior X extended in product space of (X,E</code></pre>
@@ -366,17 +363,14 @@ rel_EX. But first, we need to extent <em>X</em> to the space <span class="math i
 ## 1 a d + a e + a f      1  0.2
 ## 2 b d + b e + b f      2  0.3
 ## 3 c d + c e + c f      3  0.5</code></pre>
-<p>Combine X extended and E_X in the product space <span class="math inline">\(\Theta \times \Lambda\)</span>.</p>
+<p>Bayes_Rule.R Combine X extended and E_X in the product space <span class="math inline">\(\Theta \times \Lambda\)</span>.</p>
 <pre><code>## Mass distribution of the combination of X extended and E_X</code></pre>
-<pre><code>##         comb_X_EX specnb mass
-## 1               ø      1 0.57
-## 2             a d      2 0.02
-## 3             b d      3 0.06
-## 4             c d      4 0.35
-## 5 a d + a e + a f      5    0
-## 6 b d + b e + b f      6    0
-## 7 c d + c e + c f      7    0</code></pre>
-<p>As we can see, we have</p>
+<pre><code>##   comb_X_EX specnb mass
+## 1         ø      1 0.57
+## 2       a d      2 0.02
+## 3       b d      3 0.06
+## 4       c d      4 0.35</code></pre>
+<p>Bayes_Rule.R As we can see, we have</p>
 <ol style="list-style-type: decimal">
 <li><p>the distribution of the product <span class="math inline">\(P(H)
 \cdot P(E|H)\)</span> on <span class="math inline">\(\Theta \times
@@ -388,18 +382,16 @@ obtain the desired result. Then, using function <em>elim</em>, we obtain
 the marginal of X, which turns out to be <span class="math inline">\(P(X
 | E = d)\)</span></p>
 <pre><code>## The normalized mass distribution of the combination of X extended and E_X</code></pre>
-<pre><code>##    norm_comb_X_EX specnb               mass
-## 1             a d      1 0.0465116279069768
-## 2             b d      2   0.13953488372093
-## 3             c d      3  0.813953488372093
-## 4 a d + a e + a f      4                  0
-## 5 b d + b e + b f      5                  0
-## 6 c d + c e + c f      6                  0</code></pre>
+<pre><code>##   norm_comb_X_EX specnb               mass
+## 1            a d      1 0.0465116279069768
+## 2            b d      2   0.13953488372093
+## 3            c d      3  0.813953488372093</code></pre>
 <pre><code>## The posterior distribution P(X|E) for (a,d), (b,d), (c,d), after eliminating variable E</code></pre>
 <pre><code>##   dist_XgE specnb               mass
 ## 1        a      1 0.0465116279069768
 ## 2        b      2   0.13953488372093
 ## 3        c      3  0.813953488372093</code></pre>
+<p>Bayes_Rule.R</p>
 </div>
 
 
