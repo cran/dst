@@ -426,7 +426,7 @@ masses that are not attributed to belief.</li>
 <p>Notice since both belief and basic mass assignment take the same
 values as both are defined via the summation operation. No belief on any
 suspect more specific than the entire group, can solemnly justify the
-entire crime scene. The second chance assignment assigns 0.6 to <span class="math inline">\(\{\text{Peter}, \text{John}\}\)</span> and 0.4 to
+entire crime scene. The second chance assignment assigns 0.6 to <span class="math inline">\(\{\text{John}, \text{Mary}\}\)</span> and 0.4 to
 <span class="math inline">\(\Theta\)</span> following the same logic as
 the first basic chance assignment. Its basic chance assignment object
 can be created likewise.</p>
@@ -514,8 +514,8 @@ the highest plausibility ratio (1.92), Peter scores 0.4 and Mary
 <div id="combination-with-commonlality-functions" class="section level2">
 <h2>Combination with commonlality functions</h2>
 <p>Alternatively, we can perform combination with commonality functions.
-After combination, we perform convert commonality functions directly to
-belief and plausibility.</p>
+After combination, we convert commonality functions directly to belief
+and plausibility.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>bpa3<span class="ot">&lt;-</span><span class="fu">dsrwonLogsumexp</span>(bpa1, bpa2, <span class="at">use_qq =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>belplau3 <span class="ot">&lt;-</span> <span class="fu">belplauHQQ</span>(bpa3<span class="sc">$</span>qq,<span class="fu">ttmatrixFromQQ</span>(bpa3<span class="sc">$</span>qq,<span class="fu">as.integer</span>(bpa3<span class="sc">$</span>infovar[<span class="dv">1</span>,<span class="dv">2</span>]),<span class="fu">unlist</span>(bpa3<span class="sc">$</span>valuenames)))</span>
 <span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="fu">round</span>(belplau3, <span class="dv">5</span>)</span></code></pre></div>

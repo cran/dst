@@ -2,32 +2,37 @@
 % Please edit documentation in R/belplauEval.R
 \name{belplauEval}
 \alias{belplauEval}
-\title{Evaluate type I, II errors}
+\title{Evaluate A, B errors}
 \usage{
 belplauEval(
-  bel_plau,
+  belplau_mat,
   true_order,
   var = "rplau",
-  err = "type I",
+  err = "A",
   is_belplau = TRUE
 )
 }
 \arguments{
-\item{bel_plau}{belplau object or a vector whose ordering is compared}
+\item{belplau_mat}{belplau matrix e.g. belplau(bca) or a numerical vector quantifying order of importance of the elements of the frame.}
 
-\item{true_order}{a vector representing the true ordering}
+\item{true_order}{a binary vector representing the truth. 1 means relevant and 0 means not relevant.}
 
-\item{var}{="rplau" variable name of the belplau to be used as ordering}
+\item{var}{= "rplau" column name of the belplau matrix to be used as ordering.}
 
-\item{err}{="type I" type of error to be evaluated}
+\item{err}{= "A" kind of error to be evaluated. Can also take value "B" or "A+B".}
 
-\item{is_belplau}{=TRUE whether bel_plau is a belplau object}
+\item{is_belplau}{= TRUE whether bel_plau is indeed a belplau matrix or just a numerical vector quantifying order of importance of elements.}
 }
 \value{
-Type I, II, III error by comparing two orderings
+A number in \eqn{[0,1]} of error A, B, or total error A+B.
 }
 \description{
-Evaluate type I, II errors
+Calculate error A, B, and total error A+B by comparing two vectors as defined below. One vector represents the truth and the other represents a numerical quantity of importance.
+\itemize{
+ \item Error A: out of all the comparisons between two elements, what proportion of errors are due to indicating an irrelevant element as more important than a relevant element
+ \item Error B: out of all the comparisons between two elements, what proportion of errors are due to indicating a relevant element as less important than an irrelevant element
+ \item Total error A+B: the sum of quantity A and quantity B
+}
 }
 \examples{
 x <- bca(tt = matrix(c(0,1,1,1,1,0,1,1,1),nrow = 3, 

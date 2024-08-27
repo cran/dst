@@ -1,7 +1,13 @@
+## ----include = FALSE----------------------------------------------------------
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
 ## ----setup, include=FALSE-----------------------------------------------------
 # devtools::load_all(".") # only used in place of dst when testing with R-devel
 library(dst) 
-knitr::opts_chunk$set(echo = TRUE)
+# knitr::opts_chunk$set(echo = TRUE)
 
 ## ----bpa1 definition,  echo = FALSE, warning=FALSE----------------------------
 Theta<-matrix(c(1,0,0,0,1,0,0,0,1,1,1,1), nrow = 4, byrow = TRUE)

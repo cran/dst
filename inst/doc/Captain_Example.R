@@ -6,7 +6,7 @@ knitr::opts_knit$set(echo = TRUE, root.dir = "..")
 
 ## ----Relation ADS-------------------------------------------------------------
 # library(dst)
-load("data/ads.rda")
+ads
 ads_tt<- ads[-1,-c(1,2)]
 ads_tt  <- as.matrix(ads_tt)
 ads_info = matrix(c(1,2,3,7,4,4), ncol = 2, dimnames = list(NULL, c("varnb", "size")) )      
@@ -15,7 +15,7 @@ ads_rel <- bcaRel(tt = ads_tt, spec = ads_spec, infovar = ads_info, varnames = c
 bcaPrint(ads_rel)
 
 ## ----Relation DLFM------------------------------------------------------------
-load("data/dlfm.rda")
+dlfm
 dlfm_tt<- dlfm[-1,-c(1,2)]
 dlfm_tt  <- as.matrix(dlfm_tt)
 colnames(dlfm_tt) <- colnames(dlfm)[-c(1,2)]
@@ -25,7 +25,7 @@ dlfm_rel <- bcaRel(tt = dlfm_tt, spec = dlfm_spec, infovar = dlfm_info, varnames
 bcaPrint(dlfm_rel)
 
 ## ----Relation SWR-------------------------------------------------------------
-load("data/swr.rda")
+swr
 swr_tt<- swr[-1,-c(1,2)]
 swr_tt  <- as.matrix(swr_tt)
 swr_info = matrix(c(3,7,8,4,2,2), ncol = 2, dimnames = list(NULL, c("varnb", "size")) )      
@@ -34,7 +34,7 @@ swr_rel <- bcaRel(tt = swr_tt, spec = swr_spec, infovar = swr_info, varnames = c
 bcaPrint(swr_rel)
 
 ## ----Relation FW--------------------------------------------------------------
-load("data/fw.rda")
+fw
 fw_tt<- fw[-1,-c(1,2)]
 fw_tt  <- as.matrix(fw_tt)
 fw_info = matrix(c(5,7,2,2), ncol = 2, dimnames = list(NULL, c("varnb", "size")) )      
@@ -43,7 +43,7 @@ fw_rel <- bcaRel(tt = fw_tt, spec = fw_spec, infovar = fw_info, varnames = c("Fo
 bcaPrint(fw_rel)
 
 ## ----Relation MR1-------------------------------------------------------------
-load("data/mrt.rda")
+mrt
 mrt_tt<- mrt[-1,-c(1,2)]
 mrt_tt  <- as.matrix(mrt_tt)
 colnames(mrt_tt) <- c("true", "false", "true", "false")
@@ -53,7 +53,7 @@ mrt_rel <- bcaRel(tt = mrt_tt, spec = mrt_spec, infovar = mrt_info, varnames = c
 bcaPrint(mrt_rel)
 
 ## ----Relation MR2-------------------------------------------------------------
-load("data/mrf.rda")
+mrf
 mrf_tt<- mrf[-1,-c(1,2)]
 mrf_tt  <- as.matrix(mrf_tt)
 mrf_info = matrix(c(6,8,2,2), ncol = 2, dimnames = list(NULL, c("varnb", "size")) )      

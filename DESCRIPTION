@@ -2,10 +2,16 @@ Package: dst
 Type: Package
 Title: Using the Theory of Belief Functions
 Encoding: UTF-8
-Version: 1.7.0
-Date: 2024-05-30
-Author: Claude Boivin <webapp.cb@gmail.com> Peiyuan Zhu <garyzhubc@gmail.com>
-Maintainer: Peiyuan Zhu <garyzhubc@gmail.com>
+Version: 1.7.1
+Date: 2024-08-24
+Authors@R: c(person(given = "Peiyuan",
+                      family = "Zhu",
+                      role = c("aut","cre"),
+                      email = "garyzhubc@gmail.com"),
+             person(given = "Claude",
+                      family = "Boivin",
+                      role = c("aut"),
+                      email = "webapp.cb@gmail.com"))
 Description: Using the Theory of Belief Functions for evidence calculus. Basic probability assignments, or mass functions, can be defined on the subsets of a set of possible values and combined. A mass function can be extended to a larger frame. Marginalization, i.e. reduction to a smaller frame can also be done. These features can be combined to analyze small belief networks and take into account situations where information cannot be satisfactorily described by probability distributions.
 License: GPL (>= 2)
 LazyData: true
@@ -16,6 +22,9 @@ Imports: dplyr, ggplot2, tidyr, Matrix, methods, parallel, rlang, utils
 Suggests: igraph, knitr, rmarkdown, tidyverse, testthat
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2024-06-05 23:39:06 UTC; garyzhubc
+Packaged: 2024-08-26 21:32:18 UTC; garyzhubc
+Author: Peiyuan Zhu [aut, cre],
+  Claude Boivin [aut]
+Maintainer: Peiyuan Zhu <garyzhubc@gmail.com>
 Repository: CRAN
-Date/Publication: 2024-06-06 09:00:05 UTC
+Date/Publication: 2024-08-27 00:00:01 UTC
