@@ -12,7 +12,7 @@
 
 <meta name="author" content="Claude Boivin" />
 
-<meta name="date" content="2024-08-26" />
+<meta name="date" content="2024-09-02" />
 
 <title>Introduction to Belief Functions</title>
 
@@ -340,7 +340,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Introduction to Belief Functions</h1>
 <h4 class="author">Claude Boivin<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></h4>
-<h4 class="date">2024-08-26</h4>
+<h4 class="date">2024-09-02</h4>
 
 
 
@@ -426,15 +426,16 @@ function <em>belplau</em>.</p>
 <span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="co">#&gt; $Conflict</span></span>
 <span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span></code></pre></div>
-<p>Introduction_to_Belief_Functions.R We don’t have a probability
-distribution here; only one of the two elementary events has received a
-mass value; The elementary event “no sun” has a degree of support
-(belief) of 0.45 and the elementary event “sun” has a degree of support
-of 0. The remaining mass of 0.55 has been allotted to the frame <span class="math inline">\({&#39;Sun&#39;, &#39;NoSun&#39;}\)</span>. This is
-the expression of the part of ignorance that remains. The chances of
-“sun” are not very good at 0.55. The odds “Sun/No Sun”” are at 0.55.
-This is the plausibility ratio given by function <em>tabresul</em>.
-Maybe look at July for my vacation instead of August? Another story.</p>
+<p>We don’t have a probability distribution here; only one of the two
+elementary events has received a mass value; The elementary event “no
+sun” has a degree of support (belief) of 0.45 and the elementary event
+“sun” has a degree of support of 0. The remaining mass of 0.55 has been
+allotted to the frame <span class="math inline">\({&#39;Sun&#39;,
+&#39;NoSun&#39;}\)</span>. This is the expression of the part of
+ignorance that remains. The chances of “sun” are not very good at 0.55.
+The odds “Sun/No Sun”” are at 0.55. This is the plausibility ratio given
+by function <em>tabresul</em>. Maybe look at July for my vacation
+instead of August? Another story.</p>
 <p>If we want to express the result within probability theory, we can
 apply a transformation to the plausibility distribution of the
 elementary events to obtain a probability distribution. This is called
@@ -443,8 +444,8 @@ the plausibility transformation <a href="#fn3" class="footnote-ref" id="fnref3">
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt;       Sun NoSun    trplau</span></span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; Sun     1     0 0.3548387</span></span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; NoSun   0     1 0.6451613</span></span></code></pre></div>
-<p>Introduction_to_Belief_Functions.R The plausibility transformation
-gives a probability of sun 0f 0.35.</p>
+<p>The plausibility transformation gives a probability of sun 0f
+0.35.</p>
 <p>On my trip to Forillon National Park, there will be roadworks
 eventually. If so I could be arriving too late to set my tent in
 daylight. From experience, I know that there are generally no roadworks
@@ -500,13 +501,13 @@ for <em>rdworks = no</em>.</p>
 <span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
 <span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a><span class="co">#&gt;     return(q)</span></span>
 <span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a><span class="co">#&gt; }</span></span>
-<span id="cb3-47"><a href="#cb3-47" tabindex="-1"></a><span class="co">#&gt; &lt;bytecode: 0x7fe98b094e48&gt;</span></span>
-<span id="cb3-48"><a href="#cb3-48" tabindex="-1"></a><span class="co">#&gt; &lt;environment: 0x7fe98b244de8&gt;</span></span>
+<span id="cb3-47"><a href="#cb3-47" tabindex="-1"></a><span class="co">#&gt; &lt;bytecode: 0x7f95b186b238&gt;</span></span>
+<span id="cb3-48"><a href="#cb3-48" tabindex="-1"></a><span class="co">#&gt; &lt;environment: 0x7f95a987ba90&gt;</span></span>
 <span id="cb3-49"><a href="#cb3-49" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb3-50"><a href="#cb3-50" tabindex="-1"></a><span class="co">#&gt; $spec</span></span>
-<span id="cb3-51"><a href="#cb3-51" tabindex="-1"></a><span class="co">#&gt;      specnb mass</span></span>
-<span id="cb3-52"><a href="#cb3-52" tabindex="-1"></a><span class="co">#&gt; [1,]      1  0.9</span></span>
-<span id="cb3-53"><a href="#cb3-53" tabindex="-1"></a><span class="co">#&gt; [2,]      2  0.1</span></span>
+<span id="cb3-51"><a href="#cb3-51" tabindex="-1"></a><span class="co">#&gt;                       specnb mass</span></span>
+<span id="cb3-52"><a href="#cb3-52" tabindex="-1"></a><span class="co">#&gt; Wy Rn + Wn Ry + Wn Rn      1  0.9</span></span>
+<span id="cb3-53"><a href="#cb3-53" tabindex="-1"></a><span class="co">#&gt; frame                      2  0.1</span></span>
 <span id="cb3-54"><a href="#cb3-54" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb3-55"><a href="#cb3-55" tabindex="-1"></a><span class="co">#&gt; $infovar</span></span>
 <span id="cb3-56"><a href="#cb3-56" tabindex="-1"></a><span class="co">#&gt;         varnb size</span></span>
@@ -538,7 +539,6 @@ for <em>rdworks = no</em>.</p>
 <span id="cb3-82"><a href="#cb3-82" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb3-83"><a href="#cb3-83" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;class&quot;)</span></span>
 <span id="cb3-84"><a href="#cb3-84" tabindex="-1"></a><span class="co">#&gt; [1] &quot;list&quot;    &quot;bcaspec&quot;</span></span></code></pre></div>
-<p>Introduction_to_Belief_Functions.R</p>
 <p>It is cloudy on my day of departure. Forecast are 60 % chances of
 rain today. We now change the distribution of the bcaspec
 <em>rdworks</em> in order to reflect this condition.</p>
@@ -548,12 +548,12 @@ rain today. We now change the distribution of the bcaspec
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt;    rain specnb mass</span></span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; 1    Ry      1  0.6</span></span>
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; 2 frame      3  0.4</span></span></code></pre></div>
-<p>Introduction_to_Belief_Functions.R Finally, I would like to combine
-this piece of evidence with the relation between Rain and roadworks in
-order to evaluate the chances of roadworks on the day of my trip. I
-proceed in three steps to achieve that: Firstly extend the Evidence
-(variable Rain) to the product space Rain x Roadworks. Secondly, combine
-the two relations. Thirdly, marginalize to the variable Roadworks.</p>
+<p>Finally, I would like to combine this piece of evidence with the
+relation between Rain and roadworks in order to evaluate the chances of
+roadworks on the day of my trip. I proceed in three steps to achieve
+that: Firstly extend the Evidence (variable Rain) to the product space
+Rain x Roadworks. Secondly, combine the two relations. Thirdly,
+marginalize to the variable Roadworks.</p>
 <p>First step is done using the function <em>extmin</em>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Evidence of rain extended to the space W x R</span></span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>rain_xtnd <span class="ot">&lt;-</span> <span class="fu">extmin</span>(rain, noW_if_R)</span>
@@ -561,8 +561,8 @@ the two relations. Thirdly, marginalize to the variable Roadworks.</p>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt;       rain_xtnd specnb mass</span></span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; 1 Wy Ry + Wn Ry      1  0.6</span></span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; 2         frame      3  0.4</span></span></code></pre></div>
-<p>Introduction_to_Belief_Functions.R Second step is done using
-functions <em>dsrwon</em> and <em>nzdsr</em>).</p>
+<p>Second step is done using functions <em>dsrwon</em> and
+<em>nzdsr</em>).</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># combine the relation noW_if_R with variable rain extended on W x R (rain_xtnd)</span></span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>comb_rel <span class="ot">&lt;-</span> <span class="fu">nzdsr</span>(<span class="fu">dsrwon</span>(rain_xtnd, noW_if_R))</span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">bcaPrint</span>(comb_rel)</span>
@@ -571,8 +571,7 @@ functions <em>dsrwon</em> and <em>nzdsr</em>).</p>
 <span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; 2         Wy Ry + Wn Ry      3 0.06</span></span>
 <span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; 3 Wy Rn + Wn Ry + Wn Rn      4 0.36</span></span>
 <span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; 4                 frame      5 0.04</span></span></code></pre></div>
-<p>Introduction_to_Belief_Functions.R Third step: Marginalization is
-done using function <em>elim</em>.</p>
+<p>Third step: Marginalization is done using function <em>elim</em>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># marginalize to variable roadworks by eliminating variable rain (variable nb = 5)</span></span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>roadworks_ev <span class="ot">&lt;-</span> <span class="fu">elim</span>(comb_rel, <span class="at">xnb =</span> <span class="dv">5</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">belplau</span>(roadworks_ev)</span>
@@ -594,10 +593,9 @@ done using function <em>elim</em>.</p>
 <span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt;    Wy Wn    trplau</span></span>
 <span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt; Wy  1  0 0.3150685</span></span>
 <span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co">#&gt; Wn  0  1 0.6849315</span></span></code></pre></div>
-<p>Introduction_to_Belief_Functions.R Finally the results. Function
-<em>belplau</em> shows that the odds of “No roadworks” vs Roadworks are
-2.17. Using the plausibility transformation, I obtain a probability of
-“No Roadworks” of 0.68.</p>
+<p>Finally the results. Function <em>belplau</em> shows that the odds of
+“No roadworks” vs Roadworks are 2.17. Using the plausibility
+transformation, I obtain a probability of “No Roadworks” of 0.68.</p>
 </div>
 <div class="footnotes footnotes-end-of-document">
 <hr />

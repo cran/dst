@@ -368,7 +368,6 @@ new syntax allows only DSM, SSM.</p>
 <pre><code>##     DSMa1 specnb mass
 ## 1 a1 is y      1 0.95
 ## 2 a1 is n      2 0.05</code></pre>
-<p>Holmes_Burglary.R</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>tt_SSMa2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>m_DSMa2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">0.01</span>,<span class="fl">0.99</span>,<span class="dv">0</span>), <span class="at">nrow =</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="at">ncol =</span> <span class="dv">1</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>cnames_SSMa2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a2 is y&quot;</span>, <span class="st">&quot;a2 is n&quot;</span>) </span>
@@ -379,7 +378,6 @@ new syntax allows only DSM, SSM.</p>
 <pre><code>##     DSMa2 specnb mass
 ## 1 a2 is y      1 0.01
 ## 2 a2 is n      2 0.99</code></pre>
-<p>Holmes_Burglary.R</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>tt_SSMalarm <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>m_DSMalarm <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">nrow =</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="at">ncol =</span> <span class="dv">1</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>cnames_SSMalarm <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;alarm is y&quot;</span>, <span class="st">&quot;alarm is n&quot;</span>) </span>
@@ -389,7 +387,6 @@ new syntax allows only DSM, SSM.</p>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="fu">bcaPrint</span>(DSMalarm)</span></code></pre></div>
 <pre><code>##     DSMalarm specnb mass
 ## 1 alarm is y      1    1</code></pre>
-<p>Holmes_Burglary.R</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>tt_SSMburglary <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">1</span>, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>m_DSMburglary <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">1</span>, <span class="at">ncol =</span> <span class="dv">1</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>cnames_SSMburglary <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;burglary is y&quot;</span>, <span class="st">&quot;burglary is n&quot;</span>) </span>
@@ -399,7 +396,6 @@ new syntax allows only DSM, SSM.</p>
 <span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="fu">bcaPrint</span>(DSMburglary)</span></code></pre></div>
 <pre><code>##   DSMburglary specnb mass
 ## 1       frame      1    1</code></pre>
-<p>Holmes_Burglary.R</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>tt_SSMR1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,</span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>                     <span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,</span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>                     <span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,</span>
@@ -419,7 +415,6 @@ new syntax allows only DSM, SSM.</p>
 ## 1 burglary is y a1 is y alarm is y + burglary is y a1 is n alarm is y + burglary is y a1 is n alarm is n + burglary is n a1 is y alarm is y + burglary is n a1 is y alarm is n + burglary is n a1 is n alarm is y + burglary is n a1 is n alarm is n
 ##   specnb mass
 ## 1      1    1</code></pre>
-<p>Holmes_Burglary.R</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>tt_SSMR2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,</span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>                     <span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,</span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>                     <span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,</span>
@@ -432,7 +427,6 @@ new syntax allows only DSM, SSM.</p>
 <span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="fu">bcaPrint</span>(DSMR2)</span></code></pre></div>
 <pre><code>##                                                          DSMR2 specnb mass
 ## 1 a2 is y alarm is y + a2 is n alarm is y + a2 is n alarm is n      1    1</code></pre>
-<p>Holmes_Burglary.R</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>tt_SSMR3 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,</span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>                     <span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,</span>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>                     <span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,</span>
@@ -451,7 +445,6 @@ new syntax allows only DSM, SSM.</p>
 ## 1 burglary is y a2 is y alarm is y + burglary is y a2 is n alarm is y + burglary is y a2 is n alarm is n + burglary is n a2 is y alarm is y + burglary is n a2 is y alarm is n + burglary is n a2 is n alarm is y + burglary is n a2 is n alarm is n
 ##   specnb mass
 ## 1      1    1</code></pre>
-<p>Holmes_Burglary.R</p>
 <p>Next we traverse the graph in syntax of DS-ECP. If we project up
 DSMa1, DSMalarm from their own SSMs to SSMR1 we can combine resulting
 DSM with DSMR1 and project down onto DSM1 on SSM1: burgalry x alarm by
@@ -469,7 +462,6 @@ alarm.</p>
 <span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="fu">bcaPrint</span>(DSM1_dproj)</span></code></pre></div>
 <pre><code>##                                            DSM1_dproj specnb mass
 ## 1 burglary is y alarm is y + burglary is n alarm is y      1    1</code></pre>
-<p>Holmes_Burglary.R</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co"># combine DSMa2, DSMalarm with DSMR2 to get DSM2</span></span>
 <span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>DSMa2_uproj <span class="ot">&lt;-</span> <span class="fu">extmin</span>(DSMa2, DSMR2)</span>
 <span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>DSMalarm_uproj <span class="ot">&lt;-</span> <span class="fu">extmin</span>(DSMalarm, DSMR2)</span>
@@ -478,7 +470,6 @@ alarm.</p>
 <pre><code>##                                      DSM2 specnb mass
 ## 1                      a2 is y alarm is y      1 0.01
 ## 2 a2 is n alarm is y + a2 is n alarm is n      2 0.99</code></pre>
-<p>Holmes_Burglary.R</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co"># combine DSM2 and DSMR3 to eliminate to eliminate a2 and get DSM4</span></span>
 <span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>DSM2_uproj <span class="ot">&lt;-</span> <span class="fu">extmin</span>(DSM2, DSMR3)</span>
 <span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>DSM4 <span class="ot">&lt;-</span> <span class="fu">dsrwon</span>(DSM2_uproj, DSMR3)</span>
@@ -487,7 +478,6 @@ alarm.</p>
 <pre><code>##                                            DSM4_dproj specnb mass
 ## 1 burglary is y alarm is y + burglary is n alarm is y      1 0.01
 ## 2                                               frame      3 0.99</code></pre>
-<p>Holmes_Burglary.R</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="co"># combine DSM4 and DSM1 to eliminate alarm and get DSM5</span></span>
 <span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>DSM5 <span class="ot">&lt;-</span> <span class="fu">dsrwon</span>(DSM4_dproj, DSM1_dproj)</span>
 <span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a><span class="fu">bcaPrint</span>(DSM4_dproj)</span></code></pre></div>
@@ -501,12 +491,10 @@ alarm.</p>
 <pre><code>##                                                  DSM5 specnb mass
 ## 1 burglary is y alarm is y + burglary is n alarm is y      1    1</code></pre>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>DSM5_dproj <span class="ot">&lt;-</span> <span class="fu">elim</span>(DSM5, <span class="dv">3</span>)</span></code></pre></div>
-<p>Holmes_Burglary.R</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>DSA <span class="ot">&lt;-</span> <span class="fu">belplau</span>(DSM5_dproj)</span>
 <span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>DSA</span></code></pre></div>
 <pre><code>##       bel disbel unc plau rplau
 ## frame   1      0   0    1   Inf</code></pre>
-<p>Holmes_Burglary.R</p>
 
 
 

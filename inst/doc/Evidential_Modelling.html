@@ -382,21 +382,18 @@ infer <span class="math inline">\(DSM_e\)</span>.</p>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>varnames_DSMa <span class="ot">&lt;-</span> <span class="st">&quot;a&quot;</span></span>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>idvar_DSMa <span class="ot">&lt;-</span> <span class="dv">1</span></span>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>DSMa <span class="ot">&lt;-</span> <span class="fu">bca</span>(tt_DSMa, m_DSMa, <span class="at">cnames =</span> cnames_DSMa, <span class="at">idvar =</span> idvar_DSMa, <span class="at">varnames =</span> varnames_DSMa)</span></code></pre></div>
-<p>Evidential_Modelling.R</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>tt_DSMh <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>m_DSMh <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">nrow =</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="at">ncol =</span> <span class="dv">1</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>cnames_DSMh <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;h is T&quot;</span>, <span class="st">&quot;h is F&quot;</span>) </span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>varnames_DSMh <span class="ot">&lt;-</span> <span class="st">&quot;h&quot;</span></span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>idvar_DSMh <span class="ot">&lt;-</span> <span class="dv">2</span></span>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>DSMh <span class="ot">&lt;-</span> <span class="fu">bca</span>(tt_DSMh, m_DSMh, <span class="at">cnames =</span> cnames_DSMh, <span class="at">idvar =</span> idvar_DSMh, <span class="at">varnames =</span> varnames_DSMh)</span></code></pre></div>
-<p>Evidential_Modelling.R</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>tt_DSMe <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>m_DSMe <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">nrow =</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span>, <span class="at">ncol =</span> <span class="dv">1</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>cnames_DSMe <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;e is T&quot;</span>, <span class="st">&quot;e is F&quot;</span>)</span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>varnames_DSMe <span class="ot">&lt;-</span> <span class="st">&quot;e&quot;</span></span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>idvar_DSMe <span class="ot">&lt;-</span> <span class="dv">3</span></span>
 <span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>DSMe <span class="ot">&lt;-</span> <span class="fu">bca</span>(tt_DSMe, m_DSMe, <span class="at">cnames =</span> cnames_DSMe, <span class="at">idvar =</span> idvar_DSMe, <span class="at">varnames =</span> varnames_DSMe)</span></code></pre></div>
-<p>Evidential_Modelling.R</p>
 <p>A truth table can be generated from <a href="https://web.stanford.edu/class/cs103/tools/truth-table-tool/" class="uri">https://web.stanford.edu/class/cs103/tools/truth-table-tool/</a>
 with argument “h &amp;&amp; a -&gt; e” and collecting only the rows
 where the implication is “true”.</p>
@@ -414,7 +411,6 @@ where the implication is “true”.</p>
 <span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>varnames_DSM1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;h&quot;</span>, <span class="st">&quot;e&quot;</span>)</span>
 <span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>relnb_DSM1 <span class="ot">&lt;-</span> <span class="dv">1</span></span>
 <span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>DSM1 <span class="ot">&lt;-</span> <span class="fu">bcaRel</span>(tt_DSM1, spec_DSM1, infovar_DSM1, varnames_DSM1, valuenames_DSM1, relnb_DSM1)</span></code></pre></div>
-<p>Evidential_Modelling.R</p>
 <p>Now with the argument “not h -&gt; not e”, collecting the values
 where the implication is true gets:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>tt_DSM2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,</span>
@@ -427,7 +423,6 @@ where the implication is true gets:</p>
 <span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>varnames_DSM2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;h&quot;</span>,<span class="st">&quot;e&quot;</span>)</span>
 <span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>relnb_DSM2 <span class="ot">&lt;-</span> <span class="dv">2</span></span>
 <span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>DSM2 <span class="ot">&lt;-</span> <span class="fu">bcaRel</span>(tt_DSM2, spec_DSM2, infovar_DSM2, varnames_DSM2, valuenames_DSM2, relnb_DSM2)</span></code></pre></div>
-<p>Evidential_Modelling.R</p>
 <p>The above definitions give us a bipartite graph where R1 links to h,
 a, e and R2 links to h, e. Consider predictive inference where h is
 known to be true. There are 2 ways of arranging a path of combination
@@ -449,7 +444,6 @@ combines five times on the spaces of three variables, then:</p>
 <pre><code>##        bel disbel unc plau    rplau
 ## e is T 0.3      0 0.7    1 1.428571
 ## frame  1.0      0 0.0    1      Inf</code></pre>
-<p>Evidential_Modelling.R</p>
 <p>This is consistent with the result cred(e) = p and pl(e) = 1 on page
 8 of Mathematical Theory of Hints.</p>
 

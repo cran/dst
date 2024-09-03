@@ -361,7 +361,6 @@ F}\}\)</span>.</p>
 <pre><code>##   DSMw1 specnb mass
 ## 1   w1y      1  0.4
 ## 2   w1n      2  0.6</code></pre>
-<p>PJM_example_DSC_Multivalued_Map.R</p>
 <p>Similarly, on <span class="math inline">\(SSM_{W_2}:\{w_2\text{ is
 T},w_2\text{ is F}\}\)</span>, we define <span class="math inline">\(DSM_{W_2}(\mathcal{P})SSM_{W_2}\rightarrow[0,1]\)</span>
 where <span class="math inline">\(DSM_{W_2}(\{w_2\text{ is
@@ -378,7 +377,6 @@ F}\}\)</span>.</p>
 <pre><code>##   DSMw2 specnb mass
 ## 1   w2y      1  0.3
 ## 2   w2n      2  0.7</code></pre>
-<p>PJM_example_DSC_Multivalued_Map.R</p>
 <p>We also need three placeholder <span class="math inline">\(SSM_{ACP}\)</span>, <span class="math inline">\(DSMs_{ACP}\)</span> on <span class="math inline">\(\{A,C,P\}\)</span>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>tt_SSMacp <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">1</span>, <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>m_DSMacp <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">1</span>, <span class="at">ncol =</span> <span class="dv">1</span>)</span>
@@ -389,7 +387,6 @@ F}\}\)</span>.</p>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="fu">bcaPrint</span>(DSMacp)</span></code></pre></div>
 <pre><code>##   DSMacp specnb mass
 ## 1  frame      1    1</code></pre>
-<p>PJM_example_DSC_Multivalued_Map.R</p>
 <p>On <span class="math inline">\(SSM_{R1}:W1\times\{A,C,P\}\)</span>,
 we define multivalued mapping <span class="math inline">\(DSM_{R1}:\mathcal{P}(SSM_{R1})\rightarrow[0,1]\)</span>
 where <span class="math inline">\(DSM_{R1}(\{(w1y,A),(w1y,C)\})=0.3\)</span> and
@@ -412,7 +409,6 @@ and <span class="math inline">\(DSM_{R1}(X)=0\)</span> for all other
 <span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="fu">bcaPrint</span>(DSMR_1)</span></code></pre></div>
 <pre><code>##                                  DSMR_1 specnb mass
 ## 1 w1y A + w1y C + w1n A + w1n C + w1n P      1    1</code></pre>
-<p>PJM_example_DSC_Multivalued_Map.R</p>
 <p>Similarly, we define multivalued mapping <span class="math inline">\(SSM_{R2}\)</span> and <span class="math inline">\(DSMR2\)</span>.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>tt_SSMR_2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,</span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>                     <span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,</span>
@@ -430,7 +426,6 @@ and <span class="math inline">\(DSM_{R1}(X)=0\)</span> for all other
 <span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="fu">bcaPrint</span>(DSMR_2)</span></code></pre></div>
 <pre><code>##                                  DSMR_2 specnb mass
 ## 1 w2y C + w2y P + w2n A + w2n C + w2n P      1    1</code></pre>
-<p>PJM_example_DSC_Multivalued_Map.R</p>
 <p>Now we apply Dempster-Shafer calculus. First, we up-project <span class="math inline">\(DSM_{W_1}\)</span> onto <span class="math inline">\(SSM_{R_1}\)</span> to get <span class="math inline">\(DSM1_{uproj_{SSM_{R_1}}}=(\{w_1\text{ is
 T}\}\times SSM_{ACP})=0.4\)</span> and <span class="math inline">\(DSM1_{uproj_{SSM_{R_2}}}(\{w_1\text{ is F}\}\times
 SSM_{ACP})=0.6\)</span> and <span class="math inline">\(DSM1_{uproj_{SSM_{R_1}}}(X)=0\)</span> for all
@@ -440,7 +435,6 @@ other <span class="math inline">\(X\)</span>.</p>
 <pre><code>##             DSMw1_uproj specnb mass
 ## 1 w1y A + w1y C + w1y P      1  0.4
 ## 2 w1n A + w1n C + w1n P      2  0.6</code></pre>
-<p>PJM_example_DSC_Multivalued_Map.R</p>
 <p>Combining <span class="math inline">\(DSM_{W_1}\)</span> with <span class="math inline">\(DSM_{R_1}\)</span> to get <span class="math inline">\(DSM1\)</span> where <span class="math inline">\(DSM1(\{w_1\text{ is
 T}\}\times\{A,C\})=0.4\)</span> and <span class="math inline">\(DSM1(\{w_1\text{ is
 F}\}\times(\{A,C,P\}))=0.6\)</span> and <span class="math inline">\(DSM1(X)=0\)</span> for all other <span class="math inline">\(X\)</span>.</p>
@@ -449,7 +443,6 @@ F}\}\times(\{A,C,P\}))=0.6\)</span> and <span class="math inline">\(DSM1(X)=0\)<
 <pre><code>##                    DSM1 specnb mass
 ## 1         w1y A + w1y C      1  0.4
 ## 2 w1n A + w1n C + w1n P      2  0.6</code></pre>
-<p>PJM_example_DSC_Multivalued_Map.R</p>
 <p>Then, down-project <span class="math inline">\(DSM1\)</span> to <span class="math inline">\(SSM_{ACP}\)</span> to get <span class="math inline">\(DSM1_{dproj_{SSM_{ACP}}}\)</span> where <span class="math inline">\(DSM1_{dproj_{SSM_{ACP}}}(\{A,C\})=\sum_{X|_{SSM_{W_1}}
 \in SSM_{W_1}}DSM1(X)=0.4\)</span> and <span class="math inline">\(DSM1_{dproj_{SSM_{ACP}}}(\{A,C,P\})=\sum_{X|_{SSM_{W_1}}
 \in SSM_{W_1}}DSM1(X)=0.6\)</span> and <span class="math inline">\(DSM1_{dproj_{SSM_{ACP}}}(X)=0\)</span> for all
@@ -459,7 +452,6 @@ other <span class="math inline">\(X\)</span>.</p>
 <pre><code>##   DSM1_dproj specnb mass
 ## 1      A + C      1  0.4
 ## 2      frame      2  0.6</code></pre>
-<p>PJM_example_DSC_Multivalued_Map.R</p>
 <p>Similarly, we up-project <span class="math inline">\(DSM_{W_2}\)</span> onto <span class="math inline">\(SSM_{R_2}\)</span> to get <span class="math inline">\(DSM2_{uproj_{SSM_{R_2}}}\)</span>. Combining <span class="math inline">\(DSM_{W_2}\)</span> with <span class="math inline">\(DSM_{R_2}\)</span> to get <span class="math inline">\(DSM2\)</span>. Then, down-project <span class="math inline">\(DSM2\)</span> to <span class="math inline">\(SSM_{ACP}\)</span> to get <span class="math inline">\(DSM2_{dproj_{SSM_{ACP}}}\)</span>.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>DSMw2_uproj <span class="ot">&lt;-</span> <span class="fu">extmin</span>(DSMw2,DSMR_2)</span>
 <span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>DSM2 <span class="ot">&lt;-</span> <span class="fu">dsrwon</span>(DSMw2_uproj,DSMR_2)</span>
@@ -468,7 +460,6 @@ other <span class="math inline">\(X\)</span>.</p>
 <pre><code>##   DSM2_dproj specnb mass
 ## 1      C + P      1  0.3
 ## 2      frame      2  0.7</code></pre>
-<p>PJM_example_DSC_Multivalued_Map.R</p>
 <p>Now we can combine <span class="math inline">\(DSM1_{dproj_{SSM_{ACP}}}\)</span> and <span class="math inline">\(DSM2_{dproj_{SSM_{ACP}}}\)</span> on <span class="math inline">\(SSM_{ACP}\)</span> to get <span class="math inline">\(DSM3\)</span> where <span class="math inline">\(DSM3(\{C\})=0.12\)</span> and <span class="math inline">\(DSM3(\{A,C\})=0.12\)</span> and <span class="math inline">\(DSM3(\{T,P\})=0.28\)</span> and <span class="math inline">\(DSM3(\{A,C,P\})=0.42\)</span>.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>DSM3 <span class="ot">&lt;-</span> <span class="fu">dsrwon</span>(DSM1_dproj,DSM2_dproj)</span>
 <span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="fu">bcaPrint</span>(DSM3)</span></code></pre></div>
@@ -477,7 +468,6 @@ other <span class="math inline">\(X\)</span>.</p>
 ## 2 A + C      2 0.28
 ## 3 C + P      3 0.18
 ## 4 frame      4 0.42</code></pre>
-<p>PJM_example_DSC_Multivalued_Map.R</p>
 
 
 

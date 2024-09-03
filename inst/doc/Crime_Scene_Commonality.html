@@ -379,10 +379,9 @@ those have the property such that the witness was drunk.</p>
 ## Peter + John     1    1    0
 ## frame            1    1    1</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>bpa1<span class="sc">$</span>spec</span></code></pre></div>
-<pre><code>##      specnb mass
-## [1,]      1  0.8
-## [2,]      2  0.2</code></pre>
-<p>Crime_Scene_Commonality.R</p>
+<pre><code>##              specnb mass
+## Peter + John      1  0.8
+## frame             2  0.2</code></pre>
 <p>The number 0.8 is given out of a subjective judgment by the observer,
 which seems like it come from nowhere but the philosophy of the belief
 function is founded upon the view that value judgments e.g. a vote, as
@@ -421,7 +420,6 @@ masses that are not attributed to belief.</li>
 <pre><code>##              bel disbel unc plau rplau
 ## Peter + John 0.8      0 0.2    1     5
 ## frame        1.0      0 0.0    1   Inf</code></pre>
-<p>Crime_Scene_Commonality.R</p>
 <p>In the language of bett</p>
 <p>Notice since both belief and basic mass assignment take the same
 values as both are defined via the summation operation. No belief on any
@@ -436,10 +434,9 @@ can be created likewise.</p>
 ## John + Mary     0    1    1
 ## frame           1    1    1</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>bpa2<span class="sc">$</span>spec</span></code></pre></div>
-<pre><code>##      specnb mass
-## [1,]      1  0.6
-## [2,]      2  0.4</code></pre>
-<p>Crime_Scene_Commonality.R</p>
+<pre><code>##             specnb mass
+## John + Mary      1  0.6
+## frame            2  0.4</code></pre>
 <p>The belplau object can be computed from the basic chance assignment
 object by following the same logic as how the first belplau object is
 created via the first basic chance assignment object.</p>
@@ -448,7 +445,6 @@ created via the first basic chance assignment object.</p>
 <pre><code>##             bel disbel unc plau rplau
 ## John + Mary 0.6      0 0.4    1   2.5
 ## frame       1.0      0 0.0    1   Inf</code></pre>
-<p>Crime_Scene_Commonality.R</p>
 <p>Having computed two basic chance assignment objects, we can use
 dsrwon to combine them and obtain a new basic chance assignment object.
 We cannot combine belplau objects as it is known that there’s no close
@@ -468,7 +464,6 @@ intersections from the two input basic chance assignment objects and
 normalizing over probabilities non-conflicting items. There are several
 ways to interpret this process.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>bpa3<span class="ot">&lt;-</span><span class="fu">dsrwon</span>(bpa1, bpa2)</span></code></pre></div>
-<p>Crime_Scene_Commonality.R</p>
 <p>The belplau object can be computed from the basic chance assignment
 object by following the same logic as how the first belplau object is
 created via the first basic chance assignment object. Notice the belief
@@ -481,11 +476,11 @@ existing two evidences stays put.</p>
 ## Peter + John 0.80      0 0.20    1 5.000000
 ## John + Mary  0.60      0 0.40    1 2.500000
 ## frame        1.00      0 0.00    1      Inf</code></pre>
-<p>Crime_Scene_Commonality.R In this example, there is no degree of
-support for Peter, no degree of support for Mary also. It would be
-interesting to know more about these two people, such as their degree of
-plausibility. To do that, we add the singletons {peter} and {Mary} to
-the bpa obtained. See what we get.</p>
+<p>In this example, there is no degree of support for Peter, no degree
+of support for Mary also. It would be interesting to know more about
+these two people, such as their degree of plausibility. To do that, we
+add the singletons {peter} and {Mary} to the bpa obtained. See what we
+get.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>bpa3_plus_singl <span class="ot">&lt;-</span> <span class="fu">addTobca</span>(bpa3, <span class="at">tt =</span> <span class="fu">diag</span>(<span class="dv">3</span>)) </span>
 <span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="fu">belplau</span>(bpa3_plus_singl)</span></code></pre></div>
 <pre><code>##               bel disbel  unc plau    rplau
@@ -495,8 +490,8 @@ the bpa obtained. See what we get.</p>
 ## Peter + John 0.80    0.0 0.20  1.0 5.000000
 ## John + Mary  0.60    0.0 0.40  1.0 2.500000
 ## frame        1.00    0.0 0.00  1.0      Inf</code></pre>
-<p>Crime_Scene_Commonality.R ### Which one is the most plausible
-murderer?</p>
+<div id="which-one-is-the-most-plausible-murderer" class="section level3">
+<h3>Which one is the most plausible murderer?</h3>
 <p>John is a man and John is blond. Nothing contradicts the {John}
 hypothesis, so the belief for John is 0.48 and the plausibility is one.
 The belief for Peter or Mary is 0, since no piece of evidence points
@@ -510,6 +505,7 @@ hypothesis H versus its contrary.</p>
 <p>Of the three suspects, we see from our table of results that John has
 the highest plausibility ratio (1.92), Peter scores 0.4 and Mary
 0.2.</p>
+</div>
 </div>
 <div id="combination-with-commonlality-functions" class="section level2">
 <h2>Combination with commonlality functions</h2>
@@ -525,7 +521,6 @@ and plausibility.</p>
 ## John + Mary  0.60      0 0.40    1 2.50000
 ## Peter + John 0.80      0 0.20    1 5.00000
 ## frame        1.00      0 0.00    1     Inf</code></pre>
-<p>Crime_Scene_Commonality.R</p>
 <p>We can also convert commonality functions back to mass function first
 and then calculate belief and plausibility as before.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>bpa3<span class="sc">$</span>tt<span class="ot">&lt;-</span><span class="fu">ttmatrixFromQQ</span>(bpa3<span class="sc">$</span>qq,<span class="fu">as.integer</span>(bpa3<span class="sc">$</span>infovar[<span class="dv">1</span>,<span class="dv">2</span>]),<span class="fu">unlist</span>(bpa3<span class="sc">$</span>valuenames))</span>
@@ -538,8 +533,8 @@ and then calculate belief and plausibility as before.</p>
 ## John + Mary  0.60      0 0.40    1  2.50000e+00
 ## Peter + John 0.80      0 0.20    1  5.00000e+00
 ## frame        1.00      0 0.00    1 -4.50360e+15</code></pre>
-<p>Crime_Scene_Commonality.R Now add singletons to see belief and
-plausibility for each person.</p>
+<p>Now add singletons to see belief and plausibility for each
+person.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>bpa3_plus_singl <span class="ot">&lt;-</span> <span class="fu">addTobca</span>(bpa3, <span class="at">tt =</span> <span class="fu">diag</span>(<span class="dv">3</span>)) </span>
 <span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">belplau</span>(bpa3_plus_singl), <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>##               bel disbel  unc plau        rplau
@@ -550,7 +545,34 @@ plausibility for each person.</p>
 ## John + Mary  0.60    0.0 0.40  1.0  2.50000e+00
 ## Peter + John 0.80    0.0 0.20  1.0  5.00000e+00
 ## frame        1.00    0.0 0.00  1.0 -4.50360e+15</code></pre>
-<p>Crime_Scene_Commonality.R</p>
+<p>Now let’s compute the commonality function from the mass function by
+Fast Zeta transform.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>bpa1 <span class="ot">&lt;-</span> <span class="fu">bca</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>), <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.2</span>), <span class="at">fzt=</span><span class="cn">TRUE</span>, <span class="at">cnames=</span><span class="fu">c</span>(<span class="st">&quot;Peter&quot;</span>, <span class="st">&quot;John&quot;</span>, <span class="st">&quot;Mary&quot;</span>))</span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>bpa2 <span class="ot">&lt;-</span> <span class="fu">bca</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>), <span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.4</span>), <span class="at">fzt=</span><span class="cn">TRUE</span>, <span class="at">cnames=</span><span class="fu">c</span>(<span class="st">&quot;Peter&quot;</span>, <span class="st">&quot;John&quot;</span>, <span class="st">&quot;Mary&quot;</span>))</span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>bpa3<span class="ot">&lt;-</span><span class="fu">dsrwonLogsumexp</span>(bpa1, bpa2, <span class="at">use_qq =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>After combination, we perform Fast Mobius Inversion to convert the
+commonality function to the mass function. First, we create a matrix of
+all subsets.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>ltt <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="at">X=</span><span class="dv">0</span><span class="sc">:</span>(<span class="dv">2</span><span class="sc">**</span><span class="fu">as.integer</span>(bpa3<span class="sc">$</span>infovar[<span class="dv">1</span>,<span class="dv">2</span>])<span class="sc">-</span><span class="dv">1</span>), <span class="at">FUN =</span> <span class="cf">function</span>(X) {<span class="fu">encode</span>(<span class="fu">rep</span>(<span class="dv">2</span>,<span class="fu">as.integer</span>(bpa3<span class="sc">$</span>infovar[<span class="dv">1</span>,<span class="dv">2</span>])), X)})</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>tt_abc <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">unlist</span>(ltt), <span class="at">ncol=</span><span class="fu">as.integer</span>(bpa3<span class="sc">$</span>infovar[<span class="dv">1</span>,<span class="dv">2</span>]), <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a><span class="fu">colnames</span>(tt_abc) <span class="ot">&lt;-</span> <span class="fu">unlist</span>(bpa3<span class="sc">$</span>valuenames)</span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a><span class="fu">rownames</span>(tt_abc) <span class="ot">&lt;-</span> <span class="fu">nameRows</span>(tt_abc)</span></code></pre></div>
+<p>Then, we apply Mobius inversion. With the mass function at hand, we
+can then use Fast Zeta Transform to compute belief and plausibility.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>mass <span class="ot">&lt;-</span> <span class="fu">mFromQQRecursive</span>(bpa3<span class="sc">$</span>qq,<span class="fu">as.integer</span>(bpa3<span class="sc">$</span>infovar[<span class="dv">1</span>,<span class="dv">2</span>]))</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>bpa3<span class="sc">$</span>tt <span class="ot">&lt;-</span> tt_abc[mass<span class="sc">&gt;</span><span class="dv">0</span>,]</span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>bpa3<span class="sc">$</span>spec <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(bpa3<span class="sc">$</span>tt),mass[mass<span class="sc">&gt;</span><span class="dv">0</span>])</span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="fu">colnames</span>(bpa3<span class="sc">$</span>spec) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;specnb&quot;</span>,<span class="st">&quot;mass&quot;</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a><span class="fu">belplau</span>(bpa3, <span class="at">fzt=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>##               bel disbel  unc plau    rplau
+## ø            0.00   1.00 0.00 0.00 0.000000
+## Mary         0.00   0.80 0.20 0.20 0.200000
+## John         0.48   0.00 0.52 1.00 1.923077
+## John + Mary  0.60   0.00 0.40 1.00 2.500000
+## Peter        0.00   0.60 0.40 0.40 0.400000
+## Peter + Mary 0.00   0.48 0.52 0.52 0.520000
+## Peter + John 0.80   0.00 0.20 1.00 5.000000
+## frame        1.00   0.00 0.00 1.00      Inf</code></pre>
 </div>
 
 

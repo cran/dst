@@ -361,7 +361,6 @@ F}\}\)</span>.</p>
 <pre><code>##   DSMw1 specnb mass
 ## 1   w1y      1  0.4
 ## 2   w1n      2  0.6</code></pre>
-<p>PJM_example_DSC.R</p>
 <p>Similarly, on <span class="math inline">\(SSM_{W_2}:\{w_2\text{ is
 T},w_2\text{ is F}\}\)</span>, we define <span class="math inline">\(DSM_{W_2}(\mathcal{P})SSM_{W_2}\rightarrow[0,1]\)</span>
 where <span class="math inline">\(DSM_{W_2}(\{w_2\text{ is
@@ -378,7 +377,6 @@ F}\}\)</span>.</p>
 <pre><code>##   DSMw2 specnb mass
 ## 1   w2y      1  0.3
 ## 2   w2n      2  0.7</code></pre>
-<p>PJM_example_DSC.R</p>
 <p>We also need three placeholder SSMs, DSMs. On <span class="math inline">\(SSM_A:\{A\text{ is T},A\text{ is F}\}\)</span>, we
 define vacuous <span class="math inline">\(DSM_A:\mathcal{P}(SSM_A)\rightarrow[0,1]\)</span>
 where <span class="math inline">\(DSM_A(\{A\text{ is T},A\text{ is
@@ -394,7 +392,6 @@ T}\},\{A\text{ is F}\}\)</span>.</p>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="fu">bcaPrint</span>(DSMA)</span></code></pre></div>
 <pre><code>##    DSMA specnb mass
 ## 1 frame      1    1</code></pre>
-<p>PJM_example_DSC.R</p>
 <p>Similarly, on <span class="math inline">\(SSM_C:\{C\text{ is
 T},C\text{ is F}\}\)</span>, we define vacuous <span class="math inline">\(DSM_C:\mathcal{P}(SSM_C)\rightarrow[0,1]\)</span>
 where <span class="math inline">\(DSM_C(\{C\text{ is T},C\text{ is
@@ -410,7 +407,6 @@ T}\},\{C\text{ is F}\}\)</span>.</p>
 <span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="fu">bcaPrint</span>(DSMC)</span></code></pre></div>
 <pre><code>##    DSMC specnb mass
 ## 1 frame      1    1</code></pre>
-<p>PJM_example_DSC.R</p>
 <p>Similarly, on <span class="math inline">\(SSM_P:\{P\text{ is
 T},P\text{ is F}\}\)</span>, we define vacuous <span class="math inline">\(DSM_P:\mathcal{P}(SSM_P)\rightarrow[0,1]\)</span>
 where <span class="math inline">\(DSM_P(\{P\text{ is T},P\text{ is
@@ -426,7 +422,6 @@ T}\},\{P\text{ is F}\}\)</span>.</p>
 <span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="fu">bcaPrint</span>(DSMP)</span></code></pre></div>
 <pre><code>##    DSMP specnb mass
 ## 1 frame      1    1</code></pre>
-<p>PJM_example_DSC.R</p>
 <p><span class="math inline">\(SSM_{R_1}\)</span> is on the product
 space of <span class="math inline">\(W_1 \times A \times C \times
 P\)</span>. <span class="math inline">\(DSM_{R_1}:
@@ -458,7 +453,6 @@ everything can be true, which has <span class="math inline">\(\binom{3}{3} + \bi
 ## 1 w1y Ay Cy Pn + w1y Ay Cn Pn + w1y An Cy Pn + w1n Ay Cy Py + w1n Ay Cy Pn + w1n Ay Cn Py + w1n Ay Cn Pn + w1n An Cy Py + w1n An Cy Pn + w1n An Cn Py
 ##   specnb mass
 ## 1      1    1</code></pre>
-<p>PJM_example_DSC.R</p>
 <p><span class="math inline">\(SSM_{R_2}\)</span> is on the product
 space of <span class="math inline">\(W_2 \times A \times C \times
 P\)</span>. <span class="math inline">\(DSM_{R_2}:
@@ -490,7 +484,6 @@ everything can be true, which has <span class="math inline">\(\binom{3}{3} + \bi
 ## 1 w2y An Cy Py + w2y An Cy Pn + w2y An Cn Py + w2n Ay Cy Py + w2n Ay Cy Pn + w2n Ay Cn Py + w2n Ay Cn Pn + w2n An Cy Py + w2n An Cy Pn + w2n An Cn Py
 ##   specnb mass
 ## 1      1    1</code></pre>
-<p>PJM_example_DSC.R</p>
 <p>Now we apply Dempster-Shafer calculus. First, we up-project <span class="math inline">\(DSM_{W_1}\)</span> onto <span class="math inline">\(SSM_{R_1}\)</span> to get <span class="math inline">\(DSM1_{uproj_{SSM_{R_1}}}=(\{w_1\text{ is
 T}\}\times SSM_A\times SSM_C\times SSM_P)=0.4\)</span> and <span class="math inline">\(DSM1_{uproj_{SSM_{R_2}}}(\{w_1\text{ is F}\}\times
 SSM_A\times SSM_C\times SSM_P)=0.6\)</span> and <span class="math inline">\(DSM1_{uproj_{SSM_{R_1}}}(X)=0\)</span> for all
@@ -503,7 +496,6 @@ other <span class="math inline">\(X\)</span>.</p>
 ##   specnb mass
 ## 1      1  0.4
 ## 2      2  0.6</code></pre>
-<p>PJM_example_DSC.R</p>
 <p>Combining <span class="math inline">\(DSM_{W_1}\)</span> with <span class="math inline">\(DSM_{R_1}\)</span> to get <span class="math inline">\(DSM1\)</span> where <span class="math inline">\(DSM1(\{w_1\text{ is T}\}\times\{\text{one of A,C
 is T}\})=0.4\)</span> and <span class="math inline">\(DSM1(\{w_1\text{
 is F}\}\times(SSM_A\times SSM_C\times SSM_P\backslash\{\text{all of
@@ -516,7 +508,6 @@ is F}\}\times(SSM_A\times SSM_C\times SSM_P\backslash\{\text{all of
 ##   specnb mass
 ## 1      1  0.4
 ## 2      2  0.6</code></pre>
-<p>PJM_example_DSC.R</p>
 <p>Then, down-project <span class="math inline">\(DSM1\)</span> to <span class="math inline">\(SSM_A\times SSM_C\times SSM_P\)</span> to get
 <span class="math inline">\(DSM1_{dproj_{SSM_A\times SSM_C\times
 SSM_P}}\)</span> where <span class="math inline">\(DSM1_{dproj_{SSM_A\times SSM_C\times
@@ -534,7 +525,6 @@ SSM_P}}(X)=0\)</span> for all other <span class="math inline">\(X\)</span>.</p>
 ##   specnb mass
 ## 1      1  0.4
 ## 2      2  0.6</code></pre>
-<p>PJM_example_DSC.R</p>
 <p>Similarly, we up-project <span class="math inline">\(DSM_{W_2}\)</span> onto <span class="math inline">\(SSM_{R_2}\)</span> to get <span class="math inline">\(DSM2_{uproj_{SSM_{R_2}}}\)</span>. Combining <span class="math inline">\(DSM_{W_2}\)</span> with <span class="math inline">\(DSM_{R_2}\)</span> to get <span class="math inline">\(DSM2\)</span>. Then, down-project <span class="math inline">\(DSM2\)</span> to <span class="math inline">\(SSM_A\times SSM_C\times SSM_P\)</span> to get
 <span class="math inline">\(DSM2_{dproj_{SSM_A\times SSM_C\times
 SSM_P}}\)</span>.</p>
@@ -548,7 +538,6 @@ SSM_P}}\)</span>.</p>
 ##   specnb mass
 ## 1      1  0.3
 ## 2      2  0.7</code></pre>
-<p>PJM_example_DSC.R</p>
 <p>Now we can combine <span class="math inline">\(DSM1_{dproj_{SSM_A\times SSM_C\times
 SSM_P}}\)</span> and <span class="math inline">\(DSM2_{dproj_{SSM_A\times SSM_C\times
 SSM_P}}\)</span> on <span class="math inline">\(SSM_A\times SSM_C\times
@@ -570,7 +559,6 @@ A,C,P is T}\})=0.42\)</span>.</p>
 ## 2      2 0.28
 ## 3      3 0.18
 ## 4      4 0.42</code></pre>
-<p>PJM_example_DSC.R</p>
 <p>Now, we can marginalize <span class="math inline">\(DSM3\)</span> to
 <span class="math inline">\(C\)</span> to get <span class="math inline">\(DSM3_{dproj_{SSM_C}}\)</span> where <span class="math inline">\(DSM3_{dproj_{SSM_C}}(\{\text{C is
 T}\})=\sum_{X|_{SSM_A\times SSM_P}\in SSM_A\times
@@ -584,7 +572,6 @@ then <span class="math inline">\((0.12,0,0.88)\)</span>.</p>
 <pre><code>##   DSM3_dprojSSMC specnb mass
 ## 1             Cy      1 0.12
 ## 2          frame      2 0.88</code></pre>
-<p>PJM_example_DSC.R</p>
 
 
 

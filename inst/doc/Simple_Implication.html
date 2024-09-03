@@ -369,7 +369,6 @@ p\]</span> and <span class="math display">\[\text{DSM1}(\{a\text{ is
 <pre><code>##         DSM1 specnb mass
 ## 1  a is True      1  0.3
 ## 2 a is False      2  0.7</code></pre>
-<p>Simple_Implication.R</p>
 <p>Technically we have three overall DSMs with the addition of the
 conclusion DSM that we’re interested in inferring. Similar to DSM1, we
 have:</p>
@@ -382,7 +381,6 @@ have:</p>
 <span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="fu">bcaPrint</span>(DSM3)</span></code></pre></div>
 <pre><code>##    DSM3 specnb mass
 ## 1 frame      1    1</code></pre>
-<p>Simple_Implication.R</p>
 <p>For the structural relation we can obtain the implication relation
 from <a href="https://web.stanford.edu/class/cs103/tools/truth-table-tool/" class="uri">https://web.stanford.edu/class/cs103/tools/truth-table-tool/</a>.
 Besides the ttmatrix, m vector, it’s necesssary to give row names of the
@@ -413,7 +411,6 @@ and }b\text{ is }F\}\}\]</span> and <span class="math display">\[\text{DSM2}(\{a
 ## 1 a is True b is True + a is False b is True + a is False b is False      1
 ##   mass
 ## 1    1</code></pre>
-<p>Simple_Implication.R</p>
 <p>Here we need to extend DSM1 to the joint space so it can be combined
 with DSM2. In the syntax of DS-ECP, we obtain <span class="math inline">\(\text{uporj_DSM1}: \mathcal{P}(A \times B)
 \rightarrow [0,1]\)</span> where <span class="math inline">\(\mathcal{P}(A \times B)\)</span> is as previously
@@ -427,7 +424,6 @@ p\]</span> In the syntax of dst, this is:</p>
 <pre><code>##                                     uporj_DSM1 specnb mass
 ## 1   a is True b is True + a is True b is False      1  0.3
 ## 2 a is False b is True + a is False b is False      2  0.7</code></pre>
-<p>Simple_Implication.R</p>
 <p>Now we can combine the two DSMs over the joint space. In the syntax
 of DS-ECP, we have <span class="math inline">\(\text{uporj_DSM1_xDSC_DSM2}: \mathcal{P}(A \times
 B) \rightarrow [0,1]\)</span> and <span class="math display">\[\text{uporj_DSM1_xDSC_DSM2}(\{a\text{ is }T\text{
@@ -439,7 +435,6 @@ and }b\text{ is }T\text{ or }a\text{ is }F\text{ and }b\text{ is }F\}) =
 <pre><code>##                           uporj_DSM1_xDSC_DSM2 specnb mass
 ## 1                          a is True b is True      1  0.3
 ## 2 a is False b is True + a is False b is False      2  0.7</code></pre>
-<p>Simple_Implication.R</p>
 <p>After obtaining the DSM over the joint space, we can project it down
 by marginalizing out the premise. In the syntax of DS-ECP, we obtained
 <span class="math inline">\(\text{uproj_DSM1_xDSC_DSM2_dproj}:
@@ -451,7 +446,6 @@ by marginalizing out the premise. In the syntax of DS-ECP, we obtained
 <pre><code>##   uporj_DSM1_xDSC_DSM2_dproj specnb mass
 ## 1                  b is True      1  0.3
 ## 2                      frame      2  0.7</code></pre>
-<p>Simple_Implication.R</p>
 <p>Now we can evaluate the belief and plausibility of this DSM. Here the
 <span class="math inline">\(\text{DSA}:(p,q,r)\)</span> triplet
 corresponds to <span class="math inline">\((\text{bel},\text{disbel},\text{unc})\)</span> in
@@ -461,8 +455,6 @@ the belplau table.</p>
 <pre><code>##           bel disbel unc plau    rplau
 ## b is True 0.3      0 0.7    1 1.428571
 ## frame     1.0      0 0.0    1      Inf</code></pre>
-<p>Simple_Implication.R</p>
-<p>Now, we can use commonality functions.</p>
 
 
 

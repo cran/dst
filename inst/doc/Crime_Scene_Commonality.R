@@ -47,3 +47,21 @@ round(belplau3, 5)
 bpa3_plus_singl <- addTobca(bpa3, tt = diag(3)) 
 round(belplau(bpa3_plus_singl), 5)
 
+## -----------------------------------------------------------------------------
+bpa1 <- bca(matrix(c(1,1,0,1,1,1), nrow = 2, byrow = TRUE), c(0.8, 0.2), fzt=TRUE, cnames=c("Peter", "John", "Mary"))
+bpa2 <- bca(matrix(c(0,1,1,1,1,1), nrow = 2, byrow = TRUE), c(0.6, 0.4), fzt=TRUE, cnames=c("Peter", "John", "Mary"))
+bpa3<-dsrwonLogsumexp(bpa1, bpa2, use_qq = TRUE)
+
+## -----------------------------------------------------------------------------
+ltt <- lapply(X=0:(2**as.integer(bpa3$infovar[1,2])-1), FUN = function(X) {encode(rep(2,as.integer(bpa3$infovar[1,2])), X)})
+tt_abc <- matrix(unlist(ltt), ncol=as.integer(bpa3$infovar[1,2]), byrow = TRUE)
+colnames(tt_abc) <- unlist(bpa3$valuenames)
+rownames(tt_abc) <- nameRows(tt_abc)
+
+## -----------------------------------------------------------------------------
+mass <- mFromQQRecursive(bpa3$qq,as.integer(bpa3$infovar[1,2]))
+bpa3$tt <- tt_abc[mass>0,]
+bpa3$spec <- cbind(1:nrow(bpa3$tt),mass[mass>0])
+colnames(bpa3$spec) <- c("specnb","mass")
+belplau(bpa3, fzt=TRUE)
+

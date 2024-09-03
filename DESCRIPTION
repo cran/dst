@@ -2,7 +2,7 @@ Package: dst
 Type: Package
 Title: Using the Theory of Belief Functions
 Encoding: UTF-8
-Version: 1.7.1
+Version: 1.8.0
 Date: 2024-08-24
 Authors@R: c(person(given = "Peiyuan",
                       family = "Zhu",
@@ -16,15 +16,15 @@ Description: Using the Theory of Belief Functions for evidence calculus. Basic p
 License: GPL (>= 2)
 LazyData: true
 BugReports: https://github.com/RAPLER/dst-1/issues
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Depends: R (>= 3.5.0)
 Imports: dplyr, ggplot2, tidyr, Matrix, methods, parallel, rlang, utils
 Suggests: igraph, knitr, rmarkdown, tidyverse, testthat
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2024-08-26 21:32:18 UTC; garyzhubc
+Packaged: 2024-09-03 03:57:14 UTC; garyzhubc
 Author: Peiyuan Zhu [aut, cre],
   Claude Boivin [aut]
 Maintainer: Peiyuan Zhu <garyzhubc@gmail.com>
 Repository: CRAN
-Date/Publication: 2024-08-27 00:00:01 UTC
+Date/Publication: 2024-09-03 04:20:06 UTC
